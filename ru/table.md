@@ -117,8 +117,9 @@ td {
 
 ### Задание прокрутки таблицы
 
-Вышеприведенный пример будет работать со скроллом и пользоваться этим можно, однако следующее требование `"здесь нам надо сделать, чтобы шапка таблицы оставась на месте, а тело прокручивалось"`.
+Вышеприведенный пример будет работать со скроллом и пользоваться этим можно, однако возникает следующее требование `"здесь нам надо сделать, чтобы шапка таблицы оставась на месте, а тело прокручивалось"`.
 Вторая дилемма с которой сталкиваются фронт-энд разработчики:
+
 7. задание прокрутки/скролла в таблице. 
 В спецификации таблицы есть [прямое указание](https://www.w3.org/TR/html4/struct/tables.html), что тело таблицы может быть с шапкой и подвалом. Т.е. шапка и подвал всегда видимы.
 `User agents may exploit the head/body/foot division to support scrolling of body sections independently of the head and foot sections. When long tables are printed, the head and foot information may be repeated on each page that contains table data`
@@ -126,6 +127,7 @@ td {
 `Table rows may be grouped into a table head, table foot, and one or more table body sections, using the THEAD, TFOOT and TBODY elements, respectively. This division enables user agents to support scrolling of table bodies independently of the table head and foot`
 А по факту браузеры этого не делают и скролл для таблицы надо придумывать вручную.
 Есть много способов это сделать, но все они сводяться к тому, что:
+
 8. мы не создаем дополнительную разметку и пытаемся прикрутить скролл к тому что есть
 9. мы создаеём дополнительную разметку и тогда при прокрутке оригинала мы синхронизируем дополнительную разметку
 
@@ -209,55 +211,17 @@ _adjustHeaderWidth() {
 Хотя если мы хотим сокращение текста (см. пункт 6), нам все равно надо задавать ширину столбцов.
 А как же просходит автоподстройка ширины колонки спросите вы?
 Опять же способы есть разные, наиболее интересный опять же использует дополнительный проход браузера.
-Например в этой [таблице](https://www.ag-grid.com/example.php) можно автоматически рассчитать подходящую ширину столбца.
-В [коде видно](https://github.com/ceolter/ag-grid/blob/bbf11d41d23fffa77dd4d0cd01d72facc77398eb/src/ts/rendering/autoWidthCalculator.ts#L31), что просто создается `<span style="position: fixed;">`, внутрь копируются все ячейки столбца, и результирующую ширину получает от браузера:
+Например в этой [ag Grid](https://www.ag-grid.com/example.php) таблице можно автоматически рассчитать подходящую ширину столбца.
+В [коде видно](https://github.com/ceolter/ag-grid/blob/bbf11d41d23fffa77dd4d0cd01d72facc77398eb/src/ts/rendering/autoWidthCalculator.ts#L31):
 ```typescript
-    // this is the trick: we create a dummy container and clone all the cells
-    // into the dummy, then check the dummy's width. then destroy the dummy
-    // as we don't need it any more.
-    // drawback: only the cells visible on the screen are considered
     public getPreferredWidthForColumn(column: Column): number {
-        let eHeaderCell = this.getHeaderCellForColumn(column);
-        // cell isn't visible
-        if (!eHeaderCell) {
-            return -1; 
-        }
-
-        let eDummyContainer = document.createElement('span');
-        // position fixed, so it isn't restricted to the boundaries of the parent
-        eDummyContainer.style.position = 'fixed';
-
-        // we put the dummy into the body container, so it will inherit all the
-        // css styles that the real cells are inheriting
-        let eBodyContainer = this.gridPanel.getBodyContainer();
-        eBodyContainer.appendChild(eDummyContainer);
-
-        // get all the cells that are currently displayed (this only brings back
-        // rendered cells, rows not rendered due to row visualisation will not be here)
-        this.putRowCellsIntoDummyContainer(column, eDummyContainer);
-
-        // also put header cell in
-        // we only consider the lowest level cell, not the group cell. in 99% of the time, this
-        // will be enough. if we consider groups, then it gets to complicated for what it's worth,
-        // as the groups can span columns and this class only considers one column at a time.
-        this.cloneItemIntoDummy(eHeaderCell, eDummyContainer);
-
-        // at this point, all the clones are lined up vertically with natural widths. the dummy
-        // container will have a width wide enough just to fit the largest.
-        let dummyContainerWidth = eDummyContainer.offsetWidth;
-
-        // we are finished with the dummy container, so get rid of it
-        eBodyContainer.removeChild(eDummyContainer);
-
-        // we add padding as I found without it, the gui still put '...' after some of the texts
-        let autoSizePadding = this.gridOptionsWrapper.getAutoSizePadding();
-        if (typeof autoSizePadding !== 'number' || autoSizePadding < 0) {
-            autoSizePadding = 4;
-        }
-        return dummyContainerWidth + autoSizePadding;
+        // создать <span style="position: fixed;">
+        // добавить в него все ячейки столбца
+        // вычислить ширину span (вычисляет браузер)
+        // удаляем <span style="position: fixed;">
     }
 ```
-[Следующая таблица](https://reactabular.js.org/#/easy) использует интересный подход в синхронизации, если мы скроллим тело таблицы, то происходит синхронизация шапки, а если мы скроллим шапку, то происходит синхронизация тела.
+Следующая таблица [Reactabular](https://reactabular.js.org/#/easy) использует интересный подход в синхронизации, если мы скроллим тело таблицы, то происходит синхронизация шапки, а если мы скроллим шапку, то происходит синхронизация тела.
 
 # Реализация собственной таблицы
 
