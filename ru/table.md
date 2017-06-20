@@ -114,7 +114,20 @@ td {
 Опять же можно сужать до определенного предела. Но если вспомнить свойство `table-layout: fixed` то таблица [начнёт слушаться](https://codepen.io/volodalexey/pen/eRWNOV) и сокращение заработает.
 Но автоподстройка ширины столбцов уже не работает.
 
+### Задание прокрутки таблицы
+
+Вышеприведенный пример будет работать со скроллом и пользоваться этим можно, однако `здесь нам надо сделать, чтобы шапка таблицы оставась на месте, а тело прокручивалось`.
+Вторая дилемма с которой сталкиваются фронт-энд разработчики - это задавать или не задавать прокрутку/скролл в таблице. 
+И как задавать скролл в таблице?
 В спецификации таблицы есть [прямое указание](https://www.w3.org/TR/html4/struct/tables.html), что тело таблицы может быть с шапкой и подвалом. Т.е. шапка и подвал всегда видимы.
 `User agents may exploit the head/body/foot division to support scrolling of body sections independently of the head and foot sections. When long tables are printed, the head and foot information may be repeated on each page that contains table data`
 А есть и указание о том, что тело таблицы можно скроллить, а шапка и подвал будут оставаться на месте:
 `Table rows may be grouped into a table head, table foot, and one or more table body sections, using the THEAD, TFOOT and TBODY elements, respectively. This division enables user agents to support scrolling of table bodies independently of the table head and foot`
+А по факту браузеры этого не делают и скролл для таблицы надо придумывать вручную.
+Есть много способов это сделать, но все они сводяться к тому, что:
+6. мы не создаем дополнительную разметку и пытаемся прикрутить скролл к тому что есть
+7. мы создаеём дополнительную разметку и тогда при прокрутке оригинала мы синхронизируем дополнительную разметку
+
+Следуя пункту 6 можно задать ограниченную высоту телу таблицы. Предполагая высоту родительского контейнера [попробовать можно](https://codepen.io/volodalexey/pen/dRWoQY).
+В результате мы ломаем табличное отображение тела таблицы `display: block`, а также нам необходимо синхронизировать прокрутку шапки с телом таблицы.
+А вот следуя пункту 7 - это то где все [предлагают](https://stackoverflow.com/questions/673153/html-table-with-fixed-headers) решения.
