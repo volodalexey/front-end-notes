@@ -1,0 +1,18 @@
+@import url("./colors.vars.css");
+@import url("./layout.vars.css");
+
+.tableHeader {
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.tableHeaderRow {
+    box-sizing: border-box;
+    @mixin flex-row-align-stretch;
+}
+
+.tableHeaderCell {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}

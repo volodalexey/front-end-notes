@@ -1,0 +1,39 @@
+@import url("./colors.vars.css");
+@import url("./layout.vars.css");
+
+.tableBody {
+    box-sizing: border-box;
+    font-size: 12px;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tableBody .tableBodyRow {
+    box-sizing: border-box;
+    @mixin flex-row-align-stretch;
+}
+
+.tableBody .tableBodyRow .tableBodyCell {
+    box-sizing: border-box;
+    @mixin text-overflow;
+    flex: 0 0 auto;
+    padding: 8px;
+    vertical-align: top;
+    border-top: 1px solid var(--color-10);
+}
+
+.tableBody .tableBodyRow:first-child .tableBodyCell {
+    border-top: none;
+}
+
+.tableBody .tableBodyRow:nth-of-type(odd) .tableBodyCell {
+    background-color: var(--color-13);
+}
+
+.tableBody .tableBodyRow:last-child .tableBodyCell {
+    border-bottom: 1px solid var(--color-10);
+}
+
+.tableBody .tableBodyCol {
+
+}

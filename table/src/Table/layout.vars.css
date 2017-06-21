@@ -1,0 +1,24 @@
+@define-mixin flex-row-align-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@define-mixin flex-row-align-stretch {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+@define-mixin flex-row-between-align-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@define-mixin text-overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

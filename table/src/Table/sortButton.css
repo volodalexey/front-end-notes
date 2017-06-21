@@ -1,0 +1,19 @@
+@import url("./colors.vars.css");
+@import url("./layout.vars.css");
+
+.sortButton {
+    @mixin flex-row-between-align-center;
+    width: 100%;
+    background: linear-gradient(to top, var(--color-09), var(--color-08));
+    border-radius: 0;
+    border: 1px solid var(--color-10);
+    padding: 10px 8px;
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    outline: none;
+}
+
+.sortButton:active {
+    background: linear-gradient(to top, var(--color-08), var(--color-09));
+}

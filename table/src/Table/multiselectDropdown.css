@@ -1,0 +1,78 @@
+@import url("./colors.vars.css");
+@import url("./layout.vars.css");
+
+.multiselectDropdown {
+    font-size: 12px;
+    color: var(--color-03);
+    position: relative;
+    width: 100%;
+}
+
+.multiselectDropdown > .multiselectMenu {
+    display: none;
+    z-index: 1000;
+    float: left;
+    margin: 2px 0 0;
+    text-align: left;
+    list-style: none;
+    border: 1px solid var(--color-10);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    background-color: var(--color-white);
+}
+
+.multiselectDropdown:global(.open) > .multiselectMenu {
+    display: block;
+}
+
+.multiselectDropdown > .multiselectToggle {
+    @mixin flex-row-between-align-center;
+    width: 100%;
+    background: linear-gradient(to top, var(--color-09), var(--color-08));
+    border-radius: 0;
+    border: 1px solid var(--color-10);
+    padding: 10px 8px;
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    outline: none;
+}
+
+.multiselectDropdown > .multiselectToggle:active {
+    background: linear-gradient(to top, var(--color-08), var(--color-09));
+}
+
+.multiselectDropdown > .multiselectMenu .multiselectMenuTitle {
+    font-weight: normal;
+    padding-left: 10px;
+}
+
+.multiselectDropdown > .multiselectMenu .multiselectMenuList {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.multiselectDropdown > .multiselectMenu .multiselectMenuListItem {
+    @mixin flex-row-align-center;
+    display: block;
+    padding: 3px 15px;
+    margin-bottom: 1px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    white-space: nowrap;
+}
+
+.multiselectDropdown > .multiselectMenu .multiselectMenuListItem > span {
+    margin-left: 0.5em;
+    font-weight: bold;
+}
+
+.multiselectDropdown > .multiselectMenu .multiselectMenuListItem:global(.active) {
+    background-color: var(--color-02);
+}
+
+.multiselectDropdown > .multiselectMenu .multiselectMenuListItem:global(.active) > span {
+    color: var(--color-white);
+}

@@ -110,9 +110,9 @@
 Сокращение реализуется просто, надо указать CSS свойства для ячейки:
 ```css
 td {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 ```
 И соответственно задать ширину колонки. По этой [ссылке](https://codepen.io/volodalexey/pen/gRmLzW) можно увидеть, что все настроено, но сокращение не работает.
@@ -240,7 +240,7 @@ _adjustHeaderWidth() {
 Получается вполне логичный вопрос, а зачем тогда вообще использовать тег `<table>`, если собственно из таблицы используется только автоподстройка ширины таблицы?
 И тут мы окажемся не первыми и некоторые вообще не используют табличную разметку.
 Например [Fixed Data Table](https://facebook.github.io/fixed-data-table/example-object-data.html) или [React Table](https://react-table.js.org/#/story/simple-table).
-Разметка в вышеприведенных примерах примерно такая:
+Разметка в примерах примерно такая:
 ```html
 <div class="table">
   <div class="header">
@@ -264,12 +264,12 @@ _adjustHeaderWidth() {
 Например в этой таблице [ag Grid](https://www.ag-grid.com/example.php) можно автоматически рассчитать подходящую ширину столбца.
 В [коде видно](https://github.com/ceolter/ag-grid/blob/bbf11d41d23fffa77dd4d0cd01d72facc77398eb/src/ts/rendering/autoWidthCalculator.ts#L31):
 ```typescript
-    public getPreferredWidthForColumn(column: Column): number {
-        // создать <span style="position: fixed;">
-        // добавить в него все ячейки столбца
-        // вычислить ширину span (вычисляет браузер)
-        // удаляем <span style="position: fixed;">
-    }
+public getPreferredWidthForColumn(column: Column): number {
+  // создать <span style="position: fixed;">
+  // добавить в него все ячейки столбца
+  // вычислить ширину span (вычисляет браузер)
+  // удаляем <span style="position: fixed;">
+}
 ```
 Следующая таблица [Reactabular](https://reactabular.js.org/#/easy) использует интересный подход в синхронизации.
 Автор пошел дальше и сделал прокручиваемыми не только тело, но и шапку таблицы, в браузерах которые показывают ползунок скролла - выглядит ужасно, зато в `touch` браузерах очень классно и функционально.
@@ -287,3 +287,55 @@ _adjustHeaderWidth() {
 К премеру я покажу как сделать свою составную таблицу на React (остались наработки с прошлого проекта, но есть наработки и на VanillaJS).
 
 ## Разметка 
+
+Для разметки будем использовать `div` элементы, я для ячеек тоже. И если использовать `display: inline-block` для ячеек, тогда будет следующая разметка: 
+```html
+<div class="row">
+  <div class="cell" style="width: 40px;"></div>
+  <div class="cell" style="width: 40px;"></div>
+</div>
+```
+Но есть одна проблема, т.к. браузер интерпретирует пустые места между ячейками как текстовые ноды.
+Есть [отличная статья](https://css-tricks.com/fighting-the-space-between-inline-block-elements/), как с этим бороться.
+И если мы используем шаблонизатор (EJS, JSX, Angular, Vue), то это легко решить:
+```html
+<div class="row">
+  <div class="cell" style="width: 40px;">{value}</div><div class="cell" style="width: 40px;">{value}</div>
+</div>
+```
+Однако уже 2017 год, [flexbox](https://caniuse.com/#feat=flexbox) давно поддерживается, я делал на нем проекты еще в 2014 для IE11.
+А сегодня можно вообще не стесняться его. Это упростит нам задачу, можно будет делать столько пустых нод, сколько хочеться:
+```html
+<div class="row" style="display: flex; flex-direction: row;">
+  <div class="cell" style="width: 40px; flex: 0 0 auto;">{value}</div>
+  <!-- дальше пустое место -->
+  
+  <div class="cell" style="width: 40px; flex: 0 0 auto;">{value}</div>
+</div>
+```
+
+## Общие моменты
+
+Таблица должна отлично встраиваться в `redux` архитектуру, примеры таких таблиц предалагают подключать свои `reducers`.
+Мне этот подход не нравиться, по моему мнению разработчик должен контроллировать процесс сортировки, фильтрации.
+Это требует дополнительного кода. Вместо обычного черного ящика:
+```jsx harmony
+render() {
+  return (
+    <div>
+      <Table filter={} data={} format={} etc={} />
+    </div>
+  )
+}
+```
+Разработчик должен будет писать:
+```jsx harmony
+render() {
+  
+  return (
+    <div>
+      <Table filter={} data={} format={} etc={} />
+    </div>
+  )
+}
+```
