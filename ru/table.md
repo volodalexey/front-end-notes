@@ -145,46 +145,46 @@ td {
 
 Если нам необходима прокрутка тела таблицы, то без составных разметок не обойтись.
 Все примеры составных таблиц (см. пункт 9) используют свои пользовательские разметки.
-Раньше одна из самых известных таблиц [Data Tables](https://datatables.net/examples/basic_init/scroll_xy.html) использует следующую разметку:
+Одна из самых известных таблиц [Data Tables](https://datatables.net/examples/basic_init/scroll_xy.html) использует следующую разметку:
 ```html
 <div class="dataTables_scroll">
-    <div class="dataTables_scrollHead">
-        <div class="dataTables_scrollHeadInner">
-            <table class="display nowrap dataTable no-footer">
-                <thead>
-		                <tr role="row">
-		                    <th class="sorting_asc"></th>
-		                    <th class="sorting"></th>
-		                    <th class="sorting"></th>
-		                </tr>
-					      </thead>
-					  </table>
-				</div>
-		</div>
-		<div class="dataTables_scrollBody">
-		    <table id="example" class="display nowrap dataTable no-footer">
-		        <thead>
-						    <tr role="row">
-						        <th class="sorting">
-						            <div class="dataTables_sizing"></div>
-						        </th>
-						        <th class="sorting">
-						            <div class="dataTables_sizing"></div>
-						        </th>
-						        <th class="sorting">
-						            <div class="dataTables_sizing"></div>
-						        </th>
-						    </tr>
-					  </thead>
-					  <tbody>
-					      <tr role="row" class="odd">
-							      <td class="sorting_1"></td>
-							      <td></td>
-							      <td></td>
-						    </tr>
-            </tbody>
-				</table>
+  <div class="dataTables_scrollHead">
+    <div class="dataTables_scrollHeadInner">
+      <table class="display nowrap dataTable no-footer">
+        <thead>
+          <tr role="row">
+            <th class="sorting_asc"></th>
+            <th class="sorting"></th>
+            <th class="sorting"></th>
+          </tr>
+        </thead>
+      </table>
     </div>
+  </div>
+  <div class="dataTables_scrollBody">
+    <table id="example" class="display nowrap dataTable no-footer">
+      <thead>
+        <tr role="row">
+          <th class="sorting">
+            <div class="dataTables_sizing"></div>
+          </th>
+          <th class="sorting">
+            <div class="dataTables_sizing"></div>
+          </th>
+          <th class="sorting">
+            <div class="dataTables_sizing"></div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr role="row" class="odd">
+          <td class="sorting_1"></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 ```
 Я намеренно сокращаю разметку, чтобы можно было составить общую картину, как разметка выглядит внутри.
@@ -192,32 +192,32 @@ td {
 Следующий пример [React Bootstrap Table](http://allenfang.github.io/react-bootstrap-table/example.html#basic) если посмотреть в разметку использует две таблицы:
 ```html
 <div class="react-bs-table-container">
-    <div class="react-bs-table">
-        <div class="react-bs-container-header table-header-wrapper">
-            <table class="table table-hover table-bordered">
-                <colgroup><col class=""><col class=""><col class=""></colgroup>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </table>
-         </div>
-         <div class="react-bs-container-body">
-            <table class="table table-bordered">
-                <colgroup><col class=""><col class=""><col class=""></colgroup>
-                <tbody>
-                    <tr class="">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-         </div>
+  <div class="react-bs-table">
+    <div class="react-bs-container-header table-header-wrapper">
+      <table class="table table-hover table-bordered">
+        <colgroup><col class=""><col class=""><col class=""></colgroup>
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
     </div>
+    <div class="react-bs-container-body">
+      <table class="table table-bordered">
+        <colgroup><col class=""><col class=""><col class=""></colgroup>
+        <tbody>
+          <tr class="">
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 ```
 Верхняя таблица отображает заголовок, нижняя - тело. Хотя для пользователя кажется как будто бы это одна таблица.
@@ -243,24 +243,24 @@ _adjustHeaderWidth() {
 Разметка в вышеприведенных примерах примерно такая:
 ```html
 <div class="table">
-    <div class="header">
-        <div class="row">
-            <div class="cell"></div>
-            <div class="cell"></div>
-        </div>
+  <div class="header">
+    <div class="row">
+      <div class="cell"></div>
+      <div class="cell"></div>
     </div>
-    <div class="body">
-        <div class="row">
-            <div class="cell"></div>
-            <div class="cell"></div>        
-        </div>
+  </div>
+  <div class="body">
+    <div class="row">
+      <div class="cell"></div>
+      <div class="cell"></div>        
     </div>
+  </div>
 </div>
 ```
 Отсюда название `fixed table`, т.е. для такой разметки мы должны заранее указать ширину всех столбцов (ширину таблицы, высоту строки).
 Хотя если мы хотим сокращение текста (см. пункт 6), нам все равно надо задавать ширину столбцов, даже в обычной таблице.
 А как же сделать автоподстройку ширины колонки в пользовательской таблице спросите вы?
-Опять же способы есть разные, наиболее интересный опять же использует дополнительный проход браузера.
+Опять же способы есть разные, наиболее интересный использует дополнительный проход браузера.
 Например в этой таблице [ag Grid](https://www.ag-grid.com/example.php) можно автоматически рассчитать подходящую ширину столбца.
 В [коде видно](https://github.com/ceolter/ag-grid/blob/bbf11d41d23fffa77dd4d0cd01d72facc77398eb/src/ts/rendering/autoWidthCalculator.ts#L31):
 ```typescript
@@ -277,3 +277,13 @@ _adjustHeaderWidth() {
 
 # Реализация собственной таблицы
 
+Получается, что составная таблица требует дополнительной синхронизации между частями, чтобы для пользователя все вместе казалось как одна таблица.
+Все составные таблицы (и моя будущая тоже) страдают одним недостающим фактором, у них нет стандарта (и это логично, т.к. отказались от HTML4 таблицы), как их кастомизировать. 
+Когда ты начинаешь учить одну таблицу, потом начинаешь тратить время на её кастомизацию.
+Затем для другого проекта учишь другую таблицу (например при переходе с Angular1 на React, или с jQuery на Vue) и кастомизация совсем другая.
+Логичный вопрос, а стоит ли потраченное время того? Стоит ли учить снова и снова таблицу? 
+Может легче усвоить для себя базовые моменты составной таблицы и тогда вы сможете делать свою таблицу на любом фреймворке (Angular/React/Vue/будущее...)?
+
+К премеру я покажу как сделать свою составную таблицу на React (остались наработки с прошлого проекта, но есть наработки и на VanillaJS).
+
+## Разметка 
