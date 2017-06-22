@@ -1,3 +1,5 @@
+В статье используется сквозная нумерация пунктов для удобства ссылок.
+
 # Оригинальная HTML4 таблица
 
 Когда появилась необходимость в HTML разметке показывать таблицы - изобрели тег `<table>`.
@@ -285,6 +287,9 @@ public getPreferredWidthForColumn(column: Column): number {
 Может легче усвоить для себя базовые моменты составной таблицы и тогда вы сможете делать свою таблицу на любом фреймворке (Angular/React/Vue/будущее...)?
 
 К премеру я покажу как сделать свою составную таблицу на React (остались наработки с прошлого проекта, но есть наработки и на VanillaJS).
+Таблица:
+- будет составной, синхронизировать шапку в зависимости от тела таблицы
+- будет подстраивать свою ширину если она меньше ширины контейнера
 
 ## Разметка 
 
@@ -314,16 +319,16 @@ public getPreferredWidthForColumn(column: Column): number {
 </div>
 ```
 
-## Общие моменты
+## Общие моменты использования
 
 Таблица должна отлично встраиваться в `redux` архитектуру, примеры таких таблиц предалагают подключать свои `reducers`.
 Мне этот подход не нравиться, по моему мнению разработчик должен контроллировать процесс сортировки, фильтрации.
-Это требует дополнительного кода. Вместо обычного черного ящика:
+Это требует дополнительного кода. Вместо обычного черного ящика, который потом сложно кастомизировать:
 ```jsx harmony
 render() {
   return (
     <div>
-      <Table filter={} data={} format={} etc={} />
+      <Table filter={...} data={...} columns={...} format={...} etc={...} />
     </div>
   )
 }
@@ -331,11 +336,78 @@ render() {
 Разработчик должен будет писать:
 ```jsx harmony
 render() {
-  
+  const 
+    descriptions = getColumnDescriptions(this.getTableColumns()),
+    filteredData = filterBy([], []),
+    sortedData = sortBy(filteredData, []);
   return (
     <div>
-      <Table filter={} data={} format={} etc={} />
+      <TableHeader descriptions={descriptions} />
+      <TableBody data={sortedData} descriptions={descriptions} keyField={"Id"} />
     </div>
   )
 }
 ```
+Разработчик должен сам прописывать шаги: вычислить описание колонок, отфильтровать, отсортировать.
+Все функции/конструкторы `getColumnDescriptions, filterBy, sortBy, TableHeader, TableBody, TableColumn` будут импортироваться из моей таблицы.
+В качестве данных будет использоваться масси объектов:
+```javascript
+[
+  { "Company": "Alfreds Futterkiste", "Cost": "0.25632" },
+  { "Company": "Francisco Chang", "Cost": "44.5347645745" },
+  { "Company": "Ernst Handel", "Cost": "100.0" },
+  { "Company": "Roland Mendel", "Cost": "0.456676" },
+  { "Company": "Island Trading Island Trading Island Trading Island Trading Island Trading", "Cost": "0.5" },
+]
+```
+Мне [понравился подход](https://allenfang.github.io/react-bootstrap-table/start.html) создания описания колонок в jsx в качестве элементов.
+Будем использовать ту же идею, однако, чтобы сделать независимыми шапку и тело таблицы, нам надо вычислять описание один раз и передавать в шапку и в тело:
+```jsx harmony
+getTableColumns() {
+  return [
+    <TableColumn row={0} width={["Company", "Cost"]}>first header row</TableColumn>,
+    <TableColumn row={1} dataField={"Company"} width={200}>
+      Company
+    </TableColumn>,
+    <TableColumn row={1} dataField={"Cost"} width={100}>
+      Cost
+    </TableColumn>,
+  ];
+}
+
+render() {
+  const 
+    descriptions = getColumnDescriptions(this.getTableColumns());
+  return (
+    <div>
+      <TableHeader descriptions={descriptions} />
+      <TableBody data={[]} descriptions={descriptions} keyField={"Id"} />
+    </div>
+  )
+}
+```
+В функции `getTableColumns` мы создаем описание колонок.
+Все обязательные свойства я мог бы описать через `propTypes`, но после того [как их вынесли](https://facebook.github.io/react/blog/#new-deprecation-warnings) в отдельную библиотеку, не уверен.
+Обязательно надо указать `row` - число, показывает индекс строки в шапке (если шапка будет группироваться).
+Параметр `dataField`, будет определять какой ключ из объекта использовать для получения значения.
+Ширина `width` тоже обязательный параметр, может быть задана как число, или как массив ключей от которых зависит.
+В примере верхняя строка в таблице `row={0}` зависит от ширины двух колонок `["Company", "Cost"]`.
+Элемент `TableColumn` фейковый, он никогда не будет отображаться, а вот его содержимое `this.props.children` - будет.
+
+## Разработка
+
+
+
+
+```jsx harmony
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      activeSorts: [],
+      activeFilters: [],
+      widthFactor: 1
+    };
+  }
+```
+Для таблицы понадоб
