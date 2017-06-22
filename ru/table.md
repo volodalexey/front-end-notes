@@ -283,8 +283,9 @@ public getPreferredWidthForColumn(column: Column): number {
 Все составные таблицы (и моя будущая тоже) страдают одним недостающим фактором, у них нет стандарта (и это логично, т.к. отказались от HTML4 таблицы), как их кастомизировать. 
 Когда ты начинаешь учить одну таблицу, потом начинаешь тратить время на её кастомизацию.
 Затем для другого проекта учишь другую таблицу (например при переходе с Angular1 на React, или с jQuery на Vue) и кастомизация совсем другая.
-Логичный вопрос, а стоит ли потраченное время того? Стоит ли учить снова и снова таблицу? 
+Логичный вопрос, а стоит ли потраченное время того? Стоит ли учить снова и снова связку фреймворк-таблица? 
 Может легче усвоить для себя базовые моменты составной таблицы и тогда вы сможете делать свою таблицу на любом фреймворке (Angular/React/Vue/будущее...)?
+Т.е. на свою таблицу вы будете тратить 2 дня на старт, зато потом в течении 30 мин кастомизировать, или взять готовую за 30 мин и потом кастомизировать каждую фичу за 1 день...
 
 К премеру я покажу как сделать свою составную таблицу на React (остались наработки с прошлого проекта, но есть наработки и на VanillaJS).
 Таблица:
@@ -293,11 +294,11 @@ public getPreferredWidthForColumn(column: Column): number {
 
 ## Разметка 
 
-Для разметки будем использовать `div` элементы, я для ячеек тоже. И если использовать `display: inline-block` для ячеек, тогда будет следующая разметка: 
+Для разметки будем использовать `div` элементы, и для ячеек тоже. Если использовать `display: inline-block` для ячеек, тогда будет следующая разметка: 
 ```html
 <div class="row">
-  <div class="cell" style="width: 40px;"></div>
-  <div class="cell" style="width: 40px;"></div>
+  <div class="cell" style="width: 40px; display: inline-block;"></div>
+  <div class="cell" style="width: 40px; display: inline-block;"></div>
 </div>
 ```
 Но есть одна проблема, т.к. браузер интерпретирует пустые места между ячейками как текстовые ноды.
@@ -321,7 +322,7 @@ public getPreferredWidthForColumn(column: Column): number {
 
 ## Общие моменты использования
 
-Таблица должна отлично встраиваться в `redux` архитектуру, примеры таких таблиц предалагают подключать свои `reducers`.
+Таблица должна отлично встраиваться в [Redux](http://redux.js.org/docs/introduction/) архитектуру, примеры таких таблиц предалагают подключать свои `reducers`.
 Мне этот подход не нравиться, по моему мнению разработчик должен контроллировать процесс сортировки, фильтрации.
 Это требует дополнительного кода. Вместо обычного черного ящика, который потом сложно кастомизировать:
 ```jsx harmony
@@ -396,18 +397,206 @@ render() {
 
 ## Разработка
 
-
-
-
-```jsx harmony
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      activeSorts: [],
-      activeFilters: [],
-      widthFactor: 1
-    };
-  }
+На основе описаний колонок сделаем функцию, которая будет разбивать описание по рядам, и по ключам и также будет сортировать по радам в результирующим массиве:
+```javascript
+function getColumnDescriptions(children) {
+  let byRows = {}, byDataField = {};
+  React.Children.forEach(children, (column) => {
+    const {row, hidden, dataField} = column.props;
+    if (column === null || column === undefined || typeof row !== 'number' || hidden) { return; }
+    if (!byRows[row]) { byRows[row] = [] }
+    byRows[row].push(column);
+    if (dataField) { byDataField[dataField] = column }
+  });
+  let descriptions = Object.keys(byRows).sort().map(row => {
+    byRows[row].key = row;
+    return byRows[row];
+  });
+  descriptions.byRows = byRows;
+  descriptions.byDataField = byDataField;
+  return descriptions;
+}
 ```
-Для таблицы понадоб
+Теперь обработанное описание, можно подавать в шапку и в тело для отображения ячеек.
+Шапка будет строить ячейки так:
+```jsx harmony
+getFloor(width, factor) {
+  return Math.floor(width * factor);
+}
+
+renderChildren(descriptions) {
+  const {widthFactor} = this.props;
+  return descriptions.map(rowDescription => {
+    return <div className={styles.tableHeaderRow} key={rowDescription.key}>
+      {rowDescription.map((cellDescription, index) => {
+        const {props} = cellDescription;
+        const {width, dataField} = props;
+        const _width = Array.isArray(width) ?
+          width.reduce((total, next) => {
+            total += this.getFloor(descriptions.byDataField[next].props.width, widthFactor);
+            return total;
+          }, 0) :
+          this.getFloor(width, widthFactor);
+        return <div className={styles.tableHeaderCell}
+                    key={dataField || index}
+                    style={{ width: _width + 'px' }}>
+          {cellDescription.props.children}
+        </div>
+      })}
+    </div>
+  })
+}
+
+render() {
+  const {className, descriptions} = this.props;
+
+  return (
+    <div className={styles.tableHeader} ref={this.handleRef}>
+      {this.renderChildren(descriptions)}
+    </div>
+  )
+}
+```
+Тело таблицы будет строить ячейки тоже на основе обработанного описания:
+```jsx harmony
+renderDivRows(cellDescriptions, data, keyField) {
+  const {rowClassName, widthFactor} = this.props;
+  return data.map((row, index) => {
+    return <div className={`${styles.tableBodyRow} ${rowClassName}`} key={row[keyField]}
+                data-index={index} onClick={this.handleRowClick}>
+      {cellDescriptions.map(cellDescription => {
+        const {props} = cellDescription;
+        const {dataField, dataFormat, cellClassName, width} = props;
+        const value = row[dataField];
+        const resultValue = dataFormat ? dataFormat(value, row) : value;
+        return <div className={`${styles.tableBodyCell} ${cellClassName}`} key={dataField}
+                    data-index={index} data-key={dataField} onClick={this.handleCellClick}
+                    style={{ width: this.getFloor(width, widthFactor) + 'px' }}>
+          {resultValue ? resultValue : '\u00A0'}
+        </div>
+      })}
+    </div>
+  });
+}
+  
+getCellDescriptions(descriptions) {
+  let cellDescriptions = [];
+  descriptions.forEach(rowDescription => {
+    rowDescription.forEach((cellDescription) => {
+      if (cellDescription.props.dataField) {
+        cellDescriptions.push(cellDescription);
+      }
+    })
+  });
+  return cellDescriptions;
+}
+
+render() {
+  const {className, descriptions, data, keyField} = this.props;
+  const cellDescriptions = this.getCellDescriptions(descriptions);
+
+  return (
+    <div className={`${styles.tableBody} ${className}`} ref={this.handleRef}>
+      {this.renderDivRows(cellDescriptions, data, keyField)}
+    </div>
+  )
+}
+```
+Тело таблицы использует описания у которых есть свойство `dataField` поэтому необходимо отфильтровать описания `getCellDescriptions`.
+Тело таблицы будет слушать события изменения размеров экрана, а также прокрутки самого тела таблицы:
+```jsx harmony
+componentDidMount() {
+  this.adjustBody();
+  window.addEventListener('resize', this.adjustBody);
+  if (this.tb) {
+    this.tb.addEventListener('scroll', this.adjustScroll);
+  }
+}
+
+componentWillUnmount() {
+  window.removeEventListener('resize', this.adjustBody);
+  if (this.tb) {
+    this.tb.removeEventListener('scroll', this.adjustScroll);
+  }
+}
+```
+Подстройка ширины таблицы происходит следующим образом.
+После отображения необходимо взять ширину контейнера, сравнить с шириной всех ячеек, если ширина контейнера больше, увеличить все ячейки.
+Для этого разработчик должен хранить в состоянии (где хочет, только передавать), коэффициент ширины (который будет меняться).
+Следующие функции реализованы в таблице, однако разработчик может использовать свои. Чтобы использовать по умолчанию, надо их импортировать и прилинковать к текущему компоненту:
+```jsx harmony
+constructor(props, context) {
+  super(props, context);
+
+  this.state = {
+    activeSorts: [],
+    activeFilters: [],
+    columnsWidth: {
+      Company: 300, Cost: 300
+    },
+    widthFactor: 1
+  };
+
+  this.handleFiltersChange = handleFiltersChange.bind(this);
+  this.handleSortsChange = handleSortsChange.bind(this);
+  this.handleAdjustBody = handleAdjustBody.bind(this);
+  this.getHeaderRef = getHeaderRef.bind(this, 'th');
+  this.getBodyRef = getBodyRef.bind(this, 'tb');
+  this.syncHeaderScroll = syncScroll.bind(this, 'th');
+}
+```
+Внутри эти функции реализованы.
+```jsx harmony
+adjustBody() {
+  const {descriptions, handleAdjustBody} = this.props;
+  if (handleAdjustBody) {
+    const cellDescriptions = this.getCellDescriptions(descriptions);
+    let initialCellsWidth = 0;
+    cellDescriptions.forEach(cd => {
+      initialCellsWidth += cd.props.width;
+    });
+    handleAdjustBody(this.tb.offsetWidth, initialCellsWidth);
+  }
+}
+```
+Синхронизация шапки:
+```jsx harmony
+adjustScroll(e) {
+  const {handleAdjustScroll} = this.props;
+  if (typeof handleAdjustScroll === 'function') {
+    handleAdjustScroll(e);
+  }
+}
+```
+Ключевая особенность таблицы для `redux` - это то, что она не имеет своего состояния.
+И подстройка ширины `adjustBody` или синхронизация скролла `adjustScroll` - это функции которые изменяют состояние у прилинкованного компонента.
+
+Внутрь `TableColumn` можно вставлять любую разметку. По факту нужны: текст, кнопка сортировки и кнопка фильтрации.
+Для массива активных сортировок и для массива активных фильтров разработчик опять же должен создать состояние и передавать его в таблицу.
+```jsx harmony
+this.state = {
+  activeSorts: [],
+  activeFilters: [],
+};
+```
+Передаем в таблицу/сортировку/фильтрацию:
+```jsx harmony
+getTableColumns() {
+  const {activeFilters, activeSorts, columnsWidth} = this.state;
+  return [
+    <TableColumn row={0} width={["Company", "Cost"]}>first header row</TableColumn>,
+    <TableColumn row={1} dataField={"Company"} width={300}>
+      <MultiselectDropdown title="Company" activeFilters={activeFilters} dataField={"Company"}
+                           items={[]} onFiltersChange={this.handleFiltersChange} />
+    </TableColumn>,
+    <TableColumn row={1} dataField={"Cost"} width={300}>
+      <SortButton title="Cost" activeSorts={activeSorts} dataField={"Cost"}
+                  onSortsChange={this.handleSortsChange} />
+    </TableColumn>,
+  ];
+}
+```
+Сортировка и фильтрация при изменении "выбрасывает" новые активные фильтры/сортировки, которые разработчик должен заменить в состоянии.
+Массивы как раз и предполагают, что возможна множественная сортировка и фильтрация по каждой колонке.
+Формат статьи не позволяет описать всех тонкостей, поэтому предлагаю сразу посмотреть результат.
+Исходники находяться здесь.
