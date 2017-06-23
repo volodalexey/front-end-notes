@@ -36,6 +36,7 @@
     font-size: 12px;
     font-weight: bold;
     outline: none;
+    cursor: pointer;
 }
 
 .multiselectDropdown > .multiselectToggle:active {
