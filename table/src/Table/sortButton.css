@@ -12,6 +12,7 @@
     font-size: 12px;
     font-weight: bold;
     outline: none;
+    cursor: pointer;
 }
 
 .sortButton:active {
