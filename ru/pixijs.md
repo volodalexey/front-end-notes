@@ -256,7 +256,7 @@
 Загрузчик (`Assets`) в `PixiJS` может подгрузить и обработать текстурный атлас (`spritesheet`) в формате `.json`. Достаточно соблюдать [схему внутри json файла](https://pixijs.io/guides/basics/sprite-sheets.html):
 
   <details>
-  <summary>JSON schema</summary>
+  <summary>JSON текстурного атласа</summary>
 
   ```json
   {
@@ -296,9 +296,9 @@
 Вручную создавать `.json` файл вышеприведённой схемы я не буду, а воспользуюсь программой. На сайте предлагается использовать [ShoeBox](http://renderhjs.net/shoebox/) или [TexturePacker](https://www.codeandweb.com/texturepacker). Т.к. я работаю в `Linux`, то мне остаётся использовать только `TexturePacker`. Однако бесплатная версия программы "портит" результирующий файл, если использовать нужные мне опции, заменяя некоторую его часть красным цветом (таким образом пытаясь стимулировать пользователей покупать программу):
 
   <details>
-  <summary>Texture Packer экспорт</summary>
+  <summary>Texture Packer - экспорт</summary>
 
-  ![Texture Packer экспорт](./pixijs/texture_packer_fail.png)
+  ![Texture Packer - экспорт](./pixijs/texture_packer_fail.png)
 
   </details>
 
@@ -312,14 +312,20 @@
 Все изображения, которые содержат фреймы для анимации нужно порезать на отдельные изображения, для этого есть опция:
 
   <details>
-  <summary>Free Texture Packer меню</summary>
+  <summary>Free Texture Packer - меню</summary>
 
-  ![Free Texture Packer меню](./pixijs/free_texture_packer_split_sheet.png)
+  ![Free Texture Packer - меню](./pixijs/free_texture_packer_split_sheet.png)
 
   </details>
 
 Затем выбираем нужный нам размер фрейма и режем:
-![Free Texture Packer split sheet](./pixijs/free_texture_packer_split_sheet_run.png)
+
+  <details>
+  <summary>Free Texture Packer - нарезка</summary>
+
+  ![Free Texture Packer split sheet](./pixijs/free_texture_packer_split_sheet_run.png)
+
+  </details>
 
 Добавляем все подготовленные изображения в проект, и подготавливаем результирующие файлы:
 
@@ -470,7 +476,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Теперь достаточно скомпоновать [нашу сетку из плиток](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L50):
 
   <details>
-  <summary>Grid</summary>
+  <summary>Ферма - компоновка сетки</summary>
 
   ```typescript
   import { type Application } from 'pixi.js'
@@ -528,7 +534,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Переменные, которые будут хранить количество денег, корма (кукурузы), яиц и молока хранит каждая плитка (`Tile`) на панели статуса. Плитка кукурузы - количество кукурузы и т.д. Хотя лучше было-бы сделать глобальные переменные в движке. Далее [в каждую плитку передаю текстуру иконки](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/StatusBarTile.ts#L7).
 
   <details>
-  <summary>StatusBarTile</summary>
+  <summary>Status Bar Tile</summary>
 
   ```typescript
   import { type Texture, Sprite, BitmapFont, BitmapText } from 'pixi.js'
@@ -644,7 +650,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Панель магазина [состоит из плиток тоже](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/ShopTile.ts). Каждая плитка отображает сущность которую можно купить, иконку денег и текст, который показывает стоимость покупки.
 
   <details>
-  <summary>ShopTile</summary>
+  <summary>Shop Tile</summary>
 
   ```typescript
   import { BitmapText, Sprite, type Texture } from 'pixi.js'
@@ -683,8 +689,14 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
   </details>
 
-Далее при инициализации моих панелей, передаю необходимые загруженные текстуры, выставляю позицию каждой плитки:
-![Сетка фермы](./pixijs/farm_layout.png)
+Далее при инициализации моих панелей, передаю необходимые загруженные текстуры, выставляю позицию каждой плитки.
+
+  <details>
+  <summary>Сетка фермы</summary>
+
+  ![Сетка фермы](./pixijs/farm_layout.png)
+
+  </details>
 
 ## Ферма: Поле
 
@@ -788,7 +800,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Создаю глобальные состояния игры, как то покупка, простаивание и кормление:
 
   <details>
-  <summary>UIState</summary>
+  <summary>UI State</summary>
 
   ```typescript
   enum UIState {
@@ -884,7 +896,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Соответственно для каждой клетки с курицей или коровой создаю переменные для хранения сгенерированного ресурса (и для кукурузы) `_generated` и для оставшейся еды `_food`.
 
   <details>
-  <summary>Ticker</summary>
+  <summary>Подписка на событие счетчика</summary>
 
   ```typescript
   this.app.ticker.add(this.handleAppTick)
@@ -936,7 +948,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Для этого подписываюсь на событие резайза:
 
   <details>
-  <summary>Resize</summary>
+  <summary>Подписка на событие resize</summary>
 
   ```typescript
   window.addEventListener('resize', this.resizeDeBounce)
@@ -954,12 +966,14 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 [В этом видео](https://www.youtube.com/watch?v=yP5DKzriqXA) полный процесс разработки игры. Дальше будет много игр с этого канала.
 
+У нас есть персонаж (человек), который ходит по карте. В определённых местах на лужайках он встречает врагов - покемонов. Однако он сражается с ними не сам, а своим покемоном против вражеского. Во время сражения показывается экран битвы, где пользователь играет за покемона. При окончании битвы пользователь возвращается на карту играя за персонажа.
+
 ## Покемон: редактор карт
 
 В видео познакомился с программой [Tiled Map Editor](https://www.mapeditor.org/download.html) которая тоже работает под `Linux`. В ней можно просто и удобно по слоям рисовать 2-х мерную тайловую карту. На выходе при экспорте в формат `.json` получаем удобное описание всех слоёв на карте в виде массива:
 
   <details>
-  <summary>Схема карты - json</summary>
+  <summary>JSON - тайловой карты</summary>
 
   ```json
   {
@@ -991,7 +1005,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Прохожусь [по массиву слоя и добавляю](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L55) либо прямоугольники для ограничения движения по карте, либо прямоугольники для активации экрана битвы:
 
   <details>
-  <summary>Setup Layers</summary>
+  <summary>Обработка слоёв карты</summary>
 
   ```typescript
   setupLayers ({ collisionsLayer, battleZonesLayer }: IMapScreenOptions): void {
@@ -1040,16 +1054,16 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Используя библиотеку `Debug` я включаю дебаг режим. Для этого в браузере в `localStorage` я прописываю ключ `debug` (с маленькой буквы), а в значение записываю например `poke-boundary`:
 
   <details>
-  <summary>Tiled Map Editor на Linux</summary>
+  <summary>Дебаг непроходимых участков</summary>
 
-  ![Tiled Map Editor на Linux](./pixijs/pokemon_debug_boundary.png)
+  ![Дебаг непроходимых участков](./pixijs/pokemon_debug_boundary.png)
 
   </details>
 
 В самом же коде [я проверяю](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/Boundary.ts#L21), если включен режим дебага, то рисую прозрачные прямоугольники, если нет, то они остаются невидимыми и учавствуют в проверке коллизии только.
 
   <details>
-  <summary>Log Boundary</summary>
+  <summary>Рисование дебага</summary>
 
   ```typescript
   if (logBoundary.enabled) {
@@ -1200,6 +1214,8 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 [Оригинальное видео](https://www.youtube.com/watch?v=eI9idPTT0c4).
 
+Ваш круг (персонаж) в центре экрана. На него нападают другие круги, которые создаются за пределами экрана и двигаются на персонажа. При клике на любое место экрана, персонаж выстреливает туда снаряд, тем самым убивая врага. Некоторых врагов нужно убить несколькими выстрелами.
+
 ## Стрелялки: загрузка
 
 Здесь уже я [добавил](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/index.html#L12) простую анимацию на чистом [CSS](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/styles.css#L14). Пока подгружается `PixiJS` я показываю многоточие.
@@ -1211,7 +1227,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
   </details>
 
-Инициализацию всего кода оборачиваю в `try`/`catch`, в случае ошибки игра не запускается, а сообщение об ошибке [я вывожу](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/app.ts#L25) прямиком в `div`.
+Инициализацию всего кода оборачиваю в `try`/`catch`, в случае ошибки - игра не запускается, а сообщение об ошибке [я вывожу](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/app.ts#L25) прямиком в `div`.
 
 Инстанс `Application` я создаю внутри `SceneManager` как [статическое свойство](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/SceneManager.ts#L36) `app`:
 
@@ -1247,7 +1263,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 Из минусов, недобно итерировать по потомкам в TypeScript [из-за явного приведения типов](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L115), возможно в будущем [это исправят](https://github.com/pixijs/pixijs/issues/9348).
 
-Соответственно для врагов я делаю один контейнер частиц `enemiesContainer`, для снарядов - второй `projectilesContainer` и для [взрывов третий](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L50) `particlesContainer`.
+Соответственно для врагов я делаю один контейнер частиц `enemiesContainer`, для снарядов - второй `projectilesContainer` и для [взрывов - третий](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L50) `particlesContainer`.
 
   <details>
   <summary>Particle Containers</summary>
@@ -1275,7 +1291,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Для этого нужно вызвать `renderer.generateTexture` и передать нарисованную графику - на выходе получим текстуру:
 
   <details>
-  <summary>Particle</summary>
+  <summary>Generate Texture</summary>
 
   ```typescript
   import { Sprite, Graphics, type Application, type Texture } from 'pixi.js'
@@ -1401,7 +1417,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
   </details>
 
-Удаляю след из частиц я определяя что это частица следа `isProjectile === false` и если главный [снаряд будет удалён](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L201):
+Удаляю след из контейнера частиц когда определил что это частица следа `isProjectile === false` и если главный [снаряд будет удалён тоже](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L201):
 
   <details>
   <summary>Remove Projectile Trails</summary>
@@ -1427,6 +1443,8 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
   ```
 
   </details>
+
+## Стрелялки: заключение
 
 Масштабирование игры происходит в режиме `Responsive Scale` - тем у кого больше экран - легче играть, т.к. можно заранее увидеть противников выплывающих из-за экрана. А вот модальное диалоговое окно `StartModal` я [центрирую посередине](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L85) без масштабирования. Сам же модальный диалог я показываю когда игра закончилась, внутри я показываю набранное количество очков, а также кнопку для перезапуска игры.
 
