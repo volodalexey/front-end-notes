@@ -24,19 +24,20 @@
 
 | название | контекст  | количество звёзд на github |
 |----------|-----------|----------------------------|
-| [PhaserJS](https://github.com/photonstorm/phaser)   | 2d, webgl | 34.5k |
-| [BabylonJS](https://github.com/BabylonJS/Babylon.js) | webgl | 20.7k |
 | [ThreeJS](https://github.com/mrdoob/three.js/) | webgl | 92k |
 | [PixiJS](https://github.com/pixijs/pixijs) | 2d, webgl | 40k |
+| [PhaserJS](https://github.com/photonstorm/phaser)   | 2d, webgl | 34.5k |
 | [FabricJS](https://github.com/fabricjs/fabric.js) | 2d | 24.9k |
+| [BabylonJS](https://github.com/BabylonJS/Babylon.js) | webgl | 20.7k |
+| [PlayCanvas](https://github.com/playcanvas/engine) | webgl | 8.4k |
 
 Особое внимание нужно уделить выбранным мною библиотекам. 
 
-Если вы хотите заниматься только играми на JavaScript, то `PhaserJS` или `BabylonJS` созданы именно для этого. Вам нужно будет писать меньше кода, не нужно будет ломать голову где взять движок для физики и т.д.
+Если вы хотите заниматься только играми на JavaScript, то `PlayCanvas`, `PhaserJS` или `BabylonJS` созданы именно для этого. Вам нужно будет писать меньше кода, не нужно будет ломать голову где взять движок для физики и т.д.
 
-Однако более универсальные `PixiJS` / `FabricJS` / `ThreeJS` созданы не только для игр. Я советую использовать более универсальные инструменты на JS. Для инди-игр вам хватит, а для более серъезных `AAA` игр вам всё равно нужно будет использовать компилируемый язык - и учить PhaserJS / BabylonJS без особой надобности. Из минусов, писать игры на универсальных библиотеках более затратно и муторно.
+Однако более универсальные `PixiJS` / `FabricJS` / `ThreeJS` созданы не только для игр. Я советую использовать более универсальные инструменты на JS вначале. Для инди-игр вам хватит, а для более серъезных `AAA` игр вам всё равно нужно будет использовать компилируемый язык - и учить JS игровые движки без особой надобности. Из минусов, писать игры на универсальных библиотеках более затратно по времени.
 
-Универсальные библиотеки также пригодятся для отрисовки графиков, интерактивно двухмерного и трёхмерного контента во фронтенд'е. А также будет хорошей строчкой в вашем резюме.
+Универсальные библиотеки также пригодятся для отрисовки графиков, интерактивно двухмерного и трёхмерного контента во фронтенде. А также будет хорошей строчкой в вашем резюме.
 
 Для более-менее долгоиграющих проектов хочется взять что-то популярное и поддреживаемое. `FabricJS` - умеет рисовать на сервере для NodeJS, но не умеет в `webgl` контекст, а для игр нужно рисовать быстро и много. `ThreeJS` - больше для трёхмерного контента.
 
@@ -727,7 +728,7 @@ handleShopBarClick = (tile: ShopTile): void => {
   }
 }
 ```
- Если пользователь выбирает незанятую плитку, тогда списываю деньги и [размещаю купленную сущность на клетке](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L137).
+ Если пользователь выбирает незанятую плитку, тогда списываю деньги и [размещаю купленную сущность на клетке](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L137). Анимация для `AnimatedSprite` [начинает проигрываться](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/FarmGridTile.ts#L165), у анимациё свой собственный счетчик. Однако можно менять кадры анимации и по своему усмотрению, тогда не нужно запускать анимацию `play()`.
 
 ## Ферма: счетчик и прогресс
 
@@ -761,7 +762,7 @@ handleAppTick = (): void => {
 ## Ферма: масштабирование
 
 При масштабировании любой игры есть два варианта:
-1. Подогнать размеры игры под окно (`viewport`/`window` или `camera`) - [Letterbox scale](https://www.pixijselementals.com/#letterbox-scale)
+1. Подогнать размеры игры под окно (`viewport`/`window` или `camera`) - [Letterbox scale](https://www.pixijselementals.com/#letterbox-scale). Оставшееся свободное место желательно поделить пополам - отцентрировать.
 2. Обрезать игру, если она выходит за пределы окна - [Responsive Scale](https://www.pixijselementals.com/#responsive-scale)
 
 Есть ещё экзотический способ просто растянуть по высоте и ширине, нарушая при этом соотношение сторон - такое я не буду делать.
@@ -781,6 +782,8 @@ window.addEventListener('resize', this.resizeDeBounce)
 
 [В этом видео](https://www.youtube.com/watch?v=yP5DKzriqXA) полный процесс разработки игры. Дальше будет много игр с этого канала.
 
+## Покемон: редактор карт
+
 В видео познакомился с программой [Tiled Map Editor](https://www.mapeditor.org/download.html) которая тоже работает под Linux. В ней можно просто и удобно по слоям рисовать 2х мерную тайловую карту. На выходе при экспорте в формат `.json` получаем удобное описание всех слоёв на карте в виде массива:
 ```json
 {
@@ -798,6 +801,8 @@ window.addEventListener('resize', this.resizeDeBounce)
 В видео автор уже нарисовал карту, я немного ёё подправил из-за неработающих ссылок, остальное сразу заработало. Исходные файлы для `Tiled Map Editor` я буду хранить в папке `src-tiled`.
 
 Автор скорее-всего ввиду упрощения предлагает просто скопировать массив данных [collisions](https://github.com/chriscourses/pokemon-style-game/blob/main/data/collisions.js#LL1C7-L1C17) слоя из экспортируемого `.json` файла. Я же поисследовав схему `.json` файла [написал описание типов](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/GameLoader.ts#L27) и буду использовать полученные массивы данных для определённого слоя прямиком из `.json` [файла](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/World.ts#L83).
+
+Далее в игре подгружаю `.json` и `.png` [файлы для карты](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/GameLoader.ts#L54) (уровня). Изображение прямиком оборачиваю в `Sprite`.
 
 Прохожусь [по массиву слоя и добавляю](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L55) либо прямоугольники для ограничения движения по карте, либо прямоугольники для активации экрана битвы:
 ```typescript
@@ -856,6 +861,26 @@ if (logBoundary.enabled) {
 }
 ```
 
+## Покемон: сцены и масштабирование
+
+Здесь я рисую две сцены/экрана.
+- Одна сцена `MapScreen` включается, когда игрок ходит по карте. 
+- Вторая сцена `BattleScreen` включается, когда игрок находится в режиме битвы.
+Также создаю глобальное состояние, которое контроллирует текущую сцену:
+```typescript
+enum WorldScreen {
+  map,
+  battle,
+}
+
+class World {
+  public activeScreen!: WorldScreen
+}
+```
+У каждой сцены соответственно [должны быть](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/classes.ts#L10) методы активации `activate` и деактивации `deactivate`.
+
+Масштабирование [соответственно будет разное](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/World.ts#L135). Для сцены карты, я использую весь экран - чем больше экран, тем больше можно увидеть на карте `Responsive Scale` + центрирую камеру относительно персонажа. Для сцены битвы наоборот пытаюсь показать всю сцену `Letterbox scale`.
+
 ### PixiJS совет 08: Дебаг
 В PixiJS нет дебаг режима из коробки, его прийдётся рисовать вручную (можете попробовать [браузерное расширение](https://chrome.google.com/webstore/detail/pixijs-devtools/aamddddknhcagpehecnhphigffljadon)). Например после того, как нарисовали все `Graphics` и добавили все `Sprites` и `AnimatedSprites` добавляем еще один полупрозрачный `Graphics` используя ширину и высоту текущего контейнера:
 ```typescript
@@ -885,13 +910,259 @@ class Some extends Container {
 }
 ```
 
+Переход между сценами должен быть плавный, как в оригинальном видео. Для этого пришлось использовать [GreenSock Animation Platform](https://github.com/greensock/GSAP), однако сейчас понимаю, что для таких простых анимаций не нужно было тянуть целую библиотеку.
 
-Описанные техники для PixiJS можно посмотреть на YouTube
+Для переходов между сценами [использую чёрную сцену](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/SplashScreen.ts#L29) `SplashScreen`. И показываю эту промежуточную сцену с анимацией `alpha` [свойства](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/World.ts#L156).
+
+## Покемон: сцена карты - персонаж игрока
+
+Подготовка спрайтов аналогична: нарезать на отдельные фреймы и собрать всё в один атлас.
+
+Для показа персонажа использую контейнер, который содержит сразу все `AnimatedSprite` для всех направлений движения. В зависимости от направления движения показываю только нужный спрайт, а [остальные скрываю](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/Player.ts#L55). Для этого у персонажа есть переменная `direction`:
+```typescript
+enum PlayerDirection {
+  up,
+  down,
+  left,
+  right
+}
+
+class Player extends Container {
+  private _direction!: PlayerDirection
+}
+```
+
+Если персонаж едёт, то [анимация проигрывается](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/Player.ts#L147), а если стоит - то анимация на паузе.
+
+Для управления клавиатурой подписываюсь на события [`keyup` и `keydown`](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L244). Из объекта события `event` лучше использовать `code` вместо `key` - так работает даже на русской раскладке (`keyCode` - устарело). И тогда на каждый тик счетчика прибавляю скорость персонажу, если нажаты соответствующие кнопки. Если пользователь зажимает несколько клавиш, и потом какие-то отжимает, то я [определяю какие остаются нажатыми](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/Player.ts#L194), чтобы соответствовало движению вдоль нажатых клавиш.
+
+Для реализации управления с помощью `touch` событий я делю область окна на сектора, и при событии `pointerdown` определяю соответствующую область.
+
+![Покемон области для направления](./pixijs/pokemon_move_interface.png)
+
+Если пользователь попадает в область/прямоугольник персонажа, ничего не делаю. Если [попадает на линии "креста"](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MoveInterface.ts#L175) - персонаж идёт в соответствующем направлении. Для диагональных направлений добавляю скорость в обоих направления по вертикали и горизонтали. Тут по хорошему для диагональных направлений нужно нормализовать вектор, а то получается, что по диагонали персонаж идёт быстрее чем по "кресту".
+
+## Покемон: сцена карты - счетчик
+
+На каждый тик счетчика я двигаю персонажа [в зависимости от полученных направлений движения](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L143). Проверяю также столкновения с блоками, которые ограничивают движение. При диагональном направлении я стараюсь блокировать направление куда персонаж не может двигаться, [оставляя тем самым паралленое движение](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L226), например вдоль стены.
+
+Также проверяю зашел [ли персонаж на полянку](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L200) для активации сцены битвы.
+
+## Покемон: звук
+
+Для воспроизведения звука использую [HowlerJS](https://github.com/goldfire/howler.js) библиотеку (`21.7k` звёзд). Подгрузкой аудио файлов [библиотека занимается сама](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/audio.ts#L10), т.к. звук не критичен, то его можно подгрузить уже после начала игры. Нужно помнить, что браузеры блокируют воспроизведение звука, если пользователь никак не взаимодействовал со страницей.
+
+## Покемон: сцена битвы
+
+По правилам игры, персонаж, гуляя по полянке, [может](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L217) активировать битву между покемонами.
+
+![Покемон сцена битвы](./pixijs/pokemon_battle.png)
+
+В битве у пользователя есть два варианта оружия (1, 2), показатель здоровья его покемона и врага. А также всплывающий диалог, с сообщением кто, кому, нанёс повреждение и кто проиграл.
+
+В видео автор делает сцену битвы на HTML + `2d` контекст. Я же нарисую сцену битвы полностью на PixiJS. Рисование занимает конечно больше времени, чем на чистом `HTML`+`CSS`. Рисую прямоугольники, где нужно использую спрайты, и где прямоугольники являются кнопками включаю интерактивность и подписываюсь на события `pointer...`. В зависимости от события могу [также показывать состояние](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/AttacksBox.ts#L61) кнопки `hover`.
+
+Для анимации полоски жизней использую `GSAP` как в видео. Шрифт я подгружаю в самом `CSS` [файле](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/styles.css#L6). Нужно помнить, что если шрифт не подгрузился, то браузер отображает шрифт по умолчанию - соответственно такой же будет нарисован и в `webgl`. Поэтому шрифт нужно подгрузить, а затем [еще и добавить в DOM](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/index.html#L12), т.е. как то использовать [перед использованием](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/AttacksBox.ts#L49) в `2d`/`webgl`.
+
+Когда покемон стреляет фаерболом, [я добавляю на сцену соответствующий анимированный спрайт](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/Monster.ts#L70) и поворачиваю его по направлению к врагу.
+
+# Игра 03: Стрелялки
+
+[Оригинальное видео](https://www.youtube.com/watch?v=eI9idPTT0c4).
+
+## Стрелялки: загрузка
+
+Здесь уже я [добавил](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/index.html#L12) простую анимацию на чистом [CSS](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/styles.css#L14). Пока подгружается `PixiJS` я показываю многоточие.
+
+![Стрелялки загрузка](./pixijs/shooting_ellipsis.png)
+
+Инициализацию всего кода оборачиваю в `try`/`catch`, в случае ошибки игра не запускается, а сообщение об ошибке [я вывожу](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/app.ts#L25) прямиком в `div`.
+
+Инстанс `Application` я создаю внутри `SceneManager` как [статическое свойство](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/SceneManager.ts#L36) `app`:
+```typescript
+abstract class SceneManager {
+  private static app: Application<HTMLCanvasElement>
+  public static async initialize (): Promise<void> {
+    const app = new Application<HTMLCanvasElement>({
+      autoDensity: true,
+      resolution: window.devicePixelRatio ?? 1,
+      width: SceneManager.width,
+      height: SceneManager.height,
+      resizeTo: window
+    })
+
+    SceneManager.app = app
+  }
+}
+```
+
+## Стрелялки: контейнеры частиц
+
+Для отображения множества повторяющихся спрайтов рекомендуют использовать `ParticleContainer` вместо обычного контейнера.
+Здесь есть ряд ограничений.
+1. Нужно знать размер контейнера заранее, чтобы выделить память
+2. Потомками могут быть только спрайты `Sprite` у которых одинаковая текстура `Texture`.
+3. Не может быть никаких вложенностей внутри `Sprite`
+
+Из минусов, недобно итерировать по потомкам в TypeScript [из-за явного приведения типов](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L115), возможно в будущем [это исправят](https://github.com/pixijs/pixijs/issues/9348).
+
+Соответственно для врагов я делаю один контейнер частиц `enemiesContainer`, для снарядов - второй `projectilesContainer` и для [взрывов третий](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L50) `particlesContainer`.
+```typescript
+this.enemiesContainer = new ParticleContainer(2000, { scale: true, position: true, tint: true })
+this.addChild(this.enemiesContainer)
+
+this.projectilesContainer = new ParticleContainer(2000, { scale: true, position: true, tint: true })
+this.addChild(this.projectilesContainer)
+
+this.particlesContainer = new ParticleContainer(2000, { scale: true, position: true, tint: true })
+this.addChild(this.particlesContainer)
+```
+`scale: true, position: true, tint: true }` - Эти свойства контейнера показывают, что я буду окрашивать, передвигать и масштабировать каждого потомка индивидуально.
+
+Порядок добавления контейнеров такой, чтобы взрывы рисовались поверх снарядов и врагов. А сняряды поверх врагов.
+
+## Стрелялки: создание текстур
+
+`PixiJS` может создавать текстуры `Texture` из графики `Graphics`.
+Для этого нужно вызвать `renderer.generateTexture` и передать нарисованную графику - на выходе получим текстуру:
+```typescript
+import { Sprite, Graphics, type Application, type Texture } from 'pixi.js'
+interface IParticleOptions {
+  app: Application
+  radius: number
+  vx: number
+  vy: number
+  fillColor: number
+}
+
+class Particle extends Sprite {
+  static textureCache: Texture
+  setup (options: IParticleOptions): void {
+    let texture = Particle.textureCache
+    if (texture == null) {
+      const circle = new Graphics()
+      circle.beginFill(0xffffff)
+      circle.drawCircle(0, 0, this.radius)
+      circle.endFill()
+      circle.cacheAsBitmap = true
+      texture = options.app.renderer.generateTexture(circle)
+      Particle.textureCache = texture
+    }
+    this.texture = texture
+    this.scale.set(options.radius * 2 / texture.width, options.radius * 2 / texture.height)
+    this.tint = options.fillColor
+  }
+}
+```
+
+Графику (круг) [я рисую](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/Particle.ts#L32) белым цветом `0xffffff` и с большим радиусом, чтобы потом при уменьшении не было пикселизации и можно было окрашивать в любой цвет (`tint`). Сгенерированную текстуру я ложу в статическое свойство класса `textureCache` и затем переиспользую его для каждого спрайта в контейнере частиц.
+
+Для врагов я генерирую [случайный цвет и радиус](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/Enemy.ts#L73) при появлении. Радиус врага влияет на то, сколько раз по нему нужно попасть, т.к. снаряд [вычитает](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L182) определённое количество жизней (радиуса) из врага.
+
+## Стрелялки: работа с контейнерами
+
+Теперь при касании `pointertap` на экране [я создаю](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L250) снаряд `Projectile`, добавляю в контейнер снарядов и направляю движение снаряда в направлении от центра.
+
+Счетчик в игре отсчитывает количество фреймов `elapsedFrames`, чтобы в определённое время [создавать новых врагов](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L271) `Enemy` за пределами экрана.
+
+При столкновении снаряда с врагом я [создаю эффект взрыва](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L171) при помощи дополнительных частиц. Количество созданных частиц зависит от радиуса врага.
+
+Для всех трёх контейнеров существуют условия при которых я удаляю потомков. Для снарядов - это [столкновение](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L158) или [выход за пределы экрана](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L136). Для врагов - [выход за пределы экрана](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L128) или [столкновение со снарядом](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L184). Для частиц [это прозрачность](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L117), которая увеличивается с каждым тиком, или [выход за пределы экрана](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L120).
+
+### PixiJS совет 08: удаление потомков
+В `PixiJS` нет отдельной функции для очистки всего контейнера.
+Для этого прийдётся пройтись вручную по всем потомкам и удалить каждого:
+```typescript
+while (this.container.children[0] != null) {
+  this.container.removeChild(this.container.children[0])
+}
+```
+Или обход с самоудалением:
+```typescript
+while (this.container.children[0] != null) {
+  this.container.children[0].removeFromParent()
+}
+```
+Для удаления же некоторых потомков можно удалять во время итерации, например итерция с начала:
+```typescript
+for (let i = 0; i < this.container.children.length; i++) {
+  const child = this.container.children[i]
+  if (isReadyForDelete(child)) {
+    child.removeFromParent()
+    i--
+  }
+}
+```
+Итерация с конца:
+```typescript
+for (let i = this.container.children.length - 1; i >= 0; i--) {
+  const child = this.container.children[i]
+  if (isReadyForDelete(child)) {
+    child.removeFromParent()
+  }
+}
+```
+Удаление нескольких потомков начиная со 2-го индекса и заканчивая 5-м:
+```typescript
+this.container.removeChildren(2, 5)
+```
+
+## Стрелялки: след от снаряда
+
+В `2d` контексте можно использовать предыдущий кадр, добавляя к нему прозрачность, как [предлагает автор видео](https://github.com/chriscourses/HTML5-Canvas-and-JavaScript-Games-for-Beginners/blob/main/main.js#L371). В `webgl` наверняка можно использовать то же самое, но есть другие варианты.
+
+Для `PixiJS` я нашел [SimpleRope](https://pixijs.io/examples/#/demos-advanced/mouse-trail.js) слишком поздно, поэтому делал по своему.
+
+Если присмотреться ближе, то след от снаряда можно нарисовать дополнительными кругами. Эти круги должны "запаздывать" в движении от самого снаряда, могут быть меньше самого снаряда, или уменьшаться в радиусе, а также могут быть прозрачнее чем сам снаряд.
+
+![Стрелялки загрузка](./pixijs/shooting_trail.png)
+
+Соответственно, когда я создаю снаряд, я [дополнительно создаю](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/Projectile.ts#L73) след из кругов меньшего радиуса и прозрачности. Так что самый последний круг в хвосте (следе) будет иметь самый маленький радиус и самую большую прозрачность, а также будет отставать на самое большое расстояние от снаряда. Таким образом я задаю каждому кругу отставание `dt` и если расстоние до снаряда превышает заданное, то [я двигаю круг](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/Projectile.ts#L142) уже на заданном расстоянии:
+```typescript
+if (dx > this.minDelta) {
+  this.x += this.vx > 0 ? dx * dt : -dx * dt
+} else {
+  this.x = this.mainX
+}
+
+if (dy > this.minDelta) {
+  this.y += this.vy > 0 ? dy * dt : -dy * dt
+} else {
+  this.y = this.mainY
+}
+```
+
+Удаляю след из частиц я определяя что это частица следа `isProjectile === false` и если главный [снаряд будет удалён](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L201):
+```typescript
+if (removedProjectileIds.length > 0) {
+  let startIdx = -1
+  let endIdx = -1
+  this.projectilesContainer.children.forEach((child, idx) => {
+    const projectileTrail: ProjectileTrail = child as ProjectileTrail
+    if (!projectileTrail.isProjectile && removedProjectileIds.includes(projectileTrail.mainId)) {
+      if (startIdx === -1) {
+        startIdx = idx
+      }
+      endIdx = idx
+    }
+  })
+  if (startIdx > -1 && endIdx > -1) {
+    this.projectilesContainer.removeChildren(startIdx, endIdx)
+    logProjectileTrail(`Removed projectile trails [${startIdx}:${endIdx}]`)
+  }
+}
+```
+
+Масштабирование игры происходит в режиме `Responsive Scale` - тем у кого больше экран - легче играть, т.к. можно заранее увидеть противников выплывающих из-за экрана. А вот модальное диалоговое окно `StartModal` я [центрирую посередине](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L85) без масштабирования. Сам же модальный диалог я показываю когда игра закончилась, внутри я показываю набранное количество очков, а также кнопку для перезапуска игры.
+
+![Стрелялки модальное окно](./pixijs/shooting_modal.png)
+
+Описанные техники для `PixiJS` можно посмотреть на YouTube
 
 Полный список всех игр:
 [Ферма](https://github.com/volodalexey/simple-html5-farm-game)
 [Покемон](https://github.com/volodalexey/simple-html5-pokemon-game)
-https://github.com/volodalexey/simple-html5-shooting-game
+[Стрелялки](https://github.com/volodalexey/simple-html5-shooting-game)
 https://github.com/volodalexey/simple-html5-mario-game
 https://github.com/volodalexey/simple-html5-fighting-game
 https://github.com/volodalexey/simple-html5-galaxian-game
@@ -904,4 +1175,4 @@ https://github.com/volodalexey/simple-html5-es-game
 https://github.com/volodalexey/simple-html5-rts-game
 
 Интерактивый список всех игр:
-https://volodalexey.github.io/portfolio/
+https://volodalexey.github.io/portfolio/ - можно смело давать маленьким детям, уровень сложности оочень легкий, зато для детей самое то, чтобы понять какие типы игр бывают и что за правила игры.
