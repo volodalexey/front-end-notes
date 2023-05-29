@@ -425,7 +425,10 @@
 В объект я буду передавать обработчик события `onClick`.
 
 <details>
-  <summary><h3>PixiJS совет 01: Свои события</h3></summary>
+  <summary>
+
+  ### PixiJS совет 01: Свои события
+  </summary>
 
   Можно использовать свои названия событий для своих объектов, т.к. объекты в `PixiJS` наследуются от `EventEmitter`.
   Допустим ваш потомок определяет событие, что на него нажали и передаёт выше уже своё собственное событие:
@@ -443,7 +446,10 @@
 </details>
 
 <details>
-  <summary><h3>PixiJS совет 02: События мыши и тач</h3></summary>
+  <summary>
+  
+  ### PixiJS совет 02: События мыши и тач
+  </summary>
 
   Рекомендую использовать `pointer...` события вместо `mouse...` или `touch...`. Если вам нужно различие в событиях, то достаточно посмотреть на свойство `pointerType`:
   ```typescript
@@ -461,7 +467,10 @@
 </details>
 
 <details>
-  <summary><h3>PixiJS совет 03: Окрашивание графики и текстур</h3></summary>
+  <summary>
+  
+  ### PixiJS совет 03: Окрашивание графики и текстур
+  </summary>
 
   Если вам нужно поменять только цвет `Graphics` или `Sprite` - то лучше использовать окрашивание ([Tinting](https://pixijs.download/release/docs/PIXI.AnimatedSprite.html#tint) или `tint` свойство).
 Необязательно перерисовывать всю графику заново или подготавливать несколько разных спрайтов.
@@ -600,7 +609,10 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Внутри текстуру иконки оборачиваю в `Sprite`, а для текста использую `BitmapText`. Текст будет отображать количество `value`.
 
 <details>
-  <summary><h3>PixiJS совет 04: Чёткость текста</h3></summary>
+  <summary>
+  
+  ### PixiJS совет 04: Чёткость текста
+  </summary>
 
   Чтобы текст был чёткий и хорошо различим необходимо выставлять ему большие значения `fontSize`, например 40 пикселей. Даже несмотря на то, что показывать текст вы будете как 16 пикселей в высоту.
   ```typescript
@@ -616,7 +628,10 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 </details>
 
 <details>
-  <summary><h3>PixiJS совет 05: Скорость отрисовки текста</h3></summary>
+  <summary>
+  
+  ### PixiJS совет 05: Скорость отрисовки текста
+  </summary>
 
   Т.к. текст рисуется на GPU не напрямую, то он сначала рисуется например с помощью `2d` контекста, а уже потом передаётся в виде текстуры на GPU. Поэтому быстро меняющийся текст лучше "пререндерить". Для этого нужно использовать [BitmapText](https://pixijs.download/release/docs/PIXI.BitmapText.html).
   Сначала говорим PixiJS выделить память и отрисовать нужный шрифт, нужного размера и цвета:
@@ -780,7 +795,10 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 </details>
 
 <details>
-  <summary><h3>PixiJS совет 06: Замена текстур</h3></summary>
+  <summary>
+  
+  ### PixiJS совет 06: Замена текстур
+  </summary>
 
   Если нужно менять отображаемую текстуру, совсем не обязательно для каждой текстуры создавать отдельный `Sprite`, можно менять свойство `texture` на ходу
   ```typescript
@@ -921,7 +939,10 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Для генерации выбираю один цвет прогресс бара независимо от состояния. А вот для еды, [сделал интерполяцию цвета](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/models/ProgressBar.ts#L77), чем больше осталось еды - тем зеленее прогресс бар, наоборот - тем краснее.
 
 <details>
-  <summary><h3>PixiJS совет 07: Позиционирование графики и масштабирование</h3></summary>
+  <summary>
+  
+  ### PixiJS совет 07: Позиционирование графики и масштабирование
+  </summary>
 
   Когда рисуете `Graphics` и впоследствии собираетесь её масштабировать - всегда предпочитайте рисовать от начала координат (0, 0). Так изменение `width` будет [работать корректно](https://pixijs.io/guides/basics/sprites.html).
   ```typescript
@@ -1340,7 +1361,10 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Для всех трёх контейнеров существуют условия при которых я удаляю потомков. Для снарядов - это [столкновение](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L158) или [выход за пределы экрана](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L136). Для врагов - [выход за пределы экрана](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L128) или [столкновение со снарядом](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L184). Для частиц [это прозрачность](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L117), которая увеличивается с каждым тиком, или [выход за пределы экрана](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L120).
 
   <details>
-  <summary><h3>PixiJS совет 08: удаление потомков</h3></summary>
+  <summary>
+  
+  ### PixiJS совет 08: удаление потомков
+  </summary>
 
   В `PixiJS` нет отдельной функции для очистки всего контейнера.
   Для этого прийдётся пройтись вручную по всем потомкам и удалить каждого:
@@ -1446,7 +1470,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 ## Стрелялки: заключение
 
-Масштабирование игры происходит в режиме `Responsive Scale` - тем у кого больше экран - легче играть, т.к. можно заранее увидеть противников выплывающих из-за экрана. А вот модальное диалоговое окно `StartModal` я [центрирую посередине](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L85) без масштабирования. Сам же модальный диалог я показываю когда игра закончилась, внутри я показываю набранное количество очков, а также кнопку для перезапуска игры.
+Масштабирование игры происходит в режиме `Responsive Scale` - тем у кого больше экран - легче играть, т.к. можно заранее увидеть противников появляющихся из-за экрана. А вот модальное диалоговое окно `StartModal` я [центрирую посередине](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L85) без масштабирования. Сам же модальный диалог я показываю когда игра закончилась, внутри я показываю набранное количество очков, а также кнопку для перезапуска игры.
 
   <details>
   <summary>Стрелялки - модальное окно</summary>
@@ -1455,13 +1479,92 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
   </details>
 
+# Игра 04: Марио
+
+## Марио: Описание
+
+[Оригинальное видео](https://www.youtube.com/watch?v=4q2vvZn5aoo).
+
+Персонаж похожий на космонавта, бегает по платформам. Также может прыгать через ямы и запрыгивать на вышестоящие платфоры. Персонаж не может выйти за пределы уровня влево или вправо. Персонаж врят-ли выйдет за верхний край уровня из-за гравитации. Если персонаж касается нижней части уровня - игра проиграна.
+
+## Марио: загрузка
+
+В этой игре я сделал двухэтапную загрузку:
+1. Когда `PixiJS` еще не подгрузилась - показываю CSS анимацию многоточий - как в игре `Стрелялки`.
+2. Когда `PixiJS` подгрузилась и начал работать код - тогда [показываю прогресс бар](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/LoaderScene.ts#L55) нарисованный в `LoaderScene` - эта сцена в свою очередь [загружает манифест](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/LoaderScene.ts#L71).
+    <details>
+    <summary>Марио - загрузка</summary>
+
+    ![Марио - загрузка](./pixijs/mario_loader.png)
+
+    </details>
+
+После того, как манифест будет загружен [подключаю](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/app.ts#L19) `SidescrollScene` и убираю `LoaderScene`.
+
+## Марио: управление
+
+Персонаж как и в других играх может управляться, клавиатурой, мышью или сенсорным экраном.
+
+Для мышки и тач экрана, есть области для нажатия. Так всё что [выше головы](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Player.ts#L159) - создаёт прыжок + движение в сторону от середины персонажа. А если ниже головы, то только движение.
+
+<details>
+  <summary>Марио - управление</summary>
+
+  ![Марио - управление](./pixijs/mario_move_sections.png)
+
+</details>
+
+Сам персонаж также содержит анимированные спрайты для направлений влево или вправо, которые я показываю [в зависимости от состояния](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Player.ts#L174).
+
+Когда персонаж стоит [я показываю анимацию простаивания](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Player.ts#L189) (стояния) - эту анимацию я записываю в переменную `idleAnimation`. Это делаю для того, чтобы возвращаться [после бега](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Player.ts#L206) в это состояние, т.к. стоять влево и стоять вправо - разные вещи.
+
+## Марио: уровень/карта
+
+Сама карта или уровень (всего один) состоит из [двух изображений фона](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L49). Оба изображения кладу в `background` свойство.
+
+В игре реализовал некое подобие камеры, т.к. уровень больше чем можно показать на экране. В игре Покемон я сделал просто центрирование на персонаже, а сколько покажется на экране уровня - столько и будет. В этой игре добавил еще одно условие - как и в видео. Персонаж может двигаться в определённых пределах по уровню, однако уровень перемещаться не будет.
+
+<details>
+  <summary>Марио - смещение уровня</summary>
+
+  ![Марио - смещение уровня](./pixijs/mario_move_level.png)
+
+</details>
+
+Размеры камеры в игре совпадают с размерами экрана как и в игре Покемон.
+Для смещения уровня `world` относительно камеры/экрана я использую свойство `pivot` - которое обозначает точку поворота. Позже я понял, что можно было обойтись и обычным свойством `position` (или просто `x`/`y`), однако на тот момент [поиск дал](https://stackoverflow.com/a/72178628/5431545) такой результат.
+
+Когда игрок `Player` перемещается по уровню влево-вправо я [перемещаю позицию](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L167) (`position`) `world` тоже, если игрок вышел за пределы которые показаны на рисунке выше. Персонаж игрока [я добавил](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L66) в контейнер `world`. Когда я двигаю персонажа, то [я изменяю](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L139) его позицию `position` относительно карты `world`.
+
+Таким образом при смещении `world` контейнера, мне нужно [пересчитать](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L175) позицию, чтобы понять как смещать `background`, т.к. свойство `pivot` влияет на потомков тоже.
+
+Скорость перемещения фона `background` в два раза меньше скорости перемещения персонажа - таким образом получается [Parallax Scrolling](https://www.w3schools.com/howto/howto_css_parallax.asp) эффект.
+
+Итого: смещаю персонажа `player.x`, смещаю саму карту `world.pivot.x` - если нужно и смещаю фон `background.pivot.x`.
+
+## Марио: платформы
+
+Платформы по которым прыгает персонаж [бывают двух типов](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Platforms.ts#L16). Размер платформ получаю прямиком из размеров текстуры/изображения 1:1. Место где находятся платформы [задаётся прям в коде](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Platforms.ts#L26), в этой игре не использовал редактор тайловых карт как в игре Покемон.
+
+Все платформы [добавляю](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L63) в `world` контейнер, таким образом смещая сам уровень `world` я не меняю относительное положение игрока к платформам.
+
+На персонажа [действует силя тяжести](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L163) только если он в свободном падении. А вот когда персонаж стоит на платформе - не действует.
+Для определения стоит или не стоит по вертикальной оси я использую немного [изменённый вариант проверки](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L151). Беру позицию персонажа, она должна быть выше верхнего края платформы, вдобавок к этому позиция персонажа плюс смещение должны заходить за верхний края платформы - только в этом случае пресонаж останавливается на текущей платформе. Это сделано для того, чтобы можно было запрыгнуть на вышестоящую платформу находясь под ней.
+
+<details>
+  <summary>Марио - прыжок на платформу</summary>
+
+  ![Марио - прыжок на платформу](./pixijs/mario_jump.png)
+
+</details>
+
 Описанные техники для `PixiJS` можно посмотреть на YouTube
 
-Полный список всех игр:
+Исходный код всех игр:
 [Ферма](https://github.com/volodalexey/simple-html5-farm-game)
 [Покемон](https://github.com/volodalexey/simple-html5-pokemon-game)
 [Стрелялки](https://github.com/volodalexey/simple-html5-shooting-game)
-https://github.com/volodalexey/simple-html5-mario-game
+[Марио](https://github.com/volodalexey/simple-html5-mario-game)
 https://github.com/volodalexey/simple-html5-fighting-game
 https://github.com/volodalexey/simple-html5-galaxian-game
 https://github.com/volodalexey/simple-html5-pacman-game
