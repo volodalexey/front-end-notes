@@ -1,4 +1,6 @@
-Собрал весь свой 2-х месячный опыт разработки на PixiJS. Руководство для новичков, какого мне нехватало.
+Собрал весь свой 2-х месячный опыт разработки на `PixiJS`. 
+Переписал 13 игр на `PixiJS` + `TypeScript` - с `JavaScript`.
+В статье описал процесс разработки. Получилось руководство, которого мне нехватало в начале.
 
 # Постановка задачи
 
@@ -14,7 +16,7 @@
 
 Для отрисовки двухмерного контента библиотека должна уметь использовать стандартный `2d` контекст. Однако ничто не мешает рисовать двухмерный контент и на `webgl`. Для использования ресурсов вашей видеокарты на полную конечно же лучше использовать `webgl`.
 
-Нужно понимать что, есть вещи которые можно реализовать только на `webgl`, а есть которые наоборот в `2d`. Например [BLEND_MODES](https://pixijs.download/release/docs/PIXI.html#BLEND_MODES) (такая вещь для "смешивания" пикселей) на `webgl` очень ограничен, зато используя `2d` есть где [развернуться](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation).
+Нужно понимать, что есть вещи которые можно реализовать только на `webgl`, а есть которые наоборот в `2d`. Например [BLEND_MODES](https://pixijs.download/release/docs/PIXI.html#BLEND_MODES) (такая вещь для "смешивания" пикселей) на `webgl` очень ограничен, зато используя `2d` есть где [развернуться](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation).
 
 Подитожив: я хочу рисовать двухмерный контент на `webgl` используя библиотеку.
 
@@ -985,9 +987,9 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 ## Покемон: Описание
 
-[В этом видео](https://www.youtube.com/watch?v=yP5DKzriqXA) полный процесс разработки игры. Дальше будет много игр с этого канала.
-
 У нас есть персонаж (человек), который ходит по карте. В определённых местах на лужайках он встречает врагов - покемонов. Однако он сражается с ними не сам, а своим покемоном против вражеского. Во время сражения показывается экран битвы, где пользователь играет за покемона. При окончании битвы пользователь возвращается на карту играя за персонажа.
+
+[В этом видео](https://www.youtube.com/watch?v=yP5DKzriqXA) полный процесс разработки игры. Дальше будет много игр с этого канала.
 
 ## Покемон: редактор карт
 
@@ -1233,9 +1235,9 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 ## Стрелялки: Описание
 
-[Оригинальное видео](https://www.youtube.com/watch?v=eI9idPTT0c4).
-
 Ваш круг (персонаж) в центре экрана. На него нападают другие круги, которые создаются за пределами экрана и двигаются на персонажа. При клике на любое место экрана, персонаж выстреливает туда снаряд, тем самым убивая врага. Некоторых врагов нужно убить несколькими выстрелами.
+
+[Оригинальное видео](https://www.youtube.com/watch?v=eI9idPTT0c4).
 
 ## Стрелялки: загрузка
 
@@ -1483,9 +1485,9 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 ## Марио: Описание
 
-[Оригинальное видео](https://www.youtube.com/watch?v=4q2vvZn5aoo).
-
 Персонаж похожий на космонавта, бегает по платформам. Также может прыгать через ямы и запрыгивать на вышестоящие платфоры. Персонаж не может выйти за пределы уровня влево или вправо. Персонаж врят-ли выйдет за верхний край уровня из-за гравитации. Если персонаж касается нижней части уровня - игра проиграна.
+
+[Оригинальное видео](https://www.youtube.com/watch?v=4q2vvZn5aoo).
 
 ## Марио: загрузка
 
@@ -1532,7 +1534,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 </details>
 
 Размеры камеры в игре совпадают с размерами экрана как и в игре Покемон.
-Для смещения уровня `world` относительно камеры/экрана я использую свойство `pivot` - которое обозначает точку поворота. Позже я понял, что можно было обойтись и обычным свойством `position` (или просто `x`/`y`), однако на тот момент [поиск дал](https://stackoverflow.com/a/72178628/5431545) такой результат.
+Для смещения уровня `world` относительно камеры/экрана я использую свойство `pivot` - которое обозначает точку поворота (начало координат). Позже я понял, что можно было обойтись и обычным свойством `position` (или просто `x`/`y`), однако на тот момент [поиск дал](https://stackoverflow.com/a/72178628/5431545) такой результат.
 
 Когда игрок `Player` перемещается по уровню влево-вправо я [перемещаю позицию](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L167) (`position`) `world` тоже, если игрок вышел за пределы которые показаны на рисунке выше. Персонаж игрока [я добавил](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L66) в контейнер `world`. Когда я двигаю персонажа, то [я изменяю](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L139) его позицию `position` относительно карты `world`.
 
@@ -1558,6 +1560,173 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 </details>
 
+# Игра 05: Драки
+
+## Драки: описание
+
+Есть два персонажа, одним управляет игрок №1, другим управляет игрок №2. Персонажи могут предвигаться по уровню, наносить друг другу удары. Выигрывает тот персонаж, у которого осталось больше здоровья (жизни). На всё про всё у игроков есть 90 секунд.
+
+[Оригинальное видео](https://www.youtube.com/watch?v=vyqbNFMDRGQ).
+
+Я сделал так, что левый персонаж наносит удары медленнее, но сильнее. А правый быстрее но слабее. Высота прыжка и скорость передвижения также разные.
+
+## Драки: подгрузка шрифтов
+
+В отличии от игры Покемон, где я сам подгружал шрифт через `CSS` тут я попробовал загрузить шрифт через загрузчик. Для этого [прописал путь к файлу шрифта](https://github.com/volodalexey/simple-html5-fighting-game/blob/9af3753748e8252b19396e143da0076004115661/src/LoaderScene.ts#L12) в манифесте:
+
+  <details>
+  <summary>Манифест - путь к файлу шрифта</summary>
+
+  ```typescript
+  export const manifest: ResolverManifest = {
+    bundles: [
+      {
+        name: 'bundle-1',
+        assets: {
+          spritesheet: 'assets/spritesheets/spritesheet.json',
+          background: 'assets/images/background.png',
+          font: 'assets/fonts/Press_Start_2P.woff2'
+        }
+      }
+    ]
+  }
+  ```
+
+  </details>
+
+После этого [я обнаружил баг в Firefox](https://github.com/pixijs/pixijs/issues/9286), из-за неканоничного названия шрифта `Press Start 2p`, т.к. цифра не должна быть после пробела. Пришлось [немного поменять манифест](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/LoaderScene.ts#L12) и то, как описывается шрифт и всё заработало.
+
+Т.е. используя стандартный загрузчик `PixiJS` для шрифтов вам не нужно добавлять `DOM` элемент с таким шрифтом, чтобы шрифт работал корректно в `2d` контексте - все это делает сам загрузчик. [Под капотом уже используется](https://github.com/pixijs/pixijs/blob/356abaaad852b248f0aa3f6873f5d7d2a56e3a50/packages/text-html/src/HTMLTextStyle.ts#L254) [FontFace API](https://developer.mozilla.org/en-US/docs/Web/API/FontFace) для подгрузки шрифтов.
+
+## Драки: спрайты персонажей и масштабирование сцены
+
+Каждый персонаж это [инстанс класса](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L50) `Fighter`, который наследуется от контейнера `Container`.
+
+Внутри класса `Fighter` [есть перечисление](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L40) всех возможных анимаций (а по сути и состояний):
+
+  <details>
+  <summary>Fighter Animation Enum</summary>
+
+  ```typescript
+  enum FighterAnimation {
+    idle = 'idle',
+    run = 'run',
+    jump = 'jump',
+    fall = 'fall',
+    attack = 'attack',
+    death = 'death',
+    takeHit = 'takeHit',
+  }
+  ```
+
+  </details>
+
+Переключение между анимациями аналогично, как и в предыдущих играх.
+
+Повторив опыт автора видео, я тоже [сделал коэффициент масштаба](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L63) персонажей в `2.5`. Это в разы усложнило расчет позиции персонажей - поэтому пришлось [писать дополнительные функции](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L315) для перевода масштабированных параметров в параметры сцены.
+
+Вдобавок фреймы персонажей измеряются в [200 на 200](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/assets/spritesheets/spritesheet.json#L186) пикселей, это сделано для того, чтобы персонаж (фрейм) не смещался, когда он атакует. Отсюда возникла необходимость в учёте прямоугольника, который я использую для коллизий - для соприкосновения с землёй. Этот прямоугольник намного меньше чем весь спрайт.
+
+<details>
+<summary>Драки - габариты спрайта и коллизии</summary>
+
+![Драки - габариты спрайта и коллизии](./pixijs/fighting_bounds.png)
+
+1. Прямоугольник всего спрайта
+2. Прямоугольник учавствующий в расчете коллизий
+
+</details>
+
+Для масштабирования сцены я выбрал `Letterbox scale` метод. Т.е. мне нужно всю сцену поместить внутрь экрана. Чтобы вычислить [ширину и высоту сцены я использую](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/FightingScene.ts#L165) `width` и `height` текстуры фона. И далее казалось бы просто выставить ширину и высоту нашей сцене согласно вычисленным параметрам и всё готово...
+
+<details>
+  <summary>
+
+  ### PixiJS совет 09: Контейнеры - ширина и высота
+  </summary>
+
+  Контейнеры в `PixiJS` легче представлять как группу объектов. Контейнера как отдельного прямоугольника не существует.
+
+  Когда вы используете высоту `container.height` или ширину `container.width` контейнера срабатывает геттер. Контейнер проходится по всем своим потомкам и аккумулирует положение, длину и ширину. В результате левый край самого левого потомка и правый край самого правого потомка и будут размерами контейнера.
+
+  Аналогично если вы устанавливаете ширину или высоту контейнера, все потомки просто масштабируются и расстояния между потомками тоже.
+
+  Если же вам нужен контейнер с фиксированными параметрами ширины и высоты, то вам просто нужно обрезать контейнер при помощи маски `Mask`.
+  Создаём (рисуем) маску как прямоугольник необходимой ширины `grMask = Graphics`. Добавляем маску и контейнер, который нужно обрезать, в одного и того-же же родителя. И выставляем свойство `.mask = grMask` у контейнера который нужно обрезать.
+  ```typescript
+  import { Container, Graphics } from 'pixi.js'
+
+  const grMask = new Graphics()
+  grMask.beginFill(0xffffff)
+  grMask.drawRect(0, 0, 200, 200)
+  grMask.endFill()
+
+  const containerToCut = new Container()
+  containerToCut.mask = grMask
+
+  this.addChild(grMask)
+  this.addChild(containerToCut)
+  ```
+
+</details>
+
+Но работа с контейнерами оказалась не так проста.
+Далее я потратил много времени чтобы понять как же всё таки работает контейнер.
+Конкретно в моём случае, если персонажи находятся в разных углах уровня, так, что их спрайты выходят за пределы уровня - выставление ширины и высоты для всей сцены учитывает всю ширину, включая вышедшие за пределы спрайты.
+
+<details>
+<summary>Драки - спрайты за пределами контейнера</summary>
+
+![Драки - спрайты за пределами контейнера](./pixijs/fighting_scaling.png)
+
+На изображении видно, что при масштабировании учитывается ширина контейнера составленная из суммы ширины для каждого потомка
+
+</details>
+
+Поисследовав исходный код я понял, что можно просто выключить из расчета спрайты, которые выходят за пределы свойством `visible`. А после [выставления необходимой ширины](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/FightingScene.ts#L187) - опять включить. Всё происходит синхронно, так что пользователь ничего не заметит. Коэффициенты масштабирования у потомков меняются даже, если они невидимы, а вот в расчёте обшей ширины не учавствуют - то что нужно!
+
+<details>
+<summary>Драки - масштабирование</summary>
+
+```typescript
+  this.player1.visible = false
+  this.player2.visible = false
+  this.x = x
+  this.width = occupiedWidth
+  this.y = y
+  this.height = occupiedHeight
+  this.player1.visible = true
+  this.player2.visible = true
+```
+
+</details>
+
+## Драки: момент удара
+
+Для применения самого удара я использую [определение текущего кадра](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L354) атакующей анимации. Для первого игрока это [5-й кадр](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/FightingScene.ts#L90), для второго - [3-й](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/FightingScene.ts#L120). В результате использую два свойства `attackHitAvailable` - показывает, что атака началась, `attackHitProcessed` - показывает, что я обработал атаку, иначе урон может быть нанесён множество раз (зависит от скорости) - например когда 1 фрейм анимации изменится за 4-ре фрейма счетчика.
+
+Хотелось также внести разнообразие в силу удара, поэтому [я определяю](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/FightingScene.ts#L219) площадь пересечения, т.е. соотношение площади оружия `AttackBounds` к площади персонажа `hitBox`:
+
+  <details>
+  <summary>Соотношение площади</summary>
+
+  ```typescript
+  const attackBounds = this.player1.toAttackBounds()
+  const playerBounds = this.player2.toBounds()
+  const intersectionSquare = Collision.checkCollision(attackBounds, playerBounds)
+  if (intersectionSquare >= 0.05) {
+    // take damage
+  }
+  ```
+
+  ![Драки - соотношение площади](./pixijs/fighting_bounds_relation.png)
+
+  1. Площадь оружия
+  2. Площадь атакуемого персонажа
+
+  </details>
+
+
 Описанные техники для `PixiJS` можно посмотреть на YouTube
 
 Исходный код всех игр:
@@ -1565,7 +1734,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 [Покемон](https://github.com/volodalexey/simple-html5-pokemon-game)
 [Стрелялки](https://github.com/volodalexey/simple-html5-shooting-game)
 [Марио](https://github.com/volodalexey/simple-html5-mario-game)
-https://github.com/volodalexey/simple-html5-fighting-game
+[Драки](https://github.com/volodalexey/simple-html5-fighting-game)
 https://github.com/volodalexey/simple-html5-galaxian-game
 https://github.com/volodalexey/simple-html5-pacman-game
 https://github.com/volodalexey/simple-html5-td-game
@@ -1575,5 +1744,4 @@ https://github.com/volodalexey/simple-html5-vp-game
 https://github.com/volodalexey/simple-html5-es-game
 https://github.com/volodalexey/simple-html5-rts-game
 
-Интерактивый список всех игр:
-https://volodalexey.github.io/portfolio/ - можно смело давать маленьким детям, уровень сложности оочень легкий, зато для детей самое то, чтобы понять какие типы игр бывают и что за правила игры.
+[Интерактивый список всех игр](https://volodalexey.github.io/portfolio/) - можно смело давать маленьким детям, уровень сложности очень легкий, зато для детей самое то, чтобы понять какие типы игр бывают и что за правила игры.
