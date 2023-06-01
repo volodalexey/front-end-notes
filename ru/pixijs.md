@@ -1726,6 +1726,60 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
   </details>
 
+# Игра 06: Галактика
+
+## Галактика: описание
+
+Игрок управляет космеческим кораблём, и сражается с пришельцами. Корабль может двигаться влево-вправо до пределов карты и стрелять. Пришельцы появляются группами, группа движется к какой-то стороне экрана, дойдя до стороны группа перемещается вниз на один ряд и ускоряется. Иногда кто-то из группы пришельцев стреляет в направлении корабля.
+
+Мне эта игра больше известна под названием `Galaxian`/Галактика - однако прародителем скорее всего была игра `Space Invaders`.
+
+[Оригинальное видео](https://www.youtube.com/watch?v=MCVU0w73uKI).
+
+## Галактика: контейнеры частиц
+
+Здесь я использую контейнеры частиц `ParticleContainer` для всех:
+- для звёзд [использую](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L61)  контейнер, прикинув при этом, сколько частиц (звёзд) нужно отображать, чтобы было не слишком много и похоже на звёздное небо. Каждая звезда `Star` - это спрайт. Все звёзды используют одну и ту же текстуру, эту текстуру [я рисую](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L25) как `Graphics` в виде многоугольника, чтобы было похоже на звезду. И далее для каждой звезды [есть своя позиция и цвет](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L69). Весь контейнер просто [обновляет свою позицию](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L81) на каждый тик счетчика - что-то вроде `Parallax Scrolling`.
+
+- для пришельцев [контейнер может менять](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L70) только позицию. Текстура у всех пришельцев одинаковая и не подкрашивается.
+
+- для [снарядов](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L73) и [частиц (от взрывов)](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L76) контейнеры могут менять позицию и цвет.
+
+Удаление потомков контейнеров происходит при выходе [за пределы экрана/камеры](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L177) `isOutOfViewport` или [при столкновении](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L205) с кораблём/пришельцем.
+
+Частицы взрывов также удаляются при достижении [абсолютной прозрачности](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L174).
+
+## Галактика: интерфейс управления
+
+Корабль состоит всего из [одной текстуры](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L83). Когда корабль движется в сторону, [я немного поворачиваю](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Player.ts#L58) спрайт корабля.
+
+Чтобы было удобно играть с тач устройств или мышкой - я сдел так, чтобы любое касание [выше середины](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Player.ts#L103) корабля производило выстрел + движение в сторону.
+
+<details>
+<summary>Галактика - интерфейс управления</summary>
+
+![Галактика - интерфейс управления](./pixijs/galaxian_control_interface.png)
+
+Середина корабля [выставляется](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Player.ts#L37) как `this.anchor.set(0.5, 0.5)`.
+
+</details>
+
+## Галактика: пришельцы
+
+Пришельцы добавляются группами по времени. Если пришло время добавить следующую группу пришельцев, я [проверяю](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L367) есть ли для новой группы место вверху экрана.
+
+Пришельцев добавляю в [один контейнер частиц](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L371), однако каждый пришелец принадлежит определённой группе `Grid`. Группа состоит из случайного количества строк и столбцов [в заданных пределах](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Grid.ts#L34).
+Чем шире экран - тем больше возможных столбцов. Соответственно каждый пришелец [занимает определённое место](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Grid.ts#L46) в группе.
+
+Чтобы группа пришельцев действовала как единый организм - [я прохожусь по группе](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Grid.ts#L85) и высчитываю `статистику` самого верхнего/левого/правого/нижнего пришельца в группе. Имея `статистику` [можно менять направление](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Grid.ts#L73) всей группы если она столкнулась с пределом. Также `статистика` помогает определять сколько занимает вся группа. И самое главное, `статистика` позволяет [выбрать случайного пришельца из нижнего ряда](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L255) самой нижней группы и выстрелить в сторону корабля.
+
+## Галактика: частицы для взрыва
+
+Если снаряд корабля пересекается с пришельцем я удаляю пришельца и [показываю взрыв из частиц](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L221).
+
+Игрок проиграл, если его корабль [столкнулся с пришельцем](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L208) или был поражен [снарядом пришельцев](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L233). В обоих случаях я показываю [взрыв корабля](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L407) - однако игру останавливаю не сразу а по истечении некоторого времени.
+
+# Игра 07: Пакман
 
 Описанные техники для `PixiJS` можно посмотреть на YouTube
 
@@ -1735,8 +1789,8 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 [Стрелялки](https://github.com/volodalexey/simple-html5-shooting-game)
 [Марио](https://github.com/volodalexey/simple-html5-mario-game)
 [Драки](https://github.com/volodalexey/simple-html5-fighting-game)
-https://github.com/volodalexey/simple-html5-galaxian-game
-https://github.com/volodalexey/simple-html5-pacman-game
+[Галактика](https://github.com/volodalexey/simple-html5-galaxian-game)
+[Пакман](https://github.com/volodalexey/simple-html5-pacman-game)
 https://github.com/volodalexey/simple-html5-td-game
 https://github.com/volodalexey/simple-html5-sidescroller-game
 https://github.com/volodalexey/simple-html5-mrp-game
