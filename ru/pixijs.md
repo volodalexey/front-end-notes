@@ -1924,6 +1924,146 @@ interface IObjectGroupLayer {
 Орки [создаются волнами](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Map.ts#L275). Каждая новая волна усложняется, орков становится всё больше, скорость орков тоже разная.
 Орки `Enemy` удаляются если у [них заканчиваются жизни](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Map.ts#L200) или они [вышли за пределы карты](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Map.ts#L205) - в последнем случае я также вычитаю одно сердечко `_hearts`.
 
+# Игра 09: Скроллер
+
+## Скроллер: описание
+
+Игрок управляет псом. Пёс бежит слева направо, ему мешают враги: растения, мухи, пауки. Пёс может крутиться в прыжке, тем самым убивая врагов. За каждого врага начисляются очки. Если пёс сталкивается с врагами в режиме бега, то вычитается жизнь - всего 5 жизней. Цель игры за определённое время набрать нужное количество очков.
+
+В отличии от предыдущих игр, эта игра взята от другого автора.
+
+[Оригинальное видео](https://www.youtube.com/watch?v=GFO_txvwK_c).
+
+## Скроллер: подгрузка ресурсов
+
+В программе `Free texture packer` я подготовил 3 атласа:
+1. [Атлас](https://github.com/volodalexey/simple-html5-sidescroller-game/tree/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src-texture/spritesheet) для текстур пса, врагов и частиц
+2. [Атлас](https://github.com/volodalexey/simple-html5-sidescroller-game/tree/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src-texture/city) для фона города
+3. [Атлас](https://github.com/volodalexey/simple-html5-sidescroller-game/tree/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src-texture/forest) для фона леса
+
+Все [три атласа](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/LoaderScene.ts#L10) загружаю перед началом игры.
+
+## Скроллер: частицы
+
+Когда пёс бежит - [я добавляю пыль](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L76) из под ног. Каждая пылинка [это нарисованный](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Particle.ts#L56) круг.
+Когда пёс крутится - [я добавляю частички](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L147) огня.
+Когда пёс приземляется в состоянии кручения - [я добавляю взрыв](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L189) из огненных искр.
+
+В момент, когда главная MainScene сцена присоединена в дереву объектов PixiJS [я подготавливаю](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/MainScene.ts#L47) текстуры для частичек.
+Для частичек огня и для огненных искр используется одна и та же текстура, с [разными свойствами позиции и масштаба](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L61) - поэтому для обоих использую один и тот же контейнер частиц `particles`.
+
+В цикле обновления движок игры [проходится по всем потомкам из заданных контейнеров](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L237) и удаляет готовые к удалению `markedForDeletion`. Для всех трёх типов частиц условия для удаления - [когда ширина и высота](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Particle.ts#L29) меньше половины пикселя.
+
+## Скроллер: фон
+
+Фон `Background` состоит из 5-ти слоёв `Layer`. Каждый слой наследуется от `TilingSprite` чтобы бесконечно показывать одну и ту же текстуру. Также для каждого слоя есть разная скорость прокрутки `speedModifier` в зависимости [от скорости игры](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Background.ts#L25).
+
+Все 5 слоёв показываются одновременно, не перекрывая друг друга, а дополняя, за счет того, что внутри есть прозрачные области.
+
+При подготовке графики столкнулся с ненужным поведением. `TilingSprite` повторяет по вертикали мою текстуру травы, т.к. [я указываю высоту больше чем высота текстуры](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Background.ts#L103) - в результате получаются вертикальные полосы.
+
+<details>
+<summary>Скроллер - полосы по вертикали</summary>
+
+![Скроллер - полосы по вертикали](./pixijs/sidescroller_vertical_stripes.png)
+
+</details>
+
+Поэтому для этой графики травы пришлось добавить пустую прозрачную область во весь экран.
+
+В игре сделал два фона. Один стартовый фон - это [город](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L85),
+второй фон - это [лес](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L92).
+После того, как прошла половина времени игры - я плавно [меняю фон с города на лес](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L194).
+
+## Скроллер: пёс
+
+По аналогии в видео, я сделал [отдельный класс](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L20) для каждого состояния:
+
+<details>
+<summary>Скроллер - состояния пса</summary>
+
+```typescript
+import { Container } from 'pixi.js'
+import { Sitting, type PlayerState, EPlayerState, Running, Jumping, Falling, Rolling, Diving, Hit } from './playerStates'
+
+class Player extends Container {
+  public states!: Record<EPlayerState, PlayerState>
+  public currentState!: PlayerState
+
+  constructor (options: IPlayerOptions) {
+    super()
+    this.states = {
+      [EPlayerState.SITTING]: new Sitting({ game: options.game }),
+      [EPlayerState.RUNNING]: new Running({ game: options.game }),
+      [EPlayerState.JUMPING]: new Jumping({ game: options.game }),
+      [EPlayerState.FALLING]: new Falling({ game: options.game }),
+      [EPlayerState.ROLLING]: new Rolling({ game: options.game }),
+      [EPlayerState.DIVING]: new Diving({ game: options.game }),
+      [EPlayerState.HIT]: new Hit({ game: options.game })
+    }
+    this.currentState = this.states.SITTING
+  }
+}
+```
+
+</details>
+
+Каждое состояние наследуется от родительского класса `PlayerState` - соответственно имеются методы `enter()` и `handleInput()`.
+
+`handleInput()` - обрабатывает события ввода и меняет состояние если нужно. `enter()` - срабатывает при входе в это состояние.
+
+Пёс не может выйти за [левый/правый](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Player.ts#L221) край уровня, а также [не может опуститься](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Player.ts#L235) ниже уровня земли.
+
+<details>
+<summary>Скроллер - интерфейс управления указателем</summary>
+
+![Скроллер - интерфейс управления указателем](./pixijs/sidescroller_pointer_interface.png)
+
+</details>
+
+Управление с помощью сенсорного экрана или мышки упрощено - при дотрагивании выше уровня пса [я перевожу пса](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/InputHandler.ts#L160) в состояние кручения.
+А вот если управлять с клавиатуры то нужно [нажимать пробел](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/InputHandler.ts#L68) для этого.
+
+Если присесть псом - то [прокрутка карты останавливается](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L48).
+
+## Скроллер: враги
+
+Все враги наследуются от общего класса `Enemy`, однако каждый враг имеет свои уникальные свойства движения. Так муха `FlyingEnemy` [летит по синусоиде](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Enemy.ts#L68). Растение `GroundEnemy` [стоит на месте](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Enemy.ts#L82). Паук `ClimbingEnemy` - [опускается и подымается на паутине](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Enemy.ts#L113).
+
+Для врагов есть отдельный контейнер `enemies`, удаление из контейнера тоже происходит по флагу `markedForDeletion`.
+
+Мухи [создаются по счетчику](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L271) в игре, а вот пауки и растения создаются только при прокрутке карты `this.speed > 0`.
+
+При столкновении врага с псом - [я показываю анимацию](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Player.ts#L268) дыма `Boom` - которую [удаляю при завершении](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Boom.ts#L36) анимации.
+
+Если пёс при столкновении находился в состоянии кручения - то он неуязвим. [Я добавляю](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Player.ts#L280) всплывающий текст `FloatingMessage`, который показывает, что игрок получил дополнительные очки. Текст `+1` всплывает от места столкновения к панели вверху, где отображены очки в игре.
+
+<details>
+<summary>Скроллер - всплывающий текст</summary>
+
+![Скроллер - всплывающий текст](./pixijs/sidescroller_floating_message.png)
+
+</details>
+
+Всплывающий текст удаляется [после 100-го](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/FloatingMessage.ts#L52) фрейма.
+
+Если пёс при столкновении не был в кручении - [я вычитаю одну жизнь](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Player.ts#L289) и вычитаю одно очко. Врага я удаляю в любом случае.
+
+## Скроллер: заключение
+
+Сверху экрана я показываю панель статуса. 
+
+<details>
+<summary>Скроллер - панель статуса</summary>
+
+![Скроллер - панель статуса](./pixijs/sidescroller_status_panel.png)
+
+</details>
+
+На панели я показываю количество очков, время игры и количество жизней. Для текста пришлось его дублировать и рисовать белый текст `scoreTextShadow` и с небольшим смещением `scoreText` [черный поверх белого](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/StatusBar.ts#L54). Так получилось сделать тень - для лучшей читаемости.
+
+Игра [заканчивается](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#LL206C1-L206C1) когда время заканчивается. Затем я сравниваю полученное количество очков и показываю либо успешное сообщение либо проигрышное.
+
 Описанные техники для `PixiJS` можно посмотреть на YouTube
 
 Исходный код всех игр:
