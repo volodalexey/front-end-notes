@@ -908,7 +908,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 </details>
 
- Если пользователь выбирает незанятую плитку, тогда списываю деньги и [размещаю купленную сущность на клетке](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L137). Анимация для `AnimatedSprite` [начинает проигрываться](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/FarmGridTile.ts#L165), у анимаций свой собственный счетчик. Однако можно менять кадры анимации и по своему усмотрению, тогда не нужно запускать анимацию `play()`.
+ Если пользователь выбирает незанятую плитку, тогда списываю деньги и [размещаю купленную сущность на клетке](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L137). Анимация для `AnimatedSprite` [начинает проигрываться](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/FarmGridTile.ts#L165), у анимаций свой собственный счетчик. Однако можно менять кадры анимации и по своему усмотрению, тогда не нужно запускать анимацию `play()`/`gotoAndPlay(0)`.
 
 ## Ферма: счетчик и прогресс
 
@@ -2064,6 +2064,58 @@ class Player extends Container {
 
 Игра [заканчивается](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#LL206C1-L206C1) когда время заканчивается. Затем я сравниваю полученное количество очков и показываю либо успешное сообщение либо проигрышное.
 
+# Игра 10: Комнаты
+
+## Комнаты: описание
+
+Игрок управляет персонажем, который педедвигается по уровню. Цель игры пройти 3 уровня за определённое время. Переход на другой уровень происходит когда персонаж открыл дверь.
+
+[Оригинальное видео](https://www.youtube.com/watch?v=Lcdc2v-9PjA).
+
+## Комнаты: ключевые особенности
+
+В игре очень много кода, который уже описывал неоднократно. Отличий от других игр немного:
+
+- Вначале я подгружаю [только одну часть ресурсов](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/LoaderScene.ts#L88) - для первого уровня. Остальные части [я подгружаю](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L60) в фоне.
+
+- Стартовые положения дверей и персонажа описываются в `Tiled Map Editor` в слое `Player and Door`. Далее [я расставляю игрока и двери](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L224) согласно описанию.
+
+<details>
+<summary>Комнаты - положения дверей и персонажа</summary>
+
+![Комнаты - положения дверей и персонажа](./pixijs/multirooms_start_positions.png)
+
+</details>
+
+- Если персонаж [стоит у дверей](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Player.ts#L358), [то касание или клик по персонажу](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/InputHandler.ts#L154) открывает дверь. А точнее стартует анимацию открывания дверей + анимацию захода в дверь для персонажа.
+
+Далее, когда [дверь открылась](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Player.ts#L246), я запускаю [плавное затенение](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L185) между уровнями. Для затенения использую [нарисованный прямоугольник](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L87) и плавно меняю ему прозрачность. Сначала чтобы полностью затенить экран. При тёмном экране [меняю уровень](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L192) и затем плавно убираю затенение.
+
+# Игра 11: Платформер
+
+## Платформер: описание
+
+Игрок управляет персонажем, который педедвигается по уровню и может запрыгивать на платформы.
+
+[Оригинальное видео](https://www.youtube.com/watch?v=Lcdc2v-9PjA).
+
+## Платформер: ключевые особенности
+
+Отличия от предыдущих игр:
+
+- Вокруг персонажа рисую `camerabox` в виде [невидимого прямоугольника](https://github.com/volodalexey/simple-html5-vp-game/blob/0478116b5f53118bfaa3eb283cdec7a4af083edc/src/Game.ts#L92). Если этот прямоугольник [касается любого края экрана](https://github.com/volodalexey/simple-html5-vp-game/blob/0478116b5f53118bfaa3eb283cdec7a4af083edc/src/Game.ts#L198) - то я прокручиваю карту `pivot` если есть куда.
+
+<details>
+<summary>Платформер - границы камеры-прямоугольника</summary>
+
+![Платформер - границы камеры-прямоугольника](./pixijs/platformer_camerabox.png)
+
+</details>
+
+# Игра 12: Эльф и орки
+
+# Игра 13: Стратегия
+
 Описанные техники для `PixiJS` можно посмотреть на YouTube
 
 Исходный код всех игр:
@@ -2075,10 +2127,10 @@ class Player extends Container {
 [Галактика](https://github.com/volodalexey/simple-html5-galaxian-game)
 [Пакман](https://github.com/volodalexey/simple-html5-pacman-game)
 [Башенки](https://github.com/volodalexey/simple-html5-td-game)
-https://github.com/volodalexey/simple-html5-sidescroller-game
-https://github.com/volodalexey/simple-html5-mrp-game
-https://github.com/volodalexey/simple-html5-vp-game
-https://github.com/volodalexey/simple-html5-es-game
-https://github.com/volodalexey/simple-html5-rts-game
+[Скроллер](https://github.com/volodalexey/simple-html5-sidescroller-game)
+[Комнаты](https://github.com/volodalexey/simple-html5-mrp-game)
+[Платформер](https://github.com/volodalexey/simple-html5-vp-game)
+[Эльф и орки](https://github.com/volodalexey/simple-html5-es-game)
+[Стратегия](https://github.com/volodalexey/simple-html5-rts-game)
 
 [Интерактивый список всех игр](https://volodalexey.github.io/portfolio/) - можно смело давать маленьким детям, уровень сложности очень легкий, зато для детей самое то, чтобы понять какие типы игр бывают и что за правила игры.
