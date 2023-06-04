@@ -1,6 +1,7 @@
 Собрал весь свой 2-х месячный опыт разработки на `PixiJS`. 
 Переписал 13 игр на `PixiJS` + `TypeScript` - с `JavaScript`.
 В статье описал процесс разработки. Получилось руководство, которого мне нехватало в начале.
+Самая последняя игра будет самой сложной и интересной.
 
 # Постановка задачи
 
@@ -142,7 +143,7 @@
 
   </details>
 
-- Движок или ядро игры `World`. Движок запрашивает необходимые ресурсы у загрузчика, инициализирует инстанс самого [Application](https://pixijs.download/release/docs/PIXI.Application.html) или использует уже готовый, добавляет объекты в сцену. Подключается к счетчику [Ticker](https://pixijs.download/release/docs/PIXI.Ticker.html) при необходимости. Подписывается на события `resize`, `pointer...`, `key...` если нужно.
+- Движок или ядро игры `World`. Движок запрашивает необходимые ресурсы у загрузчика, инициализирует экземпляр самого [Application](https://pixijs.download/release/docs/PIXI.Application.html) или использует уже готовый, добавляет объекты в сцену. Подключается к счетчику [Ticker](https://pixijs.download/release/docs/PIXI.Ticker.html) при необходимости. Подписывается на события `resize`, `pointer...`, `key...` если нужно.
 
   <details>
   <summary>World</summary>
@@ -164,7 +165,7 @@
   </details>
 
 
-- Дальше любой класс/компонент в игре может делать всё тоже самое, что и ядро игры, только в большем или меньшем объёме. За исключением создания инстанса `Application`.
+- Дальше любой класс/компонент в игре может делать всё тоже самое, что и ядро игры, только в большем или меньшем объёме. За исключением создания экземпляра `Application`.
 
   <details>
   <summary>Component</summary>
@@ -514,7 +515,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
   </details>
 
-В самом начале инициализируем инстанс `Application`, загружаем необходимые ресурсы и запускаем [наш движок игры `World`](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/app.ts):
+В самом начале инициализируем экземпляр `Application`, загружаем необходимые ресурсы и запускаем [наш движок игры `World`](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/app.ts):
 
   <details>
   <summary>Application</summary>
@@ -1127,7 +1128,10 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 Масштабирование [соответственно будет разное](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/World.ts#L135). Для сцены карты, я использую весь экран - чем больше экран, тем больше можно увидеть на карте `Responsive Scale` + центрирую камеру относительно персонажа. Для сцены битвы наоборот пытаюсь показать всю сцену `Letterbox scale`.
 
   <details>
-  <summary>PixiJS совет 08: Дебаг</summary>
+  <summary>
+  
+  ### PixiJS совет 08: Дебаг
+  </summary>
 
   В PixiJS нет дебаг режима из коробки, его прийдётся рисовать вручную (можете попробовать [браузерное расширение](https://chrome.google.com/webstore/detail/pixijs-devtools/aamddddknhcagpehecnhphigffljadon)). Например после того, как нарисовали все `Graphics` и добавили все `Sprites` и `AnimatedSprites` добавляем еще один полупрозрачный `Graphics` используя ширину и высоту текущего контейнера:
   ```typescript
@@ -1252,7 +1256,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 Инициализацию всего кода оборачиваю в `try`/`catch`, в случае ошибки - игра не запускается, а сообщение об ошибке [я вывожу](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/app.ts#L25) прямиком в `div`.
 
-Инстанс `Application` я создаю внутри `SceneManager` как [статическое свойство](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/SceneManager.ts#L36) `app`:
+Экземпляр `Application` я создаю внутри `SceneManager` как [статическое свойство](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/SceneManager.ts#L36) `app`:
 
   <details>
   <summary>Scene Manager</summary>
@@ -1365,7 +1369,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
   <details>
   <summary>
   
-  ### PixiJS совет 08: удаление потомков
+  ### PixiJS совет 09: удаление потомков
   </summary>
 
   В `PixiJS` нет отдельной функции для очистки всего контейнера.
@@ -1600,7 +1604,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 
 ## Драки: спрайты персонажей и масштабирование сцены
 
-Каждый персонаж это [инстанс класса](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L50) `Fighter`, который наследуется от контейнера `Container`.
+Каждый персонаж это [экземпляр класса](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L50) `Fighter`, который наследуется от контейнера `Container`.
 
 Внутри класса `Fighter` [есть перечисление](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L40) всех возможных анимаций (а по сути и состояний):
 
@@ -1642,7 +1646,7 @@ this.ting = 0xaaaaaa // всё белое окрасится в серый
 <details>
   <summary>
 
-  ### PixiJS совет 09: Контейнеры - ширина и высота
+  ### PixiJS совет 10: Контейнеры - ширина и высота
   </summary>
 
   Контейнеры в `PixiJS` легче представлять как группу объектов. Контейнера как отдельного прямоугольника не существует.
@@ -2164,15 +2168,279 @@ class Player extends Container {
 ## Стратегия: описание
 
 Все предыдущие игры я делал 1 месяц, столько же делал и эту последнюю игру.
+В далёком 2014 году попалась мне книжка [Pro HTML5 Games](https://www.amazon.com/HTML5-Games-Experts-Voice-Development-ebook/dp/B00ACC6AT6) за авторством Адитья Рави Шанкар (Aditya Ravi Shankar). Исходный код [я нашел на github](https://github.com/adityaravishankar/last-colony).
+В 2016 году я снова вернулся к исходному коду - [и переписал его](https://github.com/volodalexey/last_colony) местами. Решил избавиться от `jQuery`, добавить пару новых звуков - и звуковой движок переписать на [Web Audio API](https://github.com/volodalexey/last_colony/blob/master/js/sounds.js#L21). С задачей я справился, но желание переписать всю игру осталось.
+И вот в 2023 году я нашел время вернуться и полностью переписать всё на `TypeScript` + `PixiJS`.
+
+Жанр игры - стратегия в реальном времени. Получилась смесь из [Command & Conquer](https://ru.wikipedia.org/wiki/Command_%26_Conquer) + [StarCraft](https://ru.wikipedia.org/wiki/StarCraft). Игрок играет за одну команду, компьютер (`CPU`) за другую. Есть три режима игры:
+1. Прохождение или кампания. В оригинале состоит из 3-х миссий, я сделал 4.
+2. Одиночный матч против компьютера (в оригинале такого нет).
+3. Сетевая игра двух игроков против друг друга.
+
+В оригинале игра была такой: есть база `Base` - главное здание - обычно его потеря означает проигрыш. База может строить на любой клетке турель `GroundTurret` или космопорт (завод) `Starport`. Нужно выбрать базу и справа на панели подсвечиваются доступные кнопки строительства, если достаточно денег. При выборе здания для строительсва указываем мышкой где построить, клик подтверждает строительство.
+
+<details>
+<summary>Стратегия - устаревший интерфейс базы</summary>
+
+![Стратегия - устаревший интерфейс базы](./pixijs/real_time_strategy_old_base_interface.png)
+
+</details>
+
+Космопорт, может строить других юнитов - легкий танк `ScoutTank`, тяжелый танк `HeavyTank`, вертолёт `Chopper`, харвестер (комбайн) `Harvester` и самолёт `Wraith`. Если выбрать космопорт - справа на панели подсвечиваются доступные кнопки строительства юнитов, если достаточно денег. При выборе кнопки юнита - строится юнит и телепортируется как бы из космопорта.
+Харвестер может только трансформироваться в нефтяную вышку `OilDerrick`, а остальные юниты военные.
+
+<details>
+<summary>Стратегия - устаревший интерфейс космопорта</summary>
+
+![Стратегия - устаревший интерфейс космопорта](./pixijs/real_time_strategy_old_starport_interface.png)
+
+</details>
+
+Поискав в интернете, [я нашел улучшенный исходный код](https://github.com/cdk-king/lastColony) этой игры, где автор совместил строительство зданий с помощью рабочего (`SCV`) как в `StarCraft`. Т.е. база не может строить здания. База строит рабочего или харвестера. Рабочий строит космопорт или турель. Графику для рабочего я тоже взял отсуюда. Этот функционал я сделал и у себя в игре.
+
+Сейчас страница [автора Шанкара](https://www.adityaravishankar.com/projects/games/lastcolony/) по игре [уже не работает](https://web.archive.org/web/20201119082449/https://www.adityaravishankar.com/projects/games/lastcolony/).
 
 ## Стратегия: подготовка текстур
 
+Как оказалось старые текстуры нарезать и собрать вместе - сложная задача. Когда резал текстуры на фреймы, пришлось исправлять смещение, на несколько пикселей. Например первый кадр анимации 40х40 выглядел отлично, а вот последующий обрезался со смещением. Текстуры иконок я взял из [Font Awesome](https://github.com/FortAwesome/Font-Awesome/tree/6.x/svgs/solid) - открывал `.svg` файл в `Gimp` и сохранял в `.png`.
+
+Карта в оригинале была в двух видов, обычная карта уровня и дебаг карта уровня с нарисованной сеткой.
+
+<details>
+<summary>Стратегия - оригинальные карты</summary>
+
+Так выглядела карта:
+
+![Стратегия - оригинальная карта](./pixijs/real_time_strategy_old_map.png)
+
+А так выглядела дебаг карта:
+
+![Стратегия - оригинальная дебаг карта](./pixijs/real_time_strategy_old_debug_map.png)
+
+</details>
+
+Для дебага по сетке мне дебаг карты не хватало, поэтому я решил нарисовать свою сетку поверх любой карты. При включённом дебаг режиме для карты `localStorage.getItem('debug') === 'rts-grid'` [я дополнительно рисую](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/TileMap.ts#L143) на каждой клетке карты её границы, и координаты `x` и `y`.
+
+<details>
+<summary>Стратегия - дебаг режим карты</summary>
+
+```typescript
+import { Text, Graphics } from 'pixi.js'
+
+for (let x = 0; x < this.mapGridWidth; x++) {
+  for (let y = 0; y < this.mapGridHeight; y++) {
+    const gr = new Graphics()
+    gr.beginFill(0xffffff)
+    gr.position.set(x * this.gridSize, y * this.gridSize)
+    gr.drawRect(0, 0, this.gridSize, this.gridSize)
+    gr.endFill()
+    gr.beginHole()
+    gr.drawRect(1, 1, this.gridSize - 1 * 2, this.gridSize - 1 * 2)
+    gr.endHole()
+    const text = new Text(`x=${x}\ny=${y}`, {
+      fontSize: 20,
+      fill: 0xffff00,
+      align: 'center'
+    })
+    text.anchor.set(0.5, 0.5)
+    text.position.set(this.gridSize / 2, this.gridSize / 2)
+    text.scale.set(0.4)
+    gr.addChild(text)
+    gr.alpha = 0.3
+    this.background3.addChild(gr)
+  }
+}
+```
+
+![Стратегия - дебаг режим карты](./pixijs/real_time_strategy_debug_mode.png)
+
+</details>
+
+Карта состоит из `60х40` тайлов, что в сумме `2400` ячеек для дебага. Мой ноутбук запускает дебаг режим карты на `2` секунды дольше. Зато потом чувствуется вся мощь `PixiJS` - дальше идёт без тормозов, субъективно не могу отличить от обычного режима.
+
+Я не хотел описывать карту в коде, поэтому пришлось [воссоздать тайлы](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src-tiled/tileset.tsx) из оригинальной карты.
+
+<details>
+<summary>Стратегия - воссозданные тайлы</summary>
+
+![Стратегия - воссозданные тайлы](./pixijs/real_time_strategy_recreated_tiles.png)
+
+</details>
+
+Затем уже нарисовал оригинальную карту в `Tiled Map Editor`. Даже две карты, [первая](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src-tiled/level-1.png) используется для 3-х миссий как в оригинале. [Вторая](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src-tiled/level-2.png) карта используется в 4-й миссии, режиме против компьютера или в сетевой игре. В редакторе я уже расставил нефтяные пятна и обозначил эти места в слое `Oilfields`, а также стартовые позиции для баз в слое `Spawn-Locations`.
+
+<details>
+<summary>Стратегия - слои карты</summary>
+
+![Стратегия - слои карты](./pixijs/real_time_strategy_map_layers.png)
+
+</details>
+
+## Стратегия: меню игры
+
+В самом начале, как обычно, после подгрузки всех скриптов начинает работать `LoaderScene` - которая [подгружает текстурные](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/scenes/LoaderScene.ts#L6) атласы. После того, как ресурсы подгружены я отображаю главное меню `MenuScene` и [догружаю оставшиеся части](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/scenes/MenuScene.ts#L63).
+
+<details>
+<summary>Стратегия - главное меню</summary>
+
+![Стратегия - главное меню](./pixijs/real_time_strategy_main_menu.png)
+
+</details>
+
+В оригинале меню было на `HTML`, мне же пришлось делать всё на `PixiJS` согласно моих планов. Мой первый компонент интерфейса - кнопка (`Button`). Используется чаще всех других компонентов, поэтому [поддерживает много параметров](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/Button.ts#L3).
+В основном мне нужны 3 типа кнопок:
+1. Кнопка с текстом, но без иконки
+2. Кнопка без текста но с иконкой
+3. Кнопки с текстом и иконкой
+
+В меню у меня три текстовые кнопки и кнопка-иконка настроек вверху.
+Если выбрать `Campaign` (кампанию или прохождение) - то я дополнительно показываю список (текстовыми кнопками) всех доступных миссий, чтобы можно было выбрать любую. А также показываю кнопку-иконку "домик" - для возврата.
+
+<details>
+<summary>Стратегия - список миссий</summary>
+
+![Стратегия - главное меню](./pixijs/real_time_strategy_missions_menu.png)
+
+</details>
+
+* Миссия 1 - управляя тяжелым танком доехать до верхнего левого угла и сопроводить на базу два транспорта
+* Миссия 2 - держать оборону, пока не прилетит подкрепление из 2-х вертолётов - тогда уничтожить вражескую базу
+* Миссия 3 - спасти оставшийся транспорт, затем уничтожить противника
+* Миссия 4 - построить харвестер который трансформировать в нефтевышку. Построить рабочего и с помощью него построить турель. Убить вражеского легкого танка. Построить космопорт, на нём построить легкий танк и вертолёт. Уничтожить вражеский лёгкий танк и базу.
+
+Первые 3 миссии сделал как в оригинале, а вот 4-ю сделал в виде обучения - собрал все учебные миссии из улучшенного оригинала в одну.
+
+Компонент `Button` имеет 4 состояния: обычное (`idle`), выбранное (`selected`), неактивное (`disabled`) и наведённое (`hover`). Внутри [я рисую](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/Button.ts#L283) отдельные скруглённые прямоугольники для фона `background`, для границ `border` - всё белым цветом и потом окрашиваю. Если передаю иконку в виде текстуры, то [добавляю сначала текстуру иконки](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/Button.ts#L180) в виде спрайта, а потом текст. Также инициализирую интерактивность для кнопки [и подписываюсь на события](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/Button.ts#L239) указателя.
+В зависимости от текущего события [выставляю нужное](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/Button.ts#L416) состояние кнопки.
+
+<details>
+  <summary>
+
+  ### PixiJS совет 11: Вывод в консоль
+  </summary>
+
+  Иногда нужно вывести экземпляр всего `Application` в консоль, для этого я использую модуль `Debug`.
+  ```typescript
+  import { Application } from 'pixi.js'
+  import debug from 'debug'
+
+  const app = new Application({})
+
+  export const logApp = debug('rts-app')
+
+  if (logApp.enabled) {
+    logApp('window.app initialized!');
+    (window as unknown as any).app = app
+  }
+  ```
+
+  В таком случае я указываю в `localStorage` ключ `debug` со значением `rts-app` (к примеру) и после следующей загрузки страницы могу исследовать экземпляр.
+
+  ![Стратегия - вывод в консоль](./pixijs/real_time_strategy_console_output.png)
+
+  Для лучшего понимания можно всегда использовать собственные классы унаследованные от стандартных:
+  ```typescript
+  import { Container, Graphics } from 'pixi.js'
+
+  class BorderRect extends Graphics {}
+  class BorderContainer extends Container {}
+
+  const borderRect = new BorderRect()
+  const borderContainer = new BorderContainer()
+
+  this.addChild(borderRect)
+  this.addChild(borderContainer)
+  ```
+
+  ![Стратегия - улучшенный вывод в консоль](./pixijs/real_time_strategy_console_output_improved.png)
+
+</details>
+
+## Стратегия: звук
+
+Чтобы было веселее, я взял старую добрую озвучку из неофициальной озвучки `Фаргус` из игры `StarCraft`.
+Все звуки разделил на 4 категории:
+1. Голоса (`voiceVolume`) - когда юниты получили приказ на движение, строительство или атаку.
+2. Выстрелы (`shootVolume`) - когда юнит стреляет снарядом `Cannon`/пулей `Bullet`/ракетой `Rcoket`/лазером `Laser`
+3. Попадания (`hitVolume`) - когда снаряд/пуля/ракета/лазер попали в цель
+4. Сообщения (`messageVolume`) - системные сообщения которые появляются на панели сообщений
+
+Весь звук конвертировал в `.mp3` формат, который после завершения [всех патентов](https://en.wikipedia.org/wiki/MP3#Licensing) отлично работает во всех браузерах. Звуки для 2-й и 3-й категории нашел на [сайте freesound.org](https://freesound.org/), за исключением тех, которые уже были в оригинальной игре.
+
+Для воспроизведения использую всё ту же библиотеку [HowlerJS](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/utils/Audio.ts#L157) - которая позволяет гибко подстраивать уровень громкости.
+
+При инициализации класса `Audio` - [я пытаюсь прочитать](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/utils/Audio.ts#L103) из `localStorage` - предыдущие пользовательские настройки звука, если таковые имеются.
+
+Категория голоса подразделяется на разных персонажей + разные значения.
+Значений может быть 3:
+- "двигаюсь/иду"
+- "подтверждаю/атакую/делаю"
+- "ошибка
+
+К примеру если указать рабочему построить здание [я проигрываю](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/utils/Audio.ts#L509) звук "рабочий" + "подтверждаю/атакую/делаю". В дополнение к этому я останавливаю все предыдущие звуки рабочего. Таким образом не происходит переполнения воспроизводимых голосов, если пользователь слишком быстро меняет приказ для одного и того же юнита.
+
+## Стратегия: настройка звука
+
+Для настройки звука реализовал модальное окно `SettingsModal`. Его экземпляр [я создаю единожды](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/scenes/MenuScene.ts#L131), в `MenuScene` - а затем передаю уже в другие сцены. Тем самым другие сцены добавляют в качестве потомка этот же экземпляр (при этом я убираю его из потомков меню сцены).
+
+При нажатии на кнопку настройки - я показываю модальное окно с настройками звука.
+
+<details>
+<summary>Стратегия - окно настройки звука</summary>
+
+![Стратегия - окно настройки звука](./pixijs/real_time_strategy_sound_settings.png)
+
+</details>
+
+Для громкости реализовал новый компонент интерфейса - слайдер `Slider` (`<input type="range" />`). Ползунок (`Caret`) нарисован [двумя кругами](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/SettingsModal.ts#L70), полоса нарисована двумя скруглёнными прямоугольниками.
+
+Когда пользователь меняет уровень громкости, [я проигрываю случайный](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/SettingsModal.ts#L495) звук из текущей категории.
+
+Если пользователь подтвердил (`Apply`) выбранные настройки звука - [я сохраняю](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/utils/Audio.ts#L133) настройки в `localStorage`, чтобы при следующей загрузке страницы восстановить.
+
+## Стратегия: панель сообщений
+
+## Стратегия: карта и мини-карта
+
+Маска
+
+## Стратегия: юниты выбор и перезарядка
+
+## Стратегия: интерфейс управления
+выбор одного юнита
+выделение юнитов
+отображение выделения
+масштабирование
+
+
+
+## Стратегия: приказы для юнитов
 
 ## Стратегия: туман войны
+
+## Стратегия: строительство и производство
+
+сетка для строительства
+сетка для установки нефтевышки
+производство на свободной клетке
+
+## Стратегия: атака земля воздух
+
+## Стратегия: движение и атака
+
+## Стратегия: оптимизация
 
 ## Стратегия: сетевая игра
 
 ## Стратегия: баланс
+
+## Стратегия: плюшки-хотелки
+
+реализовать приоритет у юнитов, чтобы атаковали приоритетного юнита. При воспроизведении аудио, выбирался голос самого приоритетного юнита.
+показывать выделение на панели, чтобы было видно, сколько юнитов выбрано
+настраиваемый интерфейс, т.е. положение панелей можно поменять, вверху-внизу-слева-справа
+разделить движок игры на физику и визуальное отображение. физику запускать на сервере и работать только с изменениями от клиентов
+у Шанкара есть недоделанная игра [Command & Conquer - HTML5](https://github.com/adityaravishankar/command-and-conquer) - которая по сути похожа на его игру [Last Colony](https://github.com/adityaravishankar/last-colony), а соответственно может легко быть переписана аналогично моей.
 
 Описанные техники для `PixiJS` можно посмотреть на YouTube
 
