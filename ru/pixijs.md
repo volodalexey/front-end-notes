@@ -1,4 +1,4 @@
-В статье описал разработку 13-ти игр на `PixiJS`. Получилось много текста, т.к. описывать советы для `PixiJS` интереснее с примером из игр.
+В статье описал разработку 13-ти игр на `PixiJS`. Около 70% текста - это описание механики игр, остальное - реализация на `PixiJS`. Получилось много текста, т.к. описывать советы для `PixiJS` интереснее с примером из игр.
 Самая последняя игра будет самой сложной и интересной.
 
 # На чём рисовать?
@@ -2565,18 +2565,18 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 Описанные советы для `PixiJS` можно посмотреть на YouTube
 
 Исходный код всех игр:
+[Стратегия](https://github.com/volodalexey/simple-html5-rts-game) -//- 
+[Эльф и орки](https://github.com/volodalexey/simple-html5-es-game) -//- 
+[Платформер](https://github.com/volodalexey/simple-html5-vp-game) -//- 
+[Комнаты](https://github.com/volodalexey/simple-html5-mrp-game) -//- 
+[Скроллер](https://github.com/volodalexey/simple-html5-sidescroller-game) -//- 
+[Башенки](https://github.com/volodalexey/simple-html5-td-game) -//- 
+[Пакман](https://github.com/volodalexey/simple-html5-pacman-game) -//- 
+[Галактика](https://github.com/volodalexey/simple-html5-galaxian-game) -//- 
+[Драки](https://github.com/volodalexey/simple-html5-fighting-game) -//- 
+[Марио](https://github.com/volodalexey/simple-html5-mario-game) -//- 
+[Стрелялки](https://github.com/volodalexey/simple-html5-shooting-game) -//- 
+[Покемон](https://github.com/volodalexey/simple-html5-pokemon-game) -//- 
 [Ферма](https://github.com/volodalexey/simple-html5-farm-game)
-[Покемон](https://github.com/volodalexey/simple-html5-pokemon-game)
-[Стрелялки](https://github.com/volodalexey/simple-html5-shooting-game)
-[Марио](https://github.com/volodalexey/simple-html5-mario-game)
-[Драки](https://github.com/volodalexey/simple-html5-fighting-game)
-[Галактика](https://github.com/volodalexey/simple-html5-galaxian-game)
-[Пакман](https://github.com/volodalexey/simple-html5-pacman-game)
-[Башенки](https://github.com/volodalexey/simple-html5-td-game)
-[Скроллер](https://github.com/volodalexey/simple-html5-sidescroller-game)
-[Комнаты](https://github.com/volodalexey/simple-html5-mrp-game)
-[Платформер](https://github.com/volodalexey/simple-html5-vp-game)
-[Эльф и орки](https://github.com/volodalexey/simple-html5-es-game)
-[Стратегия](https://github.com/volodalexey/simple-html5-rts-game)
 
 [Интерактивый список всех игр](https://volodalexey.github.io/portfolio/)
