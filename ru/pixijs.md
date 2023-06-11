@@ -1233,7 +1233,7 @@ class Particle extends Sprite {
 <details>
 <summary>
 
-### PixiJS совет 09: удаление потомков
+### PixiJS совет 09: Удаление потомков
 </summary>
 
 В `PixiJS` нет отдельной функции для очистки всего контейнера.
@@ -2561,7 +2561,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 
 У Шанкара есть недоделанная игра [Command & Conquer - HTML5](https://github.com/adityaravishankar/command-and-conquer) - которая по сути похожа на его игру [Last Colony](https://github.com/adityaravishankar/last-colony), а соответственно может легко быть переписана аналогично моей.
 
-Описанные советы для `PixiJS` можно посмотреть на YouTube
+Описанные советы для `PixiJS` можно посмотреть в видео [PixiJS - 12 советов для новичков](https://www.youtube.com/watch?v=EvD9PBzJLiA)
 
 Исходный код всех игр:
 [Стратегия](https://github.com/volodalexey/simple-html5-rts-game)
