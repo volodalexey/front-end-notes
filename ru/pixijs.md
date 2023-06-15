@@ -1,7 +1,114 @@
 В статье описал разработку 13-ти игр на `PixiJS`. Около 70% текста - это описание механики игр, остальное - реализация на `PixiJS`. Получилось много текста, т.к. описывать советы для `PixiJS` интереснее с примером из игр.
 Самая последняя игра будет самой сложной и интересной.
 
-# На чём рисовать?
+# Оглавление
+- [На чём рисовать?](#what_to_draw_on)
+- [Почему PixiJS?](#why_pixijs)
+- [PixiJS введение](#pixijs_introduction)
+- [Процесс разработки](#development_process)
+- [Игра 01: Ферма](#farm_game)
+  - [Ферма: Описание](#farm_game_description)
+  - [Ферма: Поиск и обработка изображений](#farm_game_spritesheet)
+  - [Ферма: Макет](#farm_game_layout)
+  - [Ферма: Панель статуса и магазина](#farm_game_panels)
+  - [Ферма: Поле](#farm_game_field)
+  - [Ферма: Покупка/продажа](#farm_game_buy_sell)
+  - [Ферма: счетчик и индикаторы](#farm_game_ticker)
+  - [Ферма: масштабирование](#farm_game_resize)
+- [Игра 02: Покемон](#pokemon_game)
+  - [Покемон: Описание](#pokemon_game_description)
+  - [Покемон: редактор карт](#pokemon_game_map_editor)
+  - [Покемон: сцены и масштабирование](#pokemon_game_scenes)
+  - [Покемон: сцена карты - персонаж игрока](#pokemon_game_player)
+  - [Покемон: звук](#pokemon_game_sound)
+  - [Покемон: сцена битвы](#pokemon_game_battle_scene)
+- [Игра 03: Стрелялки](#shooting_game)
+  - [Стрелялки: Описание](#shooting_game_description)
+  - [Стрелялки: загрузка](#shooting_game_loading)
+  - [Стрелялки: контейнеры частиц](#shooting_game_particle_containers)
+  - [Стрелялки: создание текстур](#shooting_game_textures)
+  - [Стрелялки: работа с контейнерами](#shooting_game_work_with_containers)
+  - [Стрелялки: след от снаряда](#shooting_game_trail)
+  - [Стрелялки: заключение](#shooting_game_conclusion)
+- [Игра 04: Марио](#mario_game)
+  - [Марио: Описание](#mario_game_description)
+  - [Марио: загрузка](#mario_game_loading)
+  - [Марио: управление](#mario_game_controls)
+  - [Марио: уровень/карта](#mario_game_level)
+  - [Марио: платформы](#mario_game_platforms)
+- [Игра 05: Драки](#fighting_game)
+  - [Драки: описание](#fighting_game_description)
+  - [Драки: подгрузка шрифтов](#fighting_game_font_load)
+  - [Драки: спрайты персонажей и масштабирование сцены](#fighting_game_sprites)
+  - [Драки: момент удара](#fighting_game_attack)
+- [Игра 06: Галактика](#galaxian_game)
+  - [Галактика: описание](#galaxian_game_description)
+  - [Галактика: контейнеры частиц](#galaxian_game_particle_containers)
+  - [Галактика: интерфейс управления](#galaxian_game_ui)
+  - [Галактика: пришельцы](#galaxian_game_invaders)
+  - [Галактика: частицы для взрыва](#galaxian_game_particles)
+- [Игра 07: Пакман](#pacman_game)
+  - [Пакман: описание](#pacman_game_description)
+  - [Пакман: генерация текстур](#pacman_game_textures_generation)
+  - [Пакман: заключение](#pacman_game_conclusion)
+- [Игра 08: Башенки](#tower_defence_game)
+  - [Башенки: описание](#tower_defence_game_description)
+  - [Башенки: слои карты](#tower_defence_game_map_layers)
+  - [Башенки: управление картой](#tower_defence_game_map_control)
+  - [Башенки: свойства башен](#tower_defence_game_towers)
+  - [Башенки: орки](#tower_defence_game_orcs)
+- [Игра 09: Скроллер](#sidescroller_game)
+  - [Скроллер: описание](#sidescroller_game_description)
+  - [Скроллер: подгрузка ресурсов](#sidescroller_game_assets_load)
+  - [Скроллер: частицы](#sidescroller_game_particles)
+  - [Скроллер: фон](#sidescroller_game_background)
+  - [Скроллер: пёс](#sidescroller_game_dog)
+  - [Скроллер: враги](#sidescroller_game_enemies)
+  - [Скроллер: заключение](#sidescroller_game_conclusion)
+- [Игра 10: Комнаты](#multi_rooms_game)
+  - [Комнаты: описание](#multi_rooms_game_description)
+  - [Комнаты: ключевые особенности](#multi_rooms_game_key_notes)
+- [Игра 11: Платформер](#vertical_platformer_game)
+  - [Платформер: описание](#vertical_platformer_game_description)
+  - [Платформер: ключевые особенности](#vertical_platformer_game_key_notes)
+- [Игра 12: Эльф и орки](#elven_scout_game)
+  - [Эльф и орки: описание и подготовка](#elven_scout_game_description)
+  - [Эльф и орки: интерфейс](#elven_scout_game_interface)
+  - [Эльф и орки: OOP](#elven_scout_game_oop)
+  - [Эльф и орки: атака орка](#elven_scout_game_orc_attack)
+- [Игра 13: Стратегия](#real_time_strategy_game)
+  - [Стратегия: описание](#real_time_strategy_game_description)
+  - [Стратегия: подготовка текстур](#real_time_strategy_game_textures)
+  - [Стратегия: меню игры](#real_time_strategy_game_menu)
+  - [Стратегия: звук](#real_time_strategy_game_sound)
+  - [Стратегия: настройка звука](#real_time_strategy_game_sound_settings)
+  - [Стратегия: панель сообщений](#real_time_strategy_game_status_bar)
+  - [Стратегия: карта и мини-карта](#real_time_strategy_game_map)
+  - [Стратегия: панель приказов](#real_time_strategy_game_orders_panel)
+  - [Стратегия: масштабирование](#real_time_strategy_game_resize)
+  - [Стратегия: выбор и перезарядка](#real_time_strategy_game_selection)
+  - [Стратегия: приказы для юнитов](#real_time_strategy_game_unit_orders)
+  - [Стратегия: туман войны](#real_time_strategy_game_wog_of_war)
+  - [Стратегия: строительство и производство](#real_time_strategy_game_building)
+  - [Стратегия: оптимизация](#real_time_strategy_game_optimization)
+  - [Стратегия: сетевая игра](#real_time_strategy_game_network)
+  - [Стратегия: заключение](#real_time_strategy_game_conclusion)
+
+# Советы
+- [PixiJS совет 01: События мыши и сенсорные события](#pixijs_tip_01)
+- [PixiJS совет 02: Пользовательские события](#pixijs_tip_02)
+- [PixiJS совет 03: Окрашивание графики и текстур](#pixijs_tip_03)
+- [PixiJS совет 04: Чёткость текста](#pixijs_tip_04)
+- [PixiJS совет 05: Скорость отрисовки текста](#pixijs_tip_05)
+- [PixiJS совет 06: Замена текстур](#pixijs_tip_06)
+- [PixiJS совет 07: Позиционирование графики и масштабирование](#pixijs_tip_07)
+- [PixiJS совет 08: Отладка](#pixijs_tip_08)
+- [PixiJS совет 09: Удаление потомков](#pixijs_tip_09)
+- [PixiJS совет 10: Контейнеры - ширина и высота](#pixijs_tip_10)
+- [PixiJS совет 11: Вывод в консоль](#pixijs_tip_11)
+- [PixiJS совет 12: Преобразование координат](#pixijs_tip_12)
+
+# На чём рисовать? <a name="what_to_draw_on"></a>
 
 Если мне нужно что-то нарисовать в `HTMLCanvasElement` у меня есть несколько опций:
 1. Использовать библиотеку или фреймворк
@@ -19,7 +126,7 @@
 
 Я хочу рисовать двухмерный контент на `webgl` используя библиотеку.
 
-# Почему [PixiJS](https://pixijs.com/) ?
+# Почему [PixiJS](https://pixijs.com/)? <a name="why_pixijs"></a>
 
 Быстро пробежавшись по предлагаемым решениям в интернете можно увидеть следующую картину:
 
@@ -45,7 +152,7 @@
 
 `PixiJS` даже умеет рисовать в `2d` контексте, но нужно использовать [pixi.js-legacy](https://www.npmjs.com/package/pixi.js-legacy) - я такое делать не буду.
 
-# PixiJS введение
+# PixiJS введение <a name="pixijs_introduction"></a>
 
 В `2016` году самый популярный браузер в мире `Chrome` перестаёт поддерживать [Adobe Flash Player](https://blog.google/products/chrome/flash-and-chrome/). В качестве замены предлагалось использовать `HTML5` технологии, а именно:
 - `2d` и `webgl` контексты для рисования
@@ -205,7 +312,7 @@
 
   </details>
 
-# Процесс разработки
+# Процесс разработки <a name="development_process"></a>
 
 Для разработки игр хочется использовать как можно больше инструментов из фронтенда. Разделять код на файлы и модули. Прописывать зависимости  с помощью `import` и `export`. Использовать проверку синтаксиса кода и автоформатирование. Собирать все файлы сборщиком (`bundler`). Использовать типизацию (`TypeScript`). В режиме разработки автоматически пересобирать (`compile`) результирующий файл и перезагружать (`hot-reload`) страницу в браузере, когда я поменял исходный код.
 
@@ -225,9 +332,9 @@
 
 Примечание: исходный код содержит практики, которые можно было бы сделать лучше исходя из полученного опыта, однако я оставляю всё как есть. Постараюсь описать что можно сделать по-другому в статье.
 
-# Игра 01: Ферма
+# Игра 01: Ферма <a name="farm_game"></a>
 
-## Ферма: Описание
+## Ферма: Описание <a name="farm_game_description"></a>
 
 Ферма - игра где нужно выращивать корм для птиц и животных, а с животных и птиц получать всякие ресурсы и продавать их. И так по кругу.
 
@@ -243,7 +350,7 @@
 
 Поверхностный поиск по интернету не дал существенных результатов для примера. Фермы не так популярны для open-source игр на `JS`, поэтому делаю всё с нуля.
 
-## Ферма: Поиск и обработка изображений
+## Ферма: Поиск и обработка изображений <a name="farm_game_spritesheet"></a>
 
 Качественных изображений в свободном доступе очень мало. Возможно в будущем это изменится и можно будет [генерировать через нейросеть](https://github.com/openai/shap-e).
 
@@ -344,7 +451,7 @@
 
 Все файлы для `Free Texture Packer` я буду хранить в отдельной папке `src-texture`.
 
-## Ферма: Макет
+## Ферма: Макет <a name="farm_game_layout"></a>
 
 В самом начале инициализирую экземпляр класса `Application`, загружаю необходимые ресурсы и запускаю [движок игры `World`](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/app.ts):
 
@@ -421,7 +528,7 @@
 <details>
   <summary>
   
-  ### PixiJS совет 01: События мыши и сенсорные события
+  ### PixiJS совет 01: События мыши и сенсорные события <a name="pixijs_tip_01"></a>
   </summary>
 
   Рекомендую использовать `pointer...` события вместо `mouse...` или `touch...`. Если вам нужно отличать одно от другого, то достаточно посмотреть на свойство `pointerType`:
@@ -446,7 +553,7 @@
 <details>
   <summary>
 
-  ### PixiJS совет 02: Пользовательские события
+  ### PixiJS совет 02: Пользовательские события <a name="pixijs_tip_02"></a>
   </summary>
 
   В `PixiJS` можно использовать свои названия событий.
@@ -483,7 +590,7 @@
 <details>
   <summary>
   
-  ### PixiJS совет 03: Окрашивание графики и текстур
+  ### PixiJS совет 03: Окрашивание графики и текстур <a name="pixijs_tip_03"></a>
   </summary>
 
   Если вам нужно поменять только цвет `Graphics` или `Sprite` - то лучше использовать окрашивание ([Tinting](https://pixijs.download/release/docs/PIXI.AnimatedSprite.html#tint) или `tint` свойство).
@@ -527,7 +634,7 @@
 
   </details>
 
-## Ферма: Панель статуса и магазина
+## Ферма: Панель статуса и магазина <a name="farm_game_panels"></a>
 
 Переменные, для количества денег, корма (кукурузы), яиц и молока хранит каждая ячейка (`Tile`) на панели статуса (лучше было-бы сделать глобальные переменные в ядре игры).
 
@@ -563,7 +670,7 @@
 <details>
   <summary>
   
-  ### PixiJS совет 04: Чёткость текста
+  ### PixiJS совет 04: Чёткость текста <a name="pixijs_tip_04"></a>
   </summary>
 
   Чтобы текст был чёткий и хорошо различим необходимо выставлять ему большие значения `fontSize`, например `40` пикселей. Даже несмотря на то, что показывать текст вы будете как `16` пикселей в высоту.
@@ -626,7 +733,7 @@
 <details>
   <summary>
   
-  ### PixiJS совет 05: Скорость отрисовки текста
+  ### PixiJS совет 05: Скорость отрисовки текста <a name="pixijs_tip_05"></a>
   </summary>
 
   Т.к. текст рисуется на GPU не напрямую, то он сначала рисуется например с помощью `2d` контекста, а уже потом передаётся в виде текстуры на GPU. Поэтому быстро меняющийся текст лучше "пререндерить". Для этого нужно использовать [BitmapText](https://pixijs.download/release/docs/PIXI.BitmapText.html).
@@ -658,7 +765,7 @@
 
 </details>
 
-## Ферма: Поле
+## Ферма: Поле <a name="farm_game_field"></a>
 
 Каждая [ячейка поля](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/FarmGridTile.ts#L28) может иметь несколько состояний:
 - пустое - отображается трава
@@ -708,7 +815,7 @@
 <details>
   <summary>
   
-  ### PixiJS совет 06: Замена текстур
+  ### PixiJS совет 06: Замена текстур <a name="pixijs_tip_06"></a>
   </summary>
 
   Если нужно менять отображаемую текстуру, совсем не обязательно для каждой текстуры создавать отдельный `Sprite`, можно менять свойство `texture` на ходу
@@ -724,7 +831,7 @@
   ```
 </details>
 
-## Ферма: Покупка/продажа
+## Ферма: Покупка/продажа <a name="farm_game_buy_sell"></a>
 
 Создаю глобальные состояния игры, как то покупка, простаивание и кормление:
 
@@ -804,7 +911,7 @@
 
  Если пользователь выбирает незанятую плитку, тогда списываю деньги и [размещаю купленную сущность на клетке](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L137). Анимация для `AnimatedSprite` [начинает проигрываться](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/FarmGridTile.ts#L165), у анимаций свой собственный счетчик. Однако можно менять кадры анимации и по своему усмотрению, тогда не нужно запускать анимацию `play()`/`gotoAndPlay(0)`.
 
-## Ферма: счетчик и индикаторы
+## Ферма: счетчик и индикаторы <a name="farm_game_ticker"></a>
 
 Теперь нужно "оживить" игру. [Подписываюсь на событие счетчика](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L36) и распространяю эти события дальше на поле фермы. А та в свою очередь добавляет часть сгенерированного ресурса (кукуруза, яйцо или молоко) и, если это курица или корова - то, отнимаю часть еды.
 Соответственно для каждой клетки с курицей или коровой создаю переменные для хранения сгенерированного ресурса (и для кукурузы) `_generated` и для оставшейся еды `_food`.
@@ -837,7 +944,7 @@ handleAppTick = (): void => {
 <details>
 <summary>
 
-### PixiJS совет 07: Позиционирование графики и масштабирование
+### PixiJS совет 07: Позиционирование графики и масштабирование <a name="pixijs_tip_07"></a>
 </summary>
 
 Когда рисуете `Graphics` и впоследствии собираетесь её масштабировать - всегда предпочитайте рисовать от начала координат (0, 0). Так изменение ширины `width` будет [работать корректно](https://pixijs.io/guides/basics/sprites.html).
@@ -852,7 +959,7 @@ handleAppTick = (): void => {
 
 Когда ресурс сгенерирован, то для наглядности показываю прямоугольник определённого цвета, чтобы пользователь мог собрать ресурс. Нажатие на ячейке поля со сгенерированным ресурсом собирает его, только если игра в режиме ожидания.
 
-## Ферма: масштабирование
+## Ферма: масштабирование <a name="farm_game_resize"></a>
 
 При масштабировании любой игры есть два варианта:
 1. Подогнать размеры игры под окно (`viewport`/`window` или `camera`) - [Letterbox scale](https://www.pixijselementals.com/#letterbox-scale). Оставшееся свободное место желательно поделить пополам - т.е. отцентрировать.
@@ -864,15 +971,15 @@ handleAppTick = (): void => {
 
 Для этого подписываюсь на событие изменения размеров окна `window.addEventListener('resize', this.resizeDeBounce)`, однако [обработчик вызываю не сразу](https://github.com/volodalexey/simple-html5-farm-game/blob/5724de2e074c7df3ccfcf74173f75754ce0e8a29/src/World.ts#L89), а с задержкой, чтобы предотвратить постоянное масштабирование когда пользователь тянет за край окна браузера. В этом случае обработчик сработает только один раз после нескольких миллисекунд.
 
-# Игра 02: Покемон
+# Игра 02: Покемон <a name="pokemon_game"></a>
 
-## Покемон: Описание
+## Покемон: Описание <a name="pokemon_game_description"></a>
 
 У нас есть персонаж (человек), который ходит по карте. В определённых местах на лужайках он встречает врагов - покемонов. Однако он сражается с ними не сам, а своим покемоном против вражеского. Во время сражения показывается экран битвы, где пользователь играет за покемона. При окончании битвы пользователь возвращается на карту играя за персонажа.
 
 [В этом видео](https://www.youtube.com/watch?v=yP5DKzriqXA) полный процесс разработки игры. Дальше будет много игр с этого канала.
 
-## Покемон: редактор карт
+## Покемон: редактор карт <a name="pokemon_game_map_editor"></a>
 
 В видео познакомился с программой [Tiled Map Editor](https://www.mapeditor.org/download.html) которая тоже работает под `Linux`. В ней можно просто и удобно по слоям рисовать 2-х мерную тайловую карту. На выходе при экспорте в формат `.json` получаем удобное описание всех слоёв на карте в виде массива:
 
@@ -966,7 +1073,7 @@ class Boundary {
 
 В коде [я проверяю](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/Boundary.ts#L21), если включен режим отладки, то рисую прозрачные прямоугольники, если нет, то они остаются невидимыми и участвуют только в проверке столкновений.
 
-## Покемон: сцены и масштабирование
+## Покемон: сцены и масштабирование <a name="pokemon_game_scenes"></a>
 
 В игре я рисую две сцены:
 - Одна сцена `MapScreen` показывается, когда игрок ходит по карте.
@@ -996,7 +1103,7 @@ class World {
   <details>
   <summary>
   
-  ### PixiJS совет 08: Отладка
+  ### PixiJS совет 08: Отладка <a name="pixijs_tip_08"></a>
   </summary>
 
   В `PixiJS` нет режима отладки из коробки, его придётся рисовать вручную (можете попробовать [браузерное расширение](https://chrome.google.com/webstore/detail/pixijs-devtools/aamddddknhcagpehecnhphigffljadon)). Например после того, как нарисовали все `Graphics` и добавили все `Sprites` и `AnimatedSprites` добавляем еще один полупрозрачный `Graphics` используя ширину и высоту текущего контейнера:
@@ -1033,7 +1140,7 @@ class World {
 
 Для переходов между сценами [использую чёрный прямоугольник](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/SplashScreen.ts#L29) `SplashScreen`. И показываю этот прямоугольник с анимацией `alpha` [свойства](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/World.ts#L156).
 
-## Покемон: сцена карты - персонаж игрока
+## Покемон: сцена карты - персонаж игрока <a name="pokemon_game_player"></a>
 
 Подготовка спрайтов аналогична: нарезать на отдельные фреймы и собрать всё в один атлас.
 
@@ -1076,11 +1183,11 @@ class Player extends Container {
 
 Также проверяю зашел [ли персонаж на полянку](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L200) для активации сцены битвы.
 
-## Покемон: звук
+## Покемон: звук <a name="pokemon_game_sound"></a>
 
 Для воспроизведения звука использую [HowlerJS](https://github.com/goldfire/howler.js) библиотеку (`21.7k` звёзд) как и в видео. Подгрузкой аудио файлов [библиотека занимается сама](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/audio.ts#L10), т.к. звук не критичен, то его можно подгрузить уже после начала игры. Нужно помнить, что браузеры блокируют воспроизведение звука, если пользователь никак не взаимодействовал со страницей.
 
-## Покемон: сцена битвы
+## Покемон: сцена битвы <a name="pokemon_game_battle_scene"></a>
 
 По правилам игры, персонаж, гуляя по полянке, [может](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/MapScreen.ts#L217) активировать битву между покемонами.
 
@@ -1099,15 +1206,15 @@ class Player extends Container {
 
 Когда покемон стреляет огненным шаром, [я добавляю на сцену соответствующий анимированный спрайт](https://github.com/volodalexey/simple-html5-pokemon-game/blob/48456ba0b4db518770c8215207b803ec2a2b2cda/src/Monster.ts#L70) и поворачиваю его по направлению к врагу.
 
-# Игра 03: Стрелялки
+# Игра 03: Стрелялки <a name="shooting_game"></a>
 
-## Стрелялки: Описание
+## Стрелялки: Описание <a name="shooting_game_description"></a>
 
 Ваш круг (персонаж) в центре экрана. На него нападают другие круги, которые создаются за пределами экрана и двигаются на персонажа. При нажатии на любое место экрана, персонаж выстреливает туда снаряд, тем самым убивая врага. В некоторых врагов нужно выстрелить несколько раз.
 
 [Оригинальное видео](https://www.youtube.com/watch?v=eI9idPTT0c4).
 
-## Стрелялки: загрузка
+## Стрелялки: загрузка <a name="shooting_game_loading"></a>
 
 Здесь уже я [добавил](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/index.html#L12) простую анимацию на чистом [CSS](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/styles.css#L14). Пока подгружается `PixiJS` я показываю многоточие.
 
@@ -1144,7 +1251,7 @@ class Player extends Container {
 
   </details>
 
-## Стрелялки: контейнеры частиц
+## Стрелялки: контейнеры частиц <a name="shooting_game_particle_containers"></a>
 
 Для отображения множества повторяющихся спрайтов рекомендуют использовать `ParticleContainer` вместо обычного контейнера `Container`.
 Здесь есть ряд ограничений.
@@ -1176,7 +1283,7 @@ this.addChild(this.particlesContainer)
 
 </details>
 
-## Стрелялки: создание текстур
+## Стрелялки: создание текстур <a name="shooting_game_textures"></a>
 
 `PixiJS` может создавать текстуры `Texture` из графики `Graphics`.
 Для этого нужно вызвать `renderer.generateTexture` и передать нарисованную графику - на выходе получим текстуру:
@@ -1220,7 +1327,7 @@ class Particle extends Sprite {
 
 Для врагов я генерирую [случайный цвет и радиус](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/Enemy.ts#L73) при появлении. Радиус врага влияет на то, сколько раз по нему нужно попасть, т.к. снаряд [вычитает](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L182) определённое количество жизней (радиуса) из врага.
 
-## Стрелялки: работа с контейнерами
+## Стрелялки: работа с контейнерами <a name="shooting_game_work_with_containers"></a>
 
 При касании `pointertap` на экране [я создаю](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L250) снаряд `Projectile`, добавляю в контейнер снарядов и направляю движение снаряда в направлении от центра.
 
@@ -1233,7 +1340,7 @@ class Particle extends Sprite {
 <details>
 <summary>
 
-### PixiJS совет 09: Удаление потомков
+### PixiJS совет 09: Удаление потомков <a name="pixijs_tip_09"></a>
 </summary>
 
 В `PixiJS` нет отдельной функции для очистки всего контейнера.
@@ -1275,7 +1382,7 @@ this.container.removeChildren(2, 5)
 
 </details>
 
-## Стрелялки: след от снаряда
+## Стрелялки: след от снаряда <a name="shooting_game_trail"></a>
 
 В `2d` контексте можно использовать предыдущий кадр, добавляя к нему прозрачность, как [предлагает автор видео](https://github.com/chriscourses/HTML5-Canvas-and-JavaScript-Games-for-Beginners/blob/main/main.js#L371). В `webgl` наверняка можно использовать то же самое, но есть другие варианты.
 
@@ -1337,7 +1444,7 @@ if (removedProjectileIds.length > 0) {
 
 </details>
 
-## Стрелялки: заключение
+## Стрелялки: заключение <a name="shooting_game_conclusion"></a>
 
 Масштабирование игры происходит в режиме `Responsive Scale` - тем у кого больше экран - легче играть, т.к. можно заранее увидеть противников появляющихся из-за экрана. А вот модальное диалоговое окно `StartModal` я [центрирую посередине](https://github.com/volodalexey/simple-html5-shooting-game/blob/5a3b7017c379af4fd5510e1b099e7ad75535ec95/src/ShootingScene.ts#L85) без масштабирования. Сам же модальный диалог я показываю когда игра закончилась, в окне я показываю набранное количество очков, а также кнопку для перезапуска игры.
 
@@ -1348,15 +1455,15 @@ if (removedProjectileIds.length > 0) {
 
 </details>
 
-# Игра 04: Марио
+# Игра 04: Марио <a name="mario_game"></a>
 
-## Марио: Описание
+## Марио: Описание <a name="mario_game_description"></a>
 
 Персонаж похожий на космонавта, бегает по платформам. Также может прыгать через ямы и запрыгивать на вышестоящие платформы. Персонаж не может выйти за пределы уровня влево или вправо. Персонаж врят-ли выйдет за верхний край уровня из-за гравитации. Если персонаж касается нижней части уровня - игра проиграна.
 
 [Оригинальное видео](https://www.youtube.com/watch?v=4q2vvZn5aoo).
 
-## Марио: загрузка
+## Марио: загрузка <a name="mario_game_loading"></a>
 
 В этой игре я сделал двухэтапную загрузку:
 1. Когда `PixiJS` еще не подгрузилась - показываю `CSS` анимацию многоточий - как в игре `Стрелялки`.
@@ -1371,7 +1478,7 @@ if (removedProjectileIds.length > 0) {
 
 После того, как манифест будет загружен [подключаю](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/app.ts#L19) `SidescrollScene` и убираю `LoaderScene`.
 
-## Марио: управление
+## Марио: управление <a name="mario_game_controls"></a>
 
 Персонаж как и в других играх может управляться, клавиатурой, мышью или сенсорным экраном.
 
@@ -1388,7 +1495,7 @@ if (removedProjectileIds.length > 0) {
 
 Когда персонаж стоит [я показываю анимацию простаивания](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Player.ts#L189) (стояния) - эту анимацию я записываю в переменную `idleAnimation`. Это делаю для того, чтобы возвращаться [после бега](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Player.ts#L206) в это состояние, т.к. стоять влево и стоять вправо - разные вещи.
 
-## Марио: уровень/карта
+## Марио: уровень/карта <a name="mario_game_level"></a>
 
 Сама карта или уровень (всего один) состоит из [двух изображений фона](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/SidescrollScene.ts#L49). Оба изображения кладу в `background` свойство.
 
@@ -1412,7 +1519,7 @@ if (removedProjectileIds.length > 0) {
 
 Итого: смещаю персонажа `player.x`, смещаю саму карту `world.pivot.x` - если нужно и смещаю фон `background.pivot.x`.
 
-## Марио: платформы
+## Марио: платформы <a name="mario_game_platforms"></a>
 
 Платформы по которым прыгает персонаж [бывают двух типов](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Platforms.ts#L16). Размер платформ получаю прямиком из размеров текстуры/изображения. Места расположения платформ [задаётся прям в коде](https://github.com/volodalexey/simple-html5-mario-game/blob/e74f6c05c961e6597bb2277451f6a21d25590757/src/Platforms.ts#L26), в этой игре не использовал редактор тайловых карт как в игре Покемон.
 
@@ -1428,9 +1535,9 @@ if (removedProjectileIds.length > 0) {
 
 </details>
 
-# Игра 05: Драки
+# Игра 05: Драки <a name="fighting_game"></a>
 
-## Драки: описание
+## Драки: описание <a name="fighting_game_description"></a>
 
 Есть два персонажа, одним управляет игрок `№1`, другим управляет игрок `№2`. Персонажи могут передвигаться по уровню, наносить друг другу удары. Выигрывает тот персонаж, у которого осталось больше здоровья (жизни). На всё про всё у игроков есть `90` секунд.
 
@@ -1438,7 +1545,7 @@ if (removedProjectileIds.length > 0) {
 
 Я сделал так, что левый персонаж наносит удары медленнее, но сильнее. А правый быстрее но слабее. Высота прыжка и скорость передвижения также разные.
 
-## Драки: подгрузка шрифтов
+## Драки: подгрузка шрифтов <a name="fighting_game_font_load"></a>
 
 В отличии от игры Покемон, где я сам подгружал шрифт через `CSS` тут я попробовал загрузить шрифт через загрузчик `PixiJS`. Для этого [прописал путь к файлу шрифта](https://github.com/volodalexey/simple-html5-fighting-game/blob/9af3753748e8252b19396e143da0076004115661/src/LoaderScene.ts#L12) в манифесте:
 
@@ -1466,7 +1573,7 @@ export const manifest: ResolverManifest = {
 
 Т.е. используя стандартный загрузчик `PixiJS` для шрифтов вам не нужно добавлять `DOM` элемент с таким шрифтом, чтобы шрифт работал корректно в `2d` контексте - все это делает сам загрузчик. [Под капотом уже используется](https://github.com/pixijs/pixijs/blob/356abaaad852b248f0aa3f6873f5d7d2a56e3a50/packages/text-html/src/HTMLTextStyle.ts#L254) [FontFace API](https://developer.mozilla.org/en-US/docs/Web/API/FontFace) для подгрузки шрифтов.
 
-## Драки: спрайты персонажей и масштабирование сцены
+## Драки: спрайты персонажей и масштабирование сцены <a name="fighting_game_sprites"></a>
 
 Каждый персонаж это [экземпляр класса](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L50) `Fighter`, который наследуется от контейнера `Container`.
 
@@ -1510,7 +1617,7 @@ enum FighterAnimation {
 <details>
 <summary>
 
-### PixiJS совет 10: Контейнеры - ширина и высота
+### PixiJS совет 10: Контейнеры - ширина и высота <a name="pixijs_tip_10"></a>
 </summary>
 
 Контейнеры в `PixiJS` легче представлять как группу объектов. Контейнера как отдельного прямоугольника не существует.
@@ -1569,7 +1676,7 @@ this.addChild(containerToCut)
 
 </details>
 
-## Драки: момент удара
+## Драки: момент удара <a name="fighting_game_attack"></a>
 
 Для применения самого удара я использую [определение текущего кадра](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/Fighter.ts#L354) атакующей анимации. Для первого игрока это [5-й кадр](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/FightingScene.ts#L90), для второго - [3-й](https://github.com/volodalexey/simple-html5-fighting-game/blob/04615b8f265d4cfda317781c50587ea2b790e575/src/FightingScene.ts#L120). В результате использую два свойства `attackHitAvailable` - показывает, что атака началась, `attackHitProcessed` - показывает, что я обработал атаку, иначе урон может быть нанесён множество раз (зависит от скорости) - например когда 1 фрейм анимации изменится за 4-ре фрейма счетчика.
 
@@ -1594,9 +1701,9 @@ if (intersectionSquare >= 0.05) {
 
 </details>
 
-# Игра 06: Галактика
+# Игра 06: Галактика <a name="galaxian_game"></a>
 
-## Галактика: описание
+## Галактика: описание <a name="galaxian_game_description"></a>
 
 Игрок управляет космическим кораблём, и сражается с пришельцами. Корабль может двигаться влево-вправо до пределов карты и стрелять. Пришельцы появляются группами, группа движется к какой-то стороне экрана, дойдя до стороны группа перемещается вниз на один ряд и ускоряется. Иногда кто-то из группы пришельцев стреляет в направлении корабля.
 
@@ -1604,7 +1711,7 @@ if (intersectionSquare >= 0.05) {
 
 [Оригинальное видео](https://www.youtube.com/watch?v=MCVU0w73uKI).
 
-## Галактика: контейнеры частиц
+## Галактика: контейнеры частиц <a name="galaxian_game_particle_containers"></a>
 
 Здесь я использую контейнеры частиц `ParticleContainer` для всех:
 - для звёзд [использую](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L61) контейнер, прикинув при этом, сколько частиц (звёзд) нужно отображать, чтобы было не слишком много и похоже на звёздное небо. Каждая звезда `Star` - это спрайт. Все звёзды используют одну и ту же текстуру, эту текстуру [я рисую](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L25) как `Graphics` в виде многоугольника, чтобы было похоже на звезду. И далее для каждой звезды [есть своя позиция и цвет](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L69). Весь контейнер просто [обновляет свою позицию](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Stars.ts#L81) на каждый тик счетчика - что-то вроде `Parallax Scrolling`.
@@ -1617,7 +1724,7 @@ if (intersectionSquare >= 0.05) {
 
 Частицы взрывов также удаляются при достижении [абсолютной прозрачности](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L174).
 
-## Галактика: интерфейс управления
+## Галактика: интерфейс управления <a name="galaxian_game_ui"></a>
 
 Корабль состоит всего из [одной текстуры](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L83). Когда корабль движется в сторону, [я немного поворачиваю](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Player.ts#L58) спрайт корабля.
 
@@ -1632,7 +1739,7 @@ if (intersectionSquare >= 0.05) {
 
 </details>
 
-## Галактика: пришельцы
+## Галактика: пришельцы <a name="galaxian_game_invaders"></a>
 
 Пришельцы добавляются группами по времени. Если пришло время добавить следующую группу пришельцев, я [проверяю](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L367) есть ли для новой группы место вверху экрана.
 
@@ -1641,21 +1748,21 @@ if (intersectionSquare >= 0.05) {
 
 Чтобы группа пришельцев действовала как единый организм - [я прохожусь по группе](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Grid.ts#L85) и высчитываю "статистику" самого верхнего/левого/правого/нижнего пришельца в группе. Имея "статистику" [можно менять направление](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/Grid.ts#L73) всей группы если она столкнулась с краем. Также `статистика` помогает определять сколько занимает вся группа. И самое главное, `статистика` позволяет [выбрать случайного пришельца из нижнего ряда](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L255) самой нижней группы и выстрелить в сторону корабля.
 
-## Галактика: частицы для взрыва
+## Галактика: частицы для взрыва <a name="galaxian_game_particles"></a>
 
 Если снаряд корабля пересекается с пришельцем я удаляю пришельца и [показываю взрыв из частиц](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L221).
 
 Игрок проиграл, если его корабль [столкнулся с пришельцем](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L208) или был поражен [снарядом пришельцев](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L233). В обоих случаях я показываю [взрыв корабля](https://github.com/volodalexey/simple-html5-galaxian-game/blob/fda19706ec30dd384568bcdb41dcc3341ac55590/src/ShootingScene.ts#L407) - однако игру останавливаю не сразу а по истечении некоторого времени.
 
-# Игра 07: Пакман
+# Игра 07: Пакман <a name="pacman_game"></a>
 
-## Пакман: описание
+## Пакман: описание <a name="pacman_game_description"></a>
 
 Игрок управляет обжорой пакманом - круг который поедает шарики (гранулы). Карта ограничена стенами через которые нельзя проходить. Цель игры съесть все гранулы и не попасться двум противникам (призракам). Если съесть супер-гранулу, то на какое-то время пакман становится неуязвим и можно успеть съесть и призраков.
 
 [Оригинальное видео](https://www.youtube.com/watch?v=5IMXpp3rohQ).
 
-## Пакман: карта
+## Пакман: карта <a name="pacman_game_map"></a>
 
 Карта (уровень) создаётся из текстового описания, описание расположено [прям в коде](https://github.com/volodalexey/simple-html5-pacman-game/blob/6dbddc8b3bbce6ab525f0c16e8a4f9c296067d09/src/Map.ts#L27). Строковое описание тайла карты [преобразовывается в объект](https://github.com/volodalexey/simple-html5-pacman-game/blob/6dbddc8b3bbce6ab525f0c16e8a4f9c296067d09/src/Map.ts#L109) карты.
 
@@ -1665,7 +1772,7 @@ if (intersectionSquare >= 0.05) {
 Два призрака `Ghost` создаются в определённых местах.
 Призраки управлются простым искусственным интеллектом (ИИ) - проверяются все доступные виды движений (вверх, вправо, вниз, влево) и [выбирается случайное](https://github.com/volodalexey/simple-html5-pacman-game/blob/6dbddc8b3bbce6ab525f0c16e8a4f9c296067d09/src/MainScene.ts#L391) из доступных.
 
-## Пакман: генерация текстур
+## Пакман: генерация текстур <a name="pacman_game_textures_generation"></a>
 
 В этой игре я нарисовал текстуры пакмана с помощью `PixiJS`. Мне нужно было нарисовать анимированный спрайт `AnimatedSprite`, который состоит из круга, который открывает и закрывает рот (секция круга увеличивается и уменьшается).
 Для начала я определился, что фаза открытия/закрытия рта будет состоять из [10 фреймов](https://github.com/volodalexey/simple-html5-pacman-game/blob/6dbddc8b3bbce6ab525f0c16e8a4f9c296067d09/src/Player.ts#L51). Для каждого фрейма я рисую арку с [определённым углом](https://github.com/volodalexey/simple-html5-pacman-game/blob/6dbddc8b3bbce6ab525f0c16e8a4f9c296067d09/src/Player.ts#L60). Получившуюся графику [я преобразовываю в текстуру](https://github.com/volodalexey/simple-html5-pacman-game/blob/6dbddc8b3bbce6ab525f0c16e8a4f9c296067d09/src/Player.ts#L63). Все полученные текстуры складываю в массив. Для фазы закрытия, копирую [в обратном порядке](https://github.com/volodalexey/simple-html5-pacman-game/blob/6dbddc8b3bbce6ab525f0c16e8a4f9c296067d09/src/Player.ts#L66) полученные фреймы из фазы открытия.
@@ -1687,7 +1794,7 @@ if (intersectionSquare >= 0.05) {
 
 </details>
 
-## Пакман: заключение
+## Пакман: заключение <a name="pacman_game_conclusion"></a>
 
 Для сенсорных устройств и мыши решил тоже использовать направление куда показывает пользователь. Впоследствии понял, что на телефоне приходится управлять закрывая при этом самого пакмана - что неудобно.
 
@@ -1702,9 +1809,9 @@ if (intersectionSquare >= 0.05) {
 
 Когда пакман съел все гранулы - игра окончена. Я показываю всё то-же диалоговое окно `StartModal` с кнопкой для перезапуска игры.
 
-# Игра 08: Башенки
+# Игра 08: Башенки <a name="tower_defence_game"></a>
 
-## Башенки: описание
+## Башенки: описание <a name="tower_defence_game_description"></a>
 
 Карта состоит из дороги и мест по краям дороги, где можно построить башни. По дороге идут орки. Задача не пропустить орков на другой конец карты, для этого башни должны убить всех орков. За убийство каждого орка начисляются деньги, за которые можно построить ещё башен. Игра заканчивается если игрок пропустил более 10 орков.
 
@@ -1712,7 +1819,7 @@ if (intersectionSquare >= 0.05) {
 
 [Оригинальное видео](https://www.youtube.com/watch?v=C4_iRLlPNFc).
 
-## Башенки: слои карты
+## Башенки: слои карты <a name="tower_defence_game_map_layers"></a>
 
 Папка `src-tiled` содержит проект карты для `Tiled Map Editor`. Тайловая карта нарисована по слоям, путь для орков прописан в виде линий в слое `Waypoints`. Здесь я подкорректировал предыдущие типы слоёв для `TypeScript` т.к. появился новый тип слоя `objectgroup`.
 
@@ -1765,7 +1872,7 @@ interface IObjectGroupLayer {
 
 </details>
 
-## Башенки: управление картой
+## Башенки: управление картой <a name="tower_defence_game_map_control"></a>
 
 В зависимости от размеров экрана меняется и размер камеры, если вся карта не помещается на экран, я сделал возможность прокрутки.
 
@@ -1775,7 +1882,7 @@ interface IObjectGroupLayer {
 
 Смещение карты [происходит](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Map.ts#L336) при изменении `pivot` свойства.
 
-## Башенки: свойства башен
+## Башенки: свойства башен <a name="tower_defence_game_towers"></a>
 
 Для постройки башни необходимо иметь `75` монет. За убийство каждого орка игроку начисляется `25` монет. У `StatusBar` компонента [есть свойство](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/StatusBar.ts#L24) `_coins` которое отвечает за количество монет в игре.
 
@@ -1789,14 +1896,14 @@ interface IObjectGroupLayer {
 
 Огненный шар [летит медленно](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Projectile.ts#L97), зато автоматически корректирует свою траекторию полёта - поэтому есть шанс не догнать орка.
 
-## Башенки: орки
+## Башенки: орки <a name="tower_defence_game_orcs"></a>
 
 Орки [создаются волнами](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Map.ts#L275). Каждая новая волна усложняется, орков становится всё больше, скорость орков тоже разная.
 Орки `Enemy` удаляются если у [них заканчиваются жизни](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Map.ts#L200) или они [вышли за пределы карты](https://github.com/volodalexey/simple-html5-td-game/blob/c5fa27a1986069944386aa26fe17421af232da25/src/Map.ts#L205) - в последнем случае я также вычитаю одно сердечко `_hearts`.
 
-# Игра 09: Скроллер
+# Игра 09: Скроллер <a name="sidescroller_game"></a>
 
-## Скроллер: описание
+## Скроллер: описание <a name="sidescroller_game_description"></a>
 
 Игрок управляет псом. Пёс бежит слева направо, ему мешают враги: растения, мухи, пауки. Пёс может крутиться в прыжке, тем самым убивая врагов. За каждого врага начисляются очки. Если пёс сталкивается с врагами в режиме бега, то вычитается жизнь - всего 5 жизней. Цель игры за определённое время набрать нужное количество очков.
 
@@ -1804,7 +1911,7 @@ interface IObjectGroupLayer {
 
 [Оригинальное видео](https://www.youtube.com/watch?v=GFO_txvwK_c).
 
-## Скроллер: подгрузка ресурсов
+## Скроллер: подгрузка ресурсов <a name="sidescroller_game_assets_load"></a>
 
 В программе `Free texture packer` я подготовил 3 атласа:
 1. [Атлас](https://github.com/volodalexey/simple-html5-sidescroller-game/tree/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src-texture/spritesheet) для текстур пса, врагов и частиц
@@ -1813,7 +1920,7 @@ interface IObjectGroupLayer {
 
 Все [три атласа](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/LoaderScene.ts#L10) загружаю перед началом игры.
 
-## Скроллер: частицы
+## Скроллер: частицы <a name="sidescroller_game_particles"></a>
 
 Когда пёс бежит - [я добавляю пыль](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L76) из под ног. Каждая пылинка [это нарисованный](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Particle.ts#L56) круг.
 Когда пёс крутится - [я добавляю частички](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L147) огня.
@@ -1824,7 +1931,7 @@ interface IObjectGroupLayer {
 
 В цикле обновления движок игры [проходится по всем потомкам из заданных контейнеров](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L237) и удаляет готовые к удалению `markedForDeletion`. Для всех трёх типов частиц условия для удаления - [когда ширина и высота](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Particle.ts#L29) меньше половины пикселя.
 
-## Скроллер: фон
+## Скроллер: фон <a name="sidescroller_game_background"></a>
 
 Фон `Background` состоит из 5-ти слоёв `Layer`. Каждый слой наследуется от `TilingSprite` чтобы бесконечно показывать одну и ту же текстуру. Также для каждого слоя есть разная скорость прокрутки `speedModifier` в зависимости [от скорости игры](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Background.ts#L25).
 
@@ -1844,7 +1951,7 @@ interface IObjectGroupLayer {
 В игре сделал два фона. Один стартовый фон - это [город](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L85), второй фон - это [лес](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L92).
 После того, как прошла половина времени игры - я плавно [меняю фон с города на лес](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#L194).
 
-## Скроллер: пёс
+## Скроллер: пёс <a name="sidescroller_game_dog"></a>
 
 По аналогии в видео, я сделал [отдельный класс](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L20) для каждого состояния:
 
@@ -1895,7 +2002,7 @@ class Player extends Container {
 
 Если присесть псом - то [прокрутка карты останавливается](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/playerStates.ts#L48).
 
-## Скроллер: враги
+## Скроллер: враги <a name="sidescroller_game_enemies"></a>
 
 Все враги наследуются от общего класса `Enemy`, однако каждый враг имеет свои уникальные свойства движения. Так муха `FlyingEnemy` [летит по синусоиде](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Enemy.ts#L68). Растение `GroundEnemy` [стоит на месте](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Enemy.ts#L82). Паук `ClimbingEnemy` - [опускается и подымается на паутине](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Enemy.ts#L113).
 
@@ -1918,7 +2025,7 @@ class Player extends Container {
 
 Если пёс при столкновении не был в кручении - [я вычитаю одну жизнь](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Player.ts#L289) и вычитаю одно очко. Врага я удаляю в любом случае.
 
-## Скроллер: заключение
+## Скроллер: заключение <a name="sidescroller_game_conclusion"></a>
 
 Сверху экрана я показываю панель статуса. 
 
@@ -1933,15 +2040,15 @@ class Player extends Container {
 
 Игра [заканчивается](https://github.com/volodalexey/simple-html5-sidescroller-game/blob/83abd295b5c7ac35ae7eb0c54916c0f5757d59d5/src/Game.ts#LL206C1-L206C1) когда время заканчивается. Затем я сравниваю полученное количество очков и показываю либо успешное сообщение либо проигрышное.
 
-# Игра 10: Комнаты
+# Игра 10: Комнаты <a name="multi_rooms_game"></a>
 
-## Комнаты: описание
+## Комнаты: описание <a name="multi_rooms_game_description"></a>
 
 Игрок управляет персонажем, который передвигается по уровню. Цель игры пройти 3 уровня за определённое время. Переход на другой уровень происходит когда персонаж открыл дверь.
 
 [Оригинальное видео](https://www.youtube.com/watch?v=Lcdc2v-9PjA).
 
-## Комнаты: ключевые особенности
+## Комнаты: ключевые особенности <a name="multi_rooms_game_key_notes"></a>
 
 В игре очень много кода, который уже описывал неоднократно. Отличий от других игр немного:
 
@@ -1960,15 +2067,15 @@ class Player extends Container {
 
 Далее, когда [дверь открылась](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Player.ts#L246), я запускаю [плавное затенение](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L185) между уровнями. Для затенения использую [нарисованный прямоугольник](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L87) и плавно меняю ему прозрачность. Сначала чтобы полностью затенить экран. При тёмном экране [меняю уровень](https://github.com/volodalexey/simple-html5-mrp-game/blob/58681c74711cfe023b03ee1ab7f4b05240f8c086/src/Game.ts#L192) и затем плавно убираю затенение.
 
-# Игра 11: Платформер
+# Игра 11: Платформер <a name="vertical_platformer_game"></a>
 
-## Платформер: описание
+## Платформер: описание <a name="vertical_platformer_game_description"></a>
 
 Игрок управляет персонажем, который передвигается по уровню и может запрыгивать на платформы.
 
 [Оригинальное видео](https://www.youtube.com/watch?v=Lcdc2v-9PjA).
 
-## Платформер: ключевые особенности
+## Платформер: ключевые особенности <a name="vertical_platformer_game_key_notes"></a>
 
 Отличия от предыдущих игр:
 
@@ -1981,9 +2088,9 @@ class Player extends Container {
 
 </details>
 
-# Игра 12: Эльф и орки
+# Игра 12: Эльф и орки <a name="elven_scout_game"></a>
 
-## Эльф и орки: описание и подготовка
+## Эльф и орки: описание и подготовка <a name="elven_scout_game_description"></a>
 
 Игрок управляет эльфийкой, которая ходит по карте. Эльфийка может стрелять стрелами. На карте есть враги - орки. В ближнем бою орки убивают эльфийку, а вот стрелять стрелами из лука может только эльфийка. Игра заканчивается когда все орки повержены.
 
@@ -1997,14 +2104,14 @@ class Player extends Container {
 
 Из первого варианта взял недостающий функционал и звуки.
 
-## Эльф и орки: интерфейс
+## Эльф и орки: интерфейс <a name="elven_scout_game_interface"></a>
 
 Камера не использует собственного отображения, всё, что видно на экране и есть камера.
 Однако камера [следит за персонажем](https://github.com/volodalexey/simple-html5-es-game/blob/89d6fd6118ed03711b5e67828abf5288ee514a13/src/Camera.ts#L21) `watchObject` и имеет доступ к карте `TileMap`, чтобы [смещать положение](https://github.com/volodalexey/simple-html5-es-game/blob/89d6fd6118ed03711b5e67828abf5288ee514a13/src/Camera.ts#L34) карты `pivot`. Если персонаж не выходит за границы окна за вычетом `scrollEdge` - то камера не двигает карту.
 
 Панель статуса отображает с помощью текста количество оставшихся орков `orcsText`, текущий уровень `levelText` и время игры `timeText`. Движок игры использует публичные методы `updateTime`/`updateLevel`/`updateOrcs` соответственно.
 
-## Эльф и орки: OOP
+## Эльф и орки: OOP <a name="elven_scout_game_oop"></a>
 
 Орк `Orc` и эльфийка `Player` наследуются от `Body`. `Body` класс [реализует](https://github.com/volodalexey/simple-html5-es-game/blob/89d6fd6118ed03711b5e67828abf5288ee514a13/src/Body.ts#LL111C3-L111C13) состояния `Stand`/`Walk`/`Attack` во всех направлениях. Анимация смерти только с направлением вниз `DeadDown`. При переключении на новый спрайт, [я включаю анимацию с первого кадра](https://github.com/volodalexey/simple-html5-es-game/blob/89d6fd6118ed03711b5e67828abf5288ee514a13/src/Body.ts#L273) `gotoAndPlay(0)`, если это анимированный спрайт. Состояния персонажа `PlayerState` наследуются от состояний `BodyState` т.к. нужно обрабатывать пользовательский ввод `InputHandler`.
 Для корректной установки положения спрайтов использую `setCollisionShapePosition()` метод - т.к. положение всего спрайта отличается от прямоугольника, который используется в расчетах столкновений.
@@ -2024,13 +2131,13 @@ class Player extends Container {
 
 Класс `Hitbox` - используется как графическое отображение непроходимых блоков на карте. Описание и позиции блоков берётся из слоя `Misc`.
 
-## Эльф и орки: атака орка
+## Эльф и орки: атака орка <a name="elven_scout_game_orc_attack"></a>
 
 У орка [есть дистанция](https://github.com/volodalexey/simple-html5-es-game/blob/89d6fd6118ed03711b5e67828abf5288ee514a13/src/Orc.ts#L12) прыжка. Если эльфийка приближается к орку на эту дистанцию - то орк как бы ["прыгает" к эльфийке и наносит удар](https://github.com/volodalexey/simple-html5-es-game/blob/89d6fd6118ed03711b5e67828abf5288ee514a13/src/Orc.ts#L44), который [убивает персонажа](https://github.com/volodalexey/simple-html5-es-game/blob/89d6fd6118ed03711b5e67828abf5288ee514a13/src/TileMap.ts#L170) - игра окончена.
 
-# Игра 13: Стратегия
+# Игра 13: Стратегия <a name="real_time_strategy_game"></a>
 
-## Стратегия: описание
+## Стратегия: описание <a name="real_time_strategy_game_description"></a>
 
 Все предыдущие игры я делал 1 месяц, столько же делал и эту последнюю игру.
 В далёком 2014 году попалась мне книжка [Pro HTML5 Games](https://www.amazon.com/HTML5-Games-Experts-Voice-Development-ebook/dp/B00ACC6AT6) за авторством Адитья Рави Шанкар (Aditya Ravi Shankar). Исходный код [я нашел на github](https://github.com/adityaravishankar/last-colony).
@@ -2065,7 +2172,7 @@ class Player extends Container {
 
 Сейчас страница [автора Шанкара](https://www.adityaravishankar.com/projects/games/lastcolony/) по игре [уже не работает](https://web.archive.org/web/20201119082449/https://www.adityaravishankar.com/projects/games/lastcolony/).
 
-## Стратегия: подготовка текстур
+## Стратегия: подготовка текстур <a name="real_time_strategy_game_textures"></a>
 
 Как оказалось старые текстуры нарезать и собрать вместе - сложная задача. Когда резал текстуры на фреймы, пришлось исправлять смещение, на несколько пикселей. Например первый кадр анимации 40х40 выглядел отлично, а вот последующий обрезался со смещением. Текстуры иконок я взял из [Font Awesome](https://github.com/FortAwesome/Font-Awesome/tree/6.x/svgs/solid) - открывал `.svg` файл в `Gimp` редакторе и сохранял в `.png`.
 
@@ -2132,7 +2239,7 @@ for (let x = 0; x < this.mapGridWidth; x++) {
 
 </details>
 
-## Стратегия: меню игры
+## Стратегия: меню игры <a name="real_time_strategy_game_menu"></a>
 
 В самом начале, как обычно, после подгрузки всех скриптов начинает работать `LoaderScene` - которая [подгружает текстурные](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/scenes/LoaderScene.ts#L6) атласы. После того, как ресурсы подгружены я отображаю главное меню `MenuScene` и [догружаю оставшиеся части](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/scenes/MenuScene.ts#L63).
 
@@ -2172,7 +2279,7 @@ for (let x = 0; x < this.mapGridWidth; x++) {
 <details>
 <summary>
 
-### PixiJS совет 11: Вывод в консоль
+### PixiJS совет 11: Вывод в консоль <a name="pixijs_tip_11"></a>
 </summary>
 
 Иногда нужно вывести экземпляр всего `Application` в консоль, для этого я использую модуль `Debug`.
@@ -2212,7 +2319,7 @@ this.addChild(borderContainer)
 
 </details>
 
-## Стратегия: звук
+## Стратегия: звук <a name="real_time_strategy_game_sound"></a>
 
 Чтобы было веселее, я взял старую добрую озвучку из неофициальной озвучки `Фаргус` из игры `StarCraft`.
 Все звуки разделил на 4 категории:
@@ -2235,7 +2342,7 @@ this.addChild(borderContainer)
 
 К примеру если указать рабочему построить здание [я проигрываю](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/utils/Audio.ts#L509) звук "рабочий" + "подтверждаю/атакую/делаю". В дополнение к этому я останавливаю все предыдущие звуки рабочего. Таким образом не происходит переполнения воспроизводимых голосов, если пользователь слишком быстро меняет приказ для одного и того же юнита.
 
-## Стратегия: настройка звука
+## Стратегия: настройка звука <a name="real_time_strategy_game_sound_settings"></a>
 
 Для настройки звука реализовал модальное окно `SettingsModal`. Его экземпляр [я создаю единожды](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/scenes/MenuScene.ts#L131) в `MenuScene` - а затем передаю уже в другие сцены. Тем самым другие сцены добавляют в качестве потомка этот же экземпляр (при этом я убираю его из потомков меню сцены).
 
@@ -2254,7 +2361,7 @@ this.addChild(borderContainer)
 
 Если пользователь подтвердил (`Apply`) выбранные настройки звука - [я сохраняю](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/utils/Audio.ts#L133) настройки в `localStorage`, чтобы при следующей загрузке страницы восстановить.
 
-## Стратегия: панель сообщений
+## Стратегия: панель сообщений <a name="real_time_strategy_game_status_bar"></a>
 
 В оригинале перед началом миссии показывалась сцена брифинга - где отображалось название миссии и краткое описание.
 
@@ -2284,7 +2391,7 @@ this.addChild(borderContainer)
 
 Т.к. я следую `Mobile‌ ‌First‌` подходу, то нужно было продумать как панель сообщений будет отображаться на маленьких экранах. Просто уменьшать текст - не выход, т.к. ничего невозможно будет прочитать. В результате я перерисовываю текст сообщений так, чтобы текст переносился на другую строку. Когда я рисую сообщение, я передаю [максимально возможную](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/StatusBar.ts#L72) ширину `wordWrapWidth` текста. Если происходит масштабирование, то [я достаю все сообщения](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/StatusBar.ts#L358) из контейнера и перерисовываю их с другой заданной шириной текста.
 
-## Стратегия: карта и мини-карта
+## Стратегия: карта и мини-карта <a name="real_time_strategy_game_map"></a>
 
 Для каждого юнита и здания в игре [имеются](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/interfaces/IItem.ts#L54) параметры ширины и высоты `collisionOptions` - эти параметры используются для расчета столкновений. Несмотря на то, что графика для юнитов выглядит не совсем прямоугольной, я всё равно использую прямоугольники для юнитов - так расчет столкновений будет самым простым.
 Также для всех есть параметр радиус обзора (`sightRadius`) - который используется для расчета области видимости.
@@ -2301,7 +2408,7 @@ this.addChild(borderContainer)
 
 Прямоугольник желтого цвета обозначает позицию и размеры камеры.
 
-## Стратегия: панель приказов
+## Стратегия: панель приказов <a name="real_time_strategy_game_orders_panel"></a>
 
 Следуя `Mobile‌ ‌First‌` подходу - остаётся не так много места, чтобы разместить панель приказов. А раздавать приказы юнитам - необходимая часть игры. Поэтому я сделал эту панель выезжающей, т.е. если выбрано здание или юнит - я показываю панель приказов. Панель не масштабируется, зато её можно переместить на другую сторону экрана.
 
@@ -2316,7 +2423,7 @@ this.addChild(borderContainer)
 
 У каждого юнита или здания могут быть свои специфические приказы. Описание возможных приказов для каждой сущности я сделал в виде массива `commands: ECommandName[]`. При выборе юнита или здания я рисую для каждого приказа кнопку с приказом. Самая первая кнопка всегда будет "убрать выделение". На стареньком `iPhone 6s` у меня помещается 5 кнопок в высоту - поэтому я всегда старался не выходить за этот лимит. Например я совместил кнопки приказа для движения куда-то, или движения за кем-то - если выбрать этот приказ и показать на сущность, то это будет приказ следовать за ней, если на местность - то идти.
 
-## Стратегия: масштабирование
+## Стратегия: масштабирование <a name="real_time_strategy_game_resize"></a>
 
 Собрав все элементы интерфейса вместе я настроил масштабирование. Так верхняя панель `TopBar` состоит из панели сообщений `StatusBar` и мини-карты `MiniMap`. Слева или справа показываю боковую панель `SideBar`, которая состоит из статической панели и панели приказов `CommandsBar`. При масштабировании [я передаю](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/Game.ts#L554) ширину экрана в `TopBar` - которая в свою очередь смещает положение мини карты (перерисовываю размеры камеры) и масштабирует панель сообщений. Для боковой панели масштабирование заключается [в перерасчёте](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/SideBar.ts#L222) положения панели.
 
@@ -2349,7 +2456,7 @@ this.addChild(borderContainer)
 <details>
 <summary>
 
-### PixiJS совет 12: Преобразование координат
+### PixiJS совет 12: Преобразование координат <a name="pixijs_tip_12"></a>
 </summary>
 
 Очень часто можно встретить ситуацию когда вам нужно преобразовать координаты из одного контейнера в другой. Сложность добавляет то, что контейнеры могут быть в разных места дерева объектов `PixiJS`, могут иметь разные масштабы.
@@ -2375,7 +2482,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 
 </details>
 
-## Стратегия: выбор и перезарядка
+## Стратегия: выбор и перезарядка <a name="real_time_strategy_game_selection"></a>
 
 Каждого юнита или здание в игре можно выбрать. Для того, чтобы пользователь отдал приказ, нужно сначала выбрать сущности которым будет отдан приказ. Выбирать можно здания или юнитов, даже вражеских. Однако для вражеских сущностей пользователь не может отдавать приказы.
 
@@ -2424,7 +2531,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 - так если два раза быстро дотронуться (`pointerdown` + `pointerup`)`x2` на каком-то юните - [выберутся все юниты](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/Game.ts#L177) данного типа в пределах видимости
 - если зажать выделение и вести в сторону, то [я рисую](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/Game.ts#L454) прямоугольную рамку выделения
 
-## Стратегия: приказы для юнитов
+## Стратегия: приказы для юнитов <a name="real_time_strategy_game_unit_orders"></a>
 
 У всех юнитов в игре есть свойство `_order` - которое хранит текущий приказ который выполняется.
 Для выбранных юнитов я показываю его текущий приказ (как в улучшенном оригинале), т.е. [рисую его](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/utils/Order.ts#L79). Так для строительства здания я рисую линию от юнита к месту строительства и полупрозрачное здание, которое будет построено. Для атаки `attack` я рисую линию и цель атаки обвожу кружком.
@@ -2446,7 +2553,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 
 Для передвижения юнитов можно использовать как обычное движение `move`, когда юнит игнорирует всех врагов, пока не подъедет к клетке назначения. Или можно использовать движение `move-and-attack`, когда юнит отвлечётся на атаку по пути.
 
-## Стратегия: туман войны
+## Стратегия: туман войны <a name="real_time_strategy_game_wog_of_war"></a>
 
 Туман войны - скрывать всё, что не попадает в радиус обзора. Как реализовать простой туман войны на `PixiJS` я придумал не сразу. Тем более, что я договорился не использовать плагины. Для оригинальной версии или для улучшенной версии использовался контекст рисования `2d`, поэтому пришлось думать самому.
 
@@ -2483,7 +2590,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 
 Все юниты и здания которые, не попадают в поле зрения я не отображаю, используя при этом `renderable = false` свойство. Это же свойство используется и для отображения сущностей на мини-карте. По сути это простая логика реализации [Culling](https://gamedev.stackexchange.com/questions/44054/efficiently-culling-off-screen-objects-on-a-top-down-2d-map) алгоритма, чтобы не заставлять видеокарту рисовать то, что и так не будет видно.
 
-## Стратегия: строительство и производство
+## Стратегия: строительство и производство <a name="real_time_strategy_game_building"></a>
 
 Для строительства юнитов на базе `Base` или заводе `Starport` я делаю следующее: проверяю есть ли место, чтобы юнит поместить [возле здания](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/buildings/Base.ts#L181), или [на здании](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/buildings/Starport.ts#L236). Дальше я запускаю анимацию строительства, и когда анимация подошла к ключевому кадру, я проверяю еще раз место и количество денег и наконец [добавляю юнит](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/buildings/Starport.ts#L327) с анимацией телепортации - по сути [круг поверх](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/oop/TeleportableSelectableLifeableRoundItem.ts#L32) юнита, который становится прозрачным.
 
@@ -2506,7 +2613,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 
 Для установки нефтевышки я использую тот же алгоритм действий, только сетку отображаю другую, сначала я сохраняю все возможные позиции из слоя `Oilfields`, и незанятые места отображаю зелёным цветом.
 
-## Стратегия: оптимизация
+## Стратегия: оптимизация <a name="real_time_strategy_game_optimization"></a>
 
 Почему-то при количестве юнитов около 20, игра начинала заметно тормозить даже на моём ноутбуке. Поэтому я пошел смотреть в испектор, что же там твориться. И проанализировав несколько кадров, я понял, что алгоритм поиска пути слишком затратный. Один фрейм иногда длился около `40` миллисекунд.
 
@@ -2532,7 +2639,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 
 Если оптимизировать дальше, то я бы вообще всю графику закешировал: полосы жизней, перезарядки, круги/квадраты для выделения, круги обзора.
 
-## Стратегия: сетевая игра
+## Стратегия: сетевая игра <a name="real_time_strategy_game_network"></a>
 
 При выборе режима `Multiplayer` - я отображаю экран сетевой игры. Первое, что нужно было сделать, это поле ввода для адреса сервера, чтобы подключаться к нему по веб-сокету. Без использования `HTML` - это слишком затратно, поэтому я выбрал компромиссный вариант - само поле я рисую на `PixiJS`, а при "фокусе" на это поле - я добавляю в `DOM` дерево текстовое поле с такими же стилями, и выставляю по нему фокус. Так появился новый компонент интерфейса - [Input](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/components/Input.ts#L10).
 
@@ -2545,7 +2652,7 @@ const local2Rect1Center = container2.tolocal(globalRect1Center)
 
 Сетевой код я тоже переписал на [TypeScript](https://github.com/volodalexey/simple-html5-rts-game/blob/9be1a9b0b1f5a96dfc185bb03e1e175ef7967b7c/src/server.ts). Код не совершенен, и часто происходят рассинхронизации в состояниях между клиентами. Скорее всего нужно реализовывать движок игры отдельно от графической составляющей - в таком случае можно будет запустить движок на сервере и клиенты будут слать/получать только изменения.
 
-## Стратегия: заключение
+## Стратегия: заключение <a name="real_time_strategy_game_conclusion"></a>
 
 Игру можно ещё улучшать и оптимизировать до бесконечности.
 
