@@ -133,7 +133,7 @@ td {
 А есть и указание о том, что тело таблицы можно скроллить, а шапка и подвал будут оставаться на месте:<br />
 `Table rows may be grouped into a table head, table foot, and one or more table body sections, using the THEAD, TFOOT and TBODY elements, respectively. This division enables user agents to support scrolling of table bodies independently of the table head and foot`<br />
 А по факту браузеры этого не делают и скролл для таблицы необходимо придумывать/настраивать вручную.<br />
-Есть много способов это сделать, но все они сводяться к тому, что:
+Есть много способов это сделать, но все они сводятся к тому, что:
 
 - мы не создаем дополнительную разметку и пытаемся прикрутить скролл к тому что есть (к телу таблицы, или оборачиваем в контейнер, а значение ячеек в шапке [делаем абсолютно позиционированным](https://jsfiddle.net/dPixie/byB9d/3/))
 
